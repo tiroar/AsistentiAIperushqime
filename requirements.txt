@@ -1,0 +1,7 @@
+streamlit>=1.37.0
+pandas>=2.2.2
+pydantic>=2.7.4
+python-dotenv>=1.0.1
+openai>=1.44.1
+setuptools>=65.5.1
+wheel>=0.41.2

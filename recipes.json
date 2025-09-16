@@ -1,0 +1,123 @@
+[
+    {
+      "name": "Oatmeal with Banana & Honey",
+      "meal_type": "breakfast",
+      "kcal": 380,
+      "protein": 11,
+      "carbs": 65,
+      "fat": 9,
+      "tags": ["vegetarian", "quick"],
+      "ingredients": [
+        "80g rolled oats",
+        "250ml milk (or plant milk)",
+        "1 banana",
+        "1 tsp honey",
+        "Pinch of cinnamon"
+      ],
+      "steps": [
+        "Simmer oats with milk 5–7 min.",
+        "Slice banana on top, drizzle honey, add cinnamon."
+      ]
+    },
+    {
+      "name": "Greek Yogurt & Berries",
+      "meal_type": "breakfast",
+      "kcal": 320,
+      "protein": 24,
+      "carbs": 38,
+      "fat": 7,
+      "tags": ["vegetarian", "quick", "high-protein"],
+      "ingredients": [
+        "200g Greek yogurt",
+        "120g mixed berries",
+        "1 tbsp granola"
+      ],
+      "steps": [
+        "Combine yogurt, berries, and granola in a bowl."
+      ]
+    },
+    {
+      "name": "Chicken & Rice Bowl",
+      "meal_type": "lunch",
+      "kcal": 620,
+      "protein": 42,
+      "carbs": 76,
+      "fat": 16,
+      "tags": ["high-protein", "gluten-free"],
+      "ingredients": [
+        "150g chicken breast",
+        "150g cooked rice",
+        "1 tbsp olive oil",
+        "Paprika, salt, pepper",
+        "Mixed salad (optional)"
+      ],
+      "steps": [
+        "Season and pan-sear chicken 6–8 min each side.",
+        "Serve over rice with a drizzle of olive oil and salad."
+      ]
+    },
+    {
+      "name": "Tuna Pasta with Tomato",
+      "meal_type": "lunch",
+      "kcal": 640,
+      "protein": 35,
+      "carbs": 85,
+      "fat": 16,
+      "tags": ["budget"],
+      "ingredients": [
+        "160g pasta",
+        "1 can tuna in water, drained",
+        "150g tomato passata",
+        "1 clove garlic",
+        "1 tbsp olive oil",
+        "Salt, pepper"
+      ],
+      "steps": [
+        "Boil pasta until al dente.",
+        "Sauté garlic in oil, add passata, then tuna.",
+        "Toss pasta with sauce and season."
+      ]
+    },
+    {
+      "name": "Baked Salmon & Potatoes",
+      "meal_type": "dinner",
+      "kcal": 700,
+      "protein": 45,
+      "carbs": 60,
+      "fat": 28,
+      "tags": ["omega-3", "gluten-free"],
+      "ingredients": [
+        "180g salmon fillet",
+        "250g potatoes",
+        "1 tbsp olive oil",
+        "Lemon, dill, salt, pepper"
+      ],
+      "steps": [
+        "Slice potatoes, toss with oil, bake 200°C for 25–30 min.",
+        "Add salmon, season, bake another 12–15 min.",
+        "Finish with lemon and dill."
+      ]
+    },
+    {
+      "name": "Vegetable Stir-Fry with Tofu",
+      "meal_type": "dinner",
+      "kcal": 560,
+      "protein": 24,
+      "carbs": 65,
+      "fat": 20,
+      "tags": ["vegetarian", "quick"],
+      "ingredients": [
+        "200g firm tofu",
+        "300g mixed veggies (broccoli, peppers, carrots)",
+        "2 tbsp soy sauce",
+        "1 tbsp sesame oil",
+        "1 tsp ginger, 1 clove garlic"
+      ],
+      "steps": [
+        "Sauté tofu cubes until golden.",
+        "Add veggies, garlic, ginger, soy; stir-fry 5–7 min.",
+        "Finish with sesame oil."
+      ]
+    }
+  ]
+  
