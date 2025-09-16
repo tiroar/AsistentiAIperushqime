@@ -6,20 +6,6 @@ from ai_helpers import suggest_substitutions, expand_recipe_request, translate_t
 
 st.set_page_config(page_title="Asistenti i Ushqimeve me AI", page_icon="🍽️", layout="wide")
 
-# --- Kontrollet (miqësore për telefon) ---
-with st.expander("⚙️ Funksione shtesë", expanded=False):
-    use_ai_subs = st.checkbox("Aktivo Zëvendësimet Inteligjente", value=True, key="subs_main")
-    use_ai_expand = st.checkbox("Aktivo Gjenerimin e Recetave të Reja", value=False, key="expand_main")
-    localize_albanian = st.checkbox("Përkthe gjithçka në Shqip", value=True, key="sq_main")
-
-    pantry_input = st.text_area(
-        "Çfarë ke në shtëpi (shkruaj me presje)",
-        placeholder="oriz, vezë, mish pule",
-        key="pantry_main"
-    )
-
-pantry = [x.strip() for x in pantry_input.split(",") if x.strip()]
-
 @st.cache_data
 def load_recipes(path: str = "recipes.json"):
     with open(path, "r", encoding="utf-8") as f:
@@ -49,6 +35,20 @@ with col3:
 
 excl = st.text_input("Përjashto përbërës (me presje, p.sh. ‘derr, kërpudha, pikant’)", value="")
 exclude_keywords = [x.strip() for x in excl.split(",") if x.strip()]
+
+# --- Kontrollet (miqësore për telefon) ---
+with st.expander("⚙️ Funksione shtesë", expanded=False):
+    use_ai_subs = st.checkbox("Aktivo Zëvendësimet Inteligjente", value=True, key="subs_main")
+    use_ai_expand = st.checkbox("Aktivo Gjenerimin e Recetave të Reja", value=False, key="expand_main")
+    localize_albanian = st.checkbox("Përkthe gjithçka në Shqip", value=True, key="sq_main")
+
+    pantry_input = st.text_area(
+        "Çfarë ke në shtëpi (shkruaj me presje)",
+        placeholder="oriz, vezë, mish pule",
+        key="pantry_main"
+    )
+
+pantry = [x.strip() for x in pantry_input.split(",") if x.strip()]
 
 st.divider()
 if st.button("Gjenero Planin 7-Ditor", type="primary"):
