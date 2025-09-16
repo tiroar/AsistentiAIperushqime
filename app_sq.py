@@ -16,6 +16,47 @@ def load_recipes(path: str = "recipes.json"):
 
 recipes = load_recipes()
 
+# --- Helpers: TDEE / Protein & Macro targets ---
+def calc_tdee_kcal(gender: str, age: int, height_cm: int, weight_kg: float, activity: str, goal: str) -> tuple[int, int]:
+    # Mifflin–St Jeor BMR
+    bmr = 10 * weight_kg + 6.25 * height_cm - 5 * age + (5 if gender == "Mashkull" else -161)
+    mult = {
+        "Në zyrë (pak aktiv)": 1.2,
+        "Mesatar (3-4x/ javë)": 1.55,
+        "Sportist (5-6x/ javë)": 1.725,
+    }[activity]
+    tdee = bmr * mult
+    goal_adj = {"Humbje peshe": 0.85, "Mbajtje": 1.0, "Shtim muskuj": 1.10}[goal]
+    kcal = int(round(tdee * goal_adj))
+
+    # Proteina ditore (g) sipas qëllimit (bazuar në peshë trupore)
+    g_per_kg = {"Humbje peshe": 1.7, "Mbajtje": 1.4, "Shtim muskuj": 1.8}[goal]
+    protein_g = int(round(g_per_kg * weight_kg))
+    return kcal, protein_g
+
+def macro_split_for_goal(goal: str) -> tuple[int, int, int]:
+    # Kthen përqindjet (P, C, Y) sipas qëllimit
+    if goal == "Humbje peshe":
+        return (30, 40, 30)  # Proteina/ Karbo/ Yndyrna
+    if goal == "Shtim muskuj":
+        return (30, 50, 20)
+    return (25, 50, 25)     # Mbajtje (default)
+
+def macro_targets_grams(total_kcal: int, goal: str, protein_g_from_weight: int) -> tuple[int, int, int]:
+    p_pct, c_pct, f_pct = macro_split_for_goal(goal)
+    # Llogarit nga %:
+    p_kcal = total_kcal * p_pct / 100
+    c_kcal = total_kcal * c_pct / 100
+    f_kcal = total_kcal * f_pct / 100
+
+    p_g_pct = int(round(p_kcal / 4))
+    c_g = int(round(c_kcal / 4))
+    f_g = int(round(f_kcal / 9))
+
+    # Përdor maksimumin midis proteina-ve bazuar në peshë dhe atyre nga %
+    p_g = max(protein_g_from_weight, p_g_pct)
+    return p_g, c_g, f_g
+
 # --- Titulli Kryesor ---
 st.title("🍽️ Asistenti i Planifikimit të Ushqimeve me AI")
 st.markdown(
@@ -23,9 +64,42 @@ st.markdown(
     "Gjenero një listë të blerjeve vetëm me një klikim."
 )
 
+# --- Profili & Qëllimi (rekomandim automatik kalorish) ---
+with st.expander("🧍‍♂️ Profili & Qëllimi (rekomandim automatik kalorish)", expanded=True):
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        gender = st.selectbox("Gjinia", ["Mashkull", "Femër"], index=0)
+    with c2:
+        age = st.number_input("Mosha", min_value=14, max_value=90, value=28, step=1)
+    with c3:
+        height_cm = st.number_input("Gjatësia (cm)", min_value=130, max_value=220, value=178, step=1)
+    with c4:
+        weight_kg = st.number_input("Pesha (kg)", min_value=35.0, max_value=250.0, value=78.0, step=0.5)
+
+    activity = st.selectbox(
+        "Aktiviteti ditor",
+        ["Në zyrë (pak aktiv)", "Mesatar (3-4x/ javë)", "Sportist (5-6x/ javë)"],
+        index=0
+    )
+    goal = st.radio("Qëllimi", ["Humbje peshe", "Mbajtje", "Shtim muskuj"], index=0, horizontal=True)
+
+    suggested_kcal, suggested_protein = calc_tdee_kcal(gender, age, height_cm, weight_kg, activity, goal)
+    # Target makronutrientësh në gramë (bazuar në kcal & qëllim, me proteina >= bazuar në peshë)
+    target_p_g, target_c_g, target_f_g = macro_targets_grams(suggested_kcal, goal, suggested_protein)
+
+    use_auto_kcal = st.checkbox("Përdor rekomandimin automatik", value=True)
+    st.caption(
+        f"Rekomandim: **{suggested_kcal} kcal/ditë** • "
+        f"Makronutrientët: **P {target_p_g} g / C {target_c_g} g / Y {target_f_g} g** "
+        f"(proteina min. sipas peshës: ~{suggested_protein} g)"
+    )
+
+# vlera e parazgjedhur për fushën e kalorive
+_default_kcal = suggested_kcal if use_auto_kcal else 2200
+
 col1, col2, col3 = st.columns([1,1,1])
 with col1:
-    total_kcal = st.number_input("Kaloritë ditore (target)", min_value=1200, max_value=4000, value=2200, step=50)
+    total_kcal = st.number_input("Kaloritë ditore (target)", min_value=1200, max_value=4000, value=_default_kcal, step=50)
 with col2:
     pattern = st.text_input("Shpërndarja e kalorive (M/D/D)", value="30/40/30", help="P.sh. 30/40/30 = Mëngjes/Drekë/Darkë")
 with col3:
@@ -56,6 +130,15 @@ st.divider()
 if st.button("Gjenero Planin 7-Ditor", type="primary"):
     plan = make_week_plan(recipes, total_kcal, include_tags, exclude_keywords, pattern)
     st.success("Plani u krijua me sukses! ✅")
+
+    # --- Shfaq objektivin ditor (nga Profili) ---
+    # Rikalkulo për bazë te total_kcal final (nëse përdoruesi e ndryshon me dorë)
+    adj_p_g, adj_c_g, adj_f_g = macro_targets_grams(total_kcal, goal, suggested_protein)
+    st.info(
+        f"🎯 Objektiv ditor: **{total_kcal} kcal** • "
+        f"Makro: **P {adj_p_g} g / C {adj_c_g} g / Y {adj_f_g} g**",
+        icon="✅"
+    )
 
     # --- AI Substitutions ---
     if use_ai_subs and pantry:
