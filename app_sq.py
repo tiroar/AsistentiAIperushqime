@@ -127,10 +127,20 @@ with st.expander("⚙️ Funksione shtesë", expanded=False):
 pantry = [x.strip() for x in pantry_input.split(",") if x.strip()]
 
 st.divider()
+
+# Store the plan in session state to prevent refresh issues
+if 'meal_plan' not in st.session_state:
+    st.session_state.meal_plan = None
+
 if st.button("Gjenero Planin 7-Ditor", type="primary"):
     plan = make_week_plan(recipes, total_kcal, include_tags, exclude_keywords, pattern)
+    st.session_state.meal_plan = plan
     st.success("Plani u krijua me sukses! ✅")
 
+# Display the plan if it exists in session state
+if st.session_state.meal_plan:
+    plan = st.session_state.meal_plan
+    
     # --- Shfaq objektivin ditor (nga Profili) ---
     # Rikalkulo për bazë te total_kcal final (nëse përdoruesi e ndryshon me dorë)
     adj_p_g, adj_c_g, adj_f_g = macro_targets_grams(total_kcal, goal, suggested_protein)
@@ -213,10 +223,10 @@ if st.button("Gjenero Planin 7-Ditor", type="primary"):
     df = pd.DataFrame(rows)
     st.dataframe(df, width="stretch", hide_index=True)
 
-    # Butoni për shkarkim liste blerjesh
+    # Butoni për shkarkim liste blerjesh - Fixed encoding
     st.download_button(
         "Shkarko Listën e Blerjeve (CSV)",
-        data=df.to_csv(index=False).encode("utf-8"),
+        data=df.to_csv(index=False, encoding='utf-8-sig'),
         file_name="lista_blerjeve.csv",
         mime="text/csv",
     )
@@ -241,7 +251,7 @@ if st.button("Gjenero Planin 7-Ditor", type="primary"):
     plan_df = pd.DataFrame(rows)
     st.download_button(
         "Shkarko Planin 7-Ditor (CSV)",
-        data=plan_df.to_csv(index=False).encode("utf-8"),
+        data=plan_df.to_csv(index=False, encoding='utf-8-sig'),
         file_name="plani_ushqimor.csv",
         mime="text/csv",
     )
