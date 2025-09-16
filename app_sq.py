@@ -3,8 +3,10 @@ import pandas as pd
 import streamlit as st
 from planner import Recipe, make_week_plan, build_shopping_list, DAYS
 from ai_helpers import suggest_substitutions, expand_recipe_request, translate_to_albanian, save_recipe_to_json
+from PIL import Image
+icon = Image.open("images/icon.png")
 
-st.set_page_config(page_title="Asistenti i Ushqimeve me AI", page_icon="🍽️", layout="wide")
+st.set_page_config(page_title="Asistenti i Ushqimeve me AI", page_icon=icon, layout="wide")
 
 @st.cache_data
 def load_recipes(path: str = "recipes.json"):
