@@ -1,5 +1,4 @@
 import streamlit as st
-import requests
 import json
 import hashlib
 import secrets
@@ -72,65 +71,7 @@ class AuthManager:
             st.error(f"Registration failed: {str(e)}")
             return False
     
-    def login_with_google(self, google_token: str) -> bool:
-        """Login with Google OAuth"""
-        try:
-            # Verify Google token
-            user_info = self._verify_google_token(google_token)
-            if not user_info:
-                return False
-            
-            # Check if user exists
-            user = self.db.get_user_by_email(user_info['email'])
-            if not user:
-                # Create new user
-                user = self.db.create_user(
-                    email=user_info['email'],
-                    username=user_info.get('name', user_info['email'].split('@')[0]),
-                    auth_provider='google',
-                    auth_id=user_info['id'],
-                    profile_data={
-                        'name': user_info.get('name'),
-                        'picture': user_info.get('picture'),
-                        'locale': user_info.get('locale')
-                    }
-                )
-            
-            self._set_user_session(user)
-            return True
-        except Exception as e:
-            st.error(f"Google login failed: {str(e)}")
-            return False
     
-    def login_with_facebook(self, facebook_token: str) -> bool:
-        """Login with Facebook OAuth"""
-        try:
-            # Verify Facebook token
-            user_info = self._verify_facebook_token(facebook_token)
-            if not user_info:
-                return False
-            
-            # Check if user exists
-            user = self.db.get_user_by_email(user_info['email'])
-            if not user:
-                # Create new user
-                user = self.db.create_user(
-                    email=user_info['email'],
-                    username=user_info.get('name', user_info['email'].split('@')[0]),
-                    auth_provider='facebook',
-                    auth_id=user_info['id'],
-                    profile_data={
-                        'name': user_info.get('name'),
-                        'picture': user_info.get('picture', {}).get('data', {}).get('url'),
-                        'locale': user_info.get('locale')
-                    }
-                )
-            
-            self._set_user_session(user)
-            return True
-        except Exception as e:
-            st.error(f"Facebook login failed: {str(e)}")
-            return False
     
     def logout(self):
         """Logout current user"""
@@ -184,118 +125,132 @@ class AuthManager:
         
         return row[0] if row else None
     
-    def _verify_google_token(self, token: str) -> Optional[Dict]:
-        """Verify Google OAuth token"""
-        try:
-            response = requests.get(
-                f"https://www.googleapis.com/oauth2/v2/userinfo?access_token={token}"
-            )
-            if response.status_code == 200:
-                return response.json()
-            return None
-        except Exception:
-            return None
-    
-    def _verify_facebook_token(self, token: str) -> Optional[Dict]:
-        """Verify Facebook OAuth token"""
-        try:
-            response = requests.get(
-                f"https://graph.facebook.com/me?fields=id,name,email,picture&access_token={token}"
-            )
-            if response.status_code == 200:
-                return response.json()
-            return None
-        except Exception:
-            return None
 
 def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
     """Render authentication UI"""
-    st.title("🔐 Welcome to AI Meal Planner")
-    st.markdown("Sign in to access your personalized meal planning experience")
-    
-    tab1, tab2, tab3 = st.tabs(["Sign In", "Sign Up", "Social Login"])
+    if lang == "sq":
+        st.title("🔐 Mirë se vini në Asistentin e Ushqimeve me AI")
+        st.markdown("Kyçuni për të aksesuar përvojën tuaj të personalizuar të planifikimit të ushqimeve")
+        tab1, tab2 = st.tabs(["Kyçuni", "Regjistrohuni"])
+    else:
+        st.title("🔐 Welcome to AI Meal Planner")
+        st.markdown("Sign in to access your personalized meal planning experience")
+        tab1, tab2 = st.tabs(["Sign In", "Sign Up"])
     
     with tab1:
-        st.subheader("Sign In")
-        with st.form("signin_form"):
-            email = st.text_input("Email", placeholder="your@email.com")
-            password = st.text_input("Password", type="password")
-            submit = st.form_submit_button("Sign In")
-            
-            if submit:
-                if auth_manager.login_with_email(email, password):
-                    st.success("Successfully signed in!")
-                    st.rerun()
-                else:
-                    st.error("Invalid email or password")
-    
-    with tab2:
-        st.subheader("Sign Up")
-        with st.form("signup_form"):
-            email = st.text_input("Email", placeholder="your@email.com", key="signup_email")
-            username = st.text_input("Username", placeholder="Choose a username", key="signup_username")
-            password = st.text_input("Password", type="password", key="signup_password")
-            confirm_password = st.text_input("Confirm Password", type="password", key="signup_confirm")
-            
-            # Profile data
-            st.markdown("**Profile Information**")
-            col1, col2 = st.columns(2)
-            with col1:
-                age = st.number_input("Age", min_value=14, max_value=90, value=28)
-                height = st.number_input("Height (cm)", min_value=130, max_value=220, value=178)
-            with col2:
-                weight = st.number_input("Weight (kg)", min_value=35.0, max_value=250.0, value=78.0)
-                gender = st.selectbox("Gender", ["Male", "Female"])
-            
-            cooking_skill = st.selectbox("Cooking Skill Level", 
-                                       ["Beginner", "Intermediate", "Advanced"])
-            
-            submit = st.form_submit_button("Sign Up")
-            
-            if submit:
-                if password != confirm_password:
-                    st.error("Passwords don't match")
-                elif len(password) < 6:
-                    st.error("Password must be at least 6 characters")
-                else:
-                    profile_data = {
-                        'age': age,
-                        'height': height,
-                        'weight': weight,
-                        'gender': gender,
-                        'cooking_skill': cooking_skill.lower()
-                    }
-                    
-                    if auth_manager.register_with_email(email, username, password, profile_data):
-                        st.success("Account created successfully!")
+        if lang == "sq":
+            st.subheader("Kyçuni")
+            with st.form("signin_form"):
+                email = st.text_input("Email", placeholder="email@juaj.com")
+                password = st.text_input("Fjalëkalimi", type="password")
+                submit = st.form_submit_button("Kyçuni")
+                
+                if submit:
+                    if auth_manager.login_with_email(email, password):
+                        st.success("U kyçët me sukses!")
                         st.rerun()
                     else:
-                        st.error("Email already exists or registration failed")
+                        st.error("Email ose fjalëkalim i pasaktë")
+        else:
+            st.subheader("Sign In")
+            with st.form("signin_form"):
+                email = st.text_input("Email", placeholder="your@email.com")
+                password = st.text_input("Password", type="password")
+                submit = st.form_submit_button("Sign In")
+                
+                if submit:
+                    if auth_manager.login_with_email(email, password):
+                        st.success("Successfully signed in!")
+                        st.rerun()
+                    else:
+                        st.error("Invalid email or password")
     
-    with tab3:
-        st.subheader("Social Login")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("### Google")
-            st.markdown("Sign in with your Google account")
-            if st.button("Sign in with Google", key="google_login"):
-                st.info("Google OAuth integration would be implemented here")
-                st.code("""
-                # In production, this would redirect to Google OAuth
-                # For demo purposes, we'll simulate a successful login
-                """)
-        
-        with col2:
-            st.markdown("### Facebook")
-            st.markdown("Sign in with your Facebook account")
-            if st.button("Sign in with Facebook", key="facebook_login"):
-                st.info("Facebook OAuth integration would be implemented here")
-                st.code("""
-                # In production, this would redirect to Facebook OAuth
-                # For demo purposes, we'll simulate a successful login
-                """)
+    with tab2:
+        if lang == "sq":
+            st.subheader("Regjistrohuni")
+            with st.form("signup_form"):
+                email = st.text_input("Email", placeholder="email@juaj.com", key="signup_email")
+                username = st.text_input("Emri i Përdoruesit", placeholder="Zgjidhni një emër përdoruesi", key="signup_username")
+                password = st.text_input("Fjalëkalimi", type="password", key="signup_password")
+                confirm_password = st.text_input("Konfirmoni Fjalëkalimin", type="password", key="signup_confirm")
+                
+                # Profile data
+                st.markdown("**Informacioni i Profilit**")
+                col1, col2 = st.columns(2)
+                with col1:
+                    age = st.number_input("Mosha", min_value=14, max_value=90, value=28)
+                    height = st.number_input("Gjatësia (cm)", min_value=130, max_value=220, value=178)
+                with col2:
+                    weight = st.number_input("Pesha (kg)", min_value=35.0, max_value=250.0, value=78.0)
+                    gender = st.selectbox("Gjinia", ["Mashkull", "Femër"])
+                
+                cooking_skill = st.selectbox("Niveli i Gatimit", 
+                                           ["Fillestar", "Mesatar", "I Avancuar"])
+                
+                submit = st.form_submit_button("Regjistrohuni")
+                
+                if submit:
+                    if password != confirm_password:
+                        st.error("Fjalëkalimet nuk përputhen")
+                    elif len(password) < 6:
+                        st.error("Fjalëkalimi duhet të jetë të paktën 6 karaktere")
+                    else:
+                        profile_data = {
+                            'age': age,
+                            'height': height,
+                            'weight': weight,
+                            'gender': gender,
+                            'cooking_skill': cooking_skill.lower()
+                        }
+                        
+                        if auth_manager.register_with_email(email, username, password, profile_data):
+                            st.success("Llogaria u krijua me sukses!")
+                            st.rerun()
+                        else:
+                            st.error("Email ekziston tashmë ose regjistrimi dështoi")
+        else:
+            st.subheader("Sign Up")
+            with st.form("signup_form"):
+                email = st.text_input("Email", placeholder="your@email.com", key="signup_email")
+                username = st.text_input("Username", placeholder="Choose a username", key="signup_username")
+                password = st.text_input("Password", type="password", key="signup_password")
+                confirm_password = st.text_input("Confirm Password", type="password", key="signup_confirm")
+                
+                # Profile data
+                st.markdown("**Profile Information**")
+                col1, col2 = st.columns(2)
+                with col1:
+                    age = st.number_input("Age", min_value=14, max_value=90, value=28)
+                    height = st.number_input("Height (cm)", min_value=130, max_value=220, value=178)
+                with col2:
+                    weight = st.number_input("Weight (kg)", min_value=35.0, max_value=250.0, value=78.0)
+                    gender = st.selectbox("Gender", ["Male", "Female"])
+                
+                cooking_skill = st.selectbox("Cooking Skill Level", 
+                                           ["Beginner", "Intermediate", "Advanced"])
+                
+                submit = st.form_submit_button("Sign Up")
+                
+                if submit:
+                    if password != confirm_password:
+                        st.error("Passwords don't match")
+                    elif len(password) < 6:
+                        st.error("Password must be at least 6 characters")
+                    else:
+                        profile_data = {
+                            'age': age,
+                            'height': height,
+                            'weight': weight,
+                            'gender': gender,
+                            'cooking_skill': cooking_skill.lower()
+                        }
+                        
+                        if auth_manager.register_with_email(email, username, password, profile_data):
+                            st.success("Account created successfully!")
+                            st.rerun()
+                        else:
+                            st.error("Email already exists or registration failed")
+    
 
 def require_auth(auth_manager: AuthManager):
     """Decorator to require authentication for certain functions"""
