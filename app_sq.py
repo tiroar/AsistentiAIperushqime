@@ -9,12 +9,30 @@ icon = Image.open("images/icon.png")
 st.set_page_config(page_title="Asistenti i Ushqimeve me AI", page_icon=icon, layout="wide")
 
 @st.cache_data
-def load_recipes(path: str = "recipes.json"):
+def load_recipes(path: str = "recipes.json", user_path: str = "recipes_user.json"):
+    import os, json
     with open(path, "r", encoding="utf-8") as f:
-        raw = json.load(f)
-    return [Recipe(**r) for r in raw]
+        base = json.load(f)
 
-recipes = load_recipes()
+    user = []
+    if os.path.exists(user_path):
+        try:
+            with open(user_path, "r", encoding="utf-8") as f:
+                user = json.load(f)
+        except Exception:
+            user = []
+
+    # Merge and de-duplicate by name+meal_type
+    seen = set()
+    merged = []
+    for r in base + user:
+        key = (r.get("name","").strip().lower(), r.get("meal_type","").strip().lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        merged.append(r)
+    return [Recipe(**r) for r in merged]
+
 
 # --- Helpers: TDEE / Protein & Macro targets ---
 def calc_tdee_kcal(gender: str, age: int, height_cm: int, weight_kg: float, activity: str, goal: str) -> tuple[int, int]:
@@ -115,7 +133,7 @@ exclude_keywords = [x.strip() for x in excl.split(",") if x.strip()]
 # --- Kontrollet (miqësore për telefon) ---
 with st.expander("⚙️ Funksione shtesë", expanded=False):
     use_ai_subs = st.checkbox("Aktivo Zëvendësimet Inteligjente", value=True, key="subs_main")
-    use_ai_expand = st.checkbox("Aktivo Gjenerimin e Recetave të Reja", value=False, key="expand_main")
+    use_ai_expand = st.checkbox("Aktivo Gjenerimin e Recetave të Reja", value=True, key="expand_main")
     localize_albanian = st.checkbox("Përkthe gjithçka në Shqip", value=True, key="sq_main")
 
     pantry_input = st.text_area(
@@ -133,7 +151,15 @@ if 'meal_plan' not in st.session_state:
     st.session_state.meal_plan = None
 
 if st.button("Gjenero Planin 7-Ditor", type="primary"):
-    plan = make_week_plan(recipes, total_kcal, include_tags, exclude_keywords, pattern)
+    plan = make_week_plan(
+        recipes,
+        total_kcal,
+        include_tags,
+        exclude_keywords,
+        pattern,
+        use_ai_expand=use_ai_expand,     # NEW
+        auto_save_ai=True                # NEW
+    )
     st.session_state.meal_plan = plan
     st.success("Plani u krijua me sukses! ✅")
 

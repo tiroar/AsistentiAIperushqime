@@ -88,21 +88,27 @@ def make_week_plan(
     exclude_keywords: List[str],
     pattern: str = "30/40/30",
     seed: Optional[int] = None,
+    use_ai_expand: bool = True,
+    auto_save_ai: bool = True,
 ) -> Dict[str, Dict[str, Optional[Recipe]]]:
     """
-    Diversity-aware picker:
-      - No repeated recipe names in the week
+    Diversity-aware picker + AI enrichment:
+
+      - No repeated recipe names in the week (global + per-meal)
       - Penalizes repeating the same main protein too often
-      - Penalizes repeating yesterday’s protein for the same meal
-      - Slightly rewards tag overlap
-      - Chooses among the top-K candidates with a bit of randomness
+      - Penalizes repeating yesterday’s protein for the *same* meal
+      - Rewards preference-tag overlap
+      - Chooses among the top-K with a bit of randomness
+      - If pool is empty OR sometimes for variety, generates a new AI recipe
+      - Saves AI recipes directly into recipes.json (de-duped)
     """
     rng = random.Random(seed)
     split = kcal_target_split(total_kcal, pattern)
     plan: Dict[str, Dict[str, Optional[Recipe]]] = {}
 
-    used_names = set()                        # prevent exact duplicates in a week
-    protein_count: Dict[str, int] = {}        # global protein usage
+    used_names_global: set[str] = set()                          # prevent exact duplicates in a week
+    used_names_by_meal: Dict[str, set[str]] = {m: set() for m in ["breakfast", "lunch", "dinner"]}
+    protein_count: Dict[str, int] = {}                            # global protein usage
     last_protein_for_meal: Dict[str, str] = {"breakfast": "", "lunch": "", "dinner": ""}
 
     def _score(r: Recipe, meal_type: str) -> float:
@@ -111,7 +117,7 @@ def make_week_plan(
         s = -kcal_pen
 
         # 2) never repeat exactly the same recipe
-        if r.name in used_names:
+        if r.name in used_names_global or r.name in used_names_by_meal[meal_type]:
             s -= 100.0
 
         # 3) protein diversity
@@ -129,21 +135,35 @@ def make_week_plan(
 
     for day in DAYS:
         day_plan: Dict[str, Optional[Recipe]] = {}
+
         for meal_type in ["breakfast", "lunch", "dinner"]:
+            # Base pool after filters
             pool = filter_recipes(recipes, meal_type, include_tags, exclude_keywords)
 
-            # Choose with scoring + small randomness among top candidates
+            # Remove already used names (global + per-meal)
+            pool = [
+                r for r in pool
+                if r.name not in used_names_global and r.name not in used_names_by_meal[meal_type]
+            ]
+
+            chosen: Optional[Recipe] = None
+
+            # Rank by score, then pick among top-K (variety K=5 or less)
             if pool:
                 ranked = sorted(pool, key=lambda r: _score(r, meal_type), reverse=True)
-                K = 5 if len(ranked) >= 5 else len(ranked)
+                K = min(5, len(ranked))
                 chosen = rng.choice(ranked[:K]) if K > 0 else None
-            else:
-                chosen = None
 
-            # --- AI expansion if no recipe available ---
-            if not chosen:
+            # Decide if we want a fresh AI recipe for variety:
+            # - if none chosen, we need AI
+            # - otherwise, 25% chance to inject novelty when allowed
+            need_ai = chosen is None
+            if use_ai_expand and not need_ai:
+                need_ai = (rng.random() < 0.25)
+
+            if use_ai_expand and need_ai:
                 try:
-                    from ai_helpers import expand_recipe_request
+                    from ai_helpers import expand_recipe_request, save_recipe_to_json
                     ai_recipe = expand_recipe_request(meal_type, split[meal_type], include_tags, exclude_keywords)
                     if ai_recipe and "name" in ai_recipe:
                         chosen = Recipe(
@@ -153,16 +173,24 @@ def make_week_plan(
                             protein=ai_recipe.get("protein", 0),
                             carbs=ai_recipe.get("carbs", 0),
                             fat=ai_recipe.get("fat", 0),
-                            tags=ai_recipe.get("tags", []) + ["AI"],
+                            tags=(ai_recipe.get("tags", []) or []) + ["AI"],
                             ingredients=ai_recipe.get("ingredients", []),
                             steps=ai_recipe.get("steps", []),
                         )
+                        if auto_save_ai:
+                            # persist directly to recipes.json (function handles de-dupe)
+                            try:
+                                save_recipe_to_json(chosen.dict(), path="recipes.json")
+                            except Exception as e:
+                                print(f"[AI Save Warning] {e}")
                 except Exception as e:
                     print(f"[AI Expansion Error] {e}")
 
             day_plan[meal_type] = chosen
+
             if chosen:
-                used_names.add(chosen.name)
+                used_names_global.add(chosen.name)
+                used_names_by_meal[meal_type].add(chosen.name)
                 prot = _main_protein(chosen)
                 protein_count[prot] = protein_count.get(prot, 0) + 1
                 last_protein_for_meal[meal_type] = prot

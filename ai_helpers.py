@@ -117,19 +117,52 @@ def translate_to_albanian(text: str) -> str:
 # ---- Persistence ----
 
 def save_recipe_to_json(recipe: Dict, path: str = "recipes.json") -> bool:
-    """Ruaj recetën e re në recipes.json"""
+    """
+    Ruaj recetën e re në recipes.json.
+    - Nuk shton dublikatë (kontrollon name+meal_type, case-insensitive).
+    - Shkruan në mënyrë atomike për të shmangur korruptimin e skedarit.
+    """
     try:
         file_path = Path(path)
+
+        # Lexo ekzistueset
         if file_path.exists():
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
+                if not isinstance(data, list):
+                    data = []
         else:
             data = []
 
+        # Normalizo çelësin unik: (name, meal_type)
+        new_key = (
+            (recipe.get("name") or "").strip().lower(),
+            (recipe.get("meal_type") or "").strip().lower(),
+        )
+
+        # Kontrollo nëse ekziston
+        for r in data:
+            key = (
+                (r.get("name") or "").strip().lower(),
+                (r.get("meal_type") or "").strip().lower(),
+            )
+            if key == new_key:
+                return True  # tashmë ekziston → mos shto dublikatë
+
+        # Shto "AI" te tags nëse s’është aty (opsionale)
+        tags = recipe.get("tags") or []
+        if isinstance(tags, list) and "AI" not in [t for t in tags]:
+            tags.append("AI")
+            recipe["tags"] = tags
+
+        # Shto recetën e re
         data.append(recipe)
 
-        with open(file_path, "w", encoding="utf-8") as f:
+        # Shkruaj në mënyrë atomike
+        tmp_path = file_path.with_suffix(".tmp")
+        with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+        tmp_path.replace(file_path)
 
         return True
     except Exception as e:
