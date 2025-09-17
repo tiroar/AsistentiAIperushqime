@@ -200,6 +200,20 @@ class DatabaseManager:
             )
         ''')
         
+        # Achievements table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS achievements (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                description TEXT NOT NULL,
+                icon TEXT,
+                category TEXT,
+                points INTEGER DEFAULT 0,
+                requirements TEXT,
+                is_active BOOLEAN DEFAULT 1
+            )
+        ''')
+        
         conn.commit()
         conn.close()
         self._init_default_data()
