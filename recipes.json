@@ -1,123 +1,1533 @@
 [
-    {
-      "name": "Oatmeal with Banana & Honey",
-      "meal_type": "breakfast",
-      "kcal": 380,
-      "protein": 11,
-      "carbs": 65,
-      "fat": 9,
-      "tags": ["vegetarian", "quick"],
-      "ingredients": [
-        "80g rolled oats",
-        "250ml milk (or plant milk)",
-        "1 banana",
-        "1 tsp honey",
-        "Pinch of cinnamon"
-      ],
-      "steps": [
-        "Simmer oats with milk 5–7 min.",
-        "Slice banana on top, drizzle honey, add cinnamon."
-      ]
-    },
-    {
-      "name": "Greek Yogurt & Berries",
-      "meal_type": "breakfast",
-      "kcal": 320,
-      "protein": 24,
-      "carbs": 38,
-      "fat": 7,
-      "tags": ["vegetarian", "quick", "high-protein"],
-      "ingredients": [
-        "200g Greek yogurt",
-        "120g mixed berries",
-        "1 tbsp granola"
-      ],
-      "steps": [
-        "Combine yogurt, berries, and granola in a bowl."
-      ]
-    },
-    {
-      "name": "Chicken & Rice Bowl",
-      "meal_type": "lunch",
-      "kcal": 620,
-      "protein": 42,
-      "carbs": 76,
-      "fat": 16,
-      "tags": ["high-protein", "gluten-free"],
-      "ingredients": [
-        "150g chicken breast",
-        "150g cooked rice",
-        "1 tbsp olive oil",
-        "Paprika, salt, pepper",
-        "Mixed salad (optional)"
-      ],
-      "steps": [
-        "Season and pan-sear chicken 6–8 min each side.",
-        "Serve over rice with a drizzle of olive oil and salad."
-      ]
-    },
-    {
-      "name": "Tuna Pasta with Tomato",
-      "meal_type": "lunch",
-      "kcal": 640,
-      "protein": 35,
-      "carbs": 85,
-      "fat": 16,
-      "tags": ["budget"],
-      "ingredients": [
-        "160g pasta",
-        "1 can tuna in water, drained",
-        "150g tomato passata",
-        "1 clove garlic",
-        "1 tbsp olive oil",
-        "Salt, pepper"
-      ],
-      "steps": [
-        "Boil pasta until al dente.",
-        "Sauté garlic in oil, add passata, then tuna.",
-        "Toss pasta with sauce and season."
-      ]
-    },
-    {
-      "name": "Baked Salmon & Potatoes",
-      "meal_type": "dinner",
-      "kcal": 700,
-      "protein": 45,
-      "carbs": 60,
-      "fat": 28,
-      "tags": ["omega-3", "gluten-free"],
-      "ingredients": [
-        "180g salmon fillet",
-        "250g potatoes",
-        "1 tbsp olive oil",
-        "Lemon, dill, salt, pepper"
-      ],
-      "steps": [
-        "Slice potatoes, toss with oil, bake 200°C for 25–30 min.",
-        "Add salmon, season, bake another 12–15 min.",
-        "Finish with lemon and dill."
-      ]
-    },
-    {
-      "name": "Vegetable Stir-Fry with Tofu",
-      "meal_type": "dinner",
-      "kcal": 560,
-      "protein": 24,
-      "carbs": 65,
-      "fat": 20,
-      "tags": ["vegetarian", "quick"],
-      "ingredients": [
-        "200g firm tofu",
-        "300g mixed veggies (broccoli, peppers, carrots)",
-        "2 tbsp soy sauce",
-        "1 tbsp sesame oil",
-        "1 tsp ginger, 1 clove garlic"
-      ],
-      "steps": [
-        "Sauté tofu cubes until golden.",
-        "Add veggies, garlic, ginger, soy; stir-fry 5–7 min.",
-        "Finish with sesame oil."
-      ]
-    }
-  ]
-  
+  {
+    "name": "Oatmeal with Banana & Honey",
+    "meal_type": "breakfast",
+    "kcal": 380,
+    "protein": 11,
+    "carbs": 65,
+    "fat": 9,
+    "tags": ["vegetarian", "quick"],
+    "ingredients": [
+      "80g rolled oats",
+      "250ml milk (or plant milk)",
+      "1 banana",
+      "1 tsp honey",
+      "Pinch of cinnamon"
+    ],
+    "steps": [
+      "Simmer oats with milk 5–7 min.",
+      "Slice banana on top, drizzle honey, add cinnamon."
+    ]
+  },
+  {
+    "name": "Greek Yogurt & Berries",
+    "meal_type": "breakfast",
+    "kcal": 320,
+    "protein": 24,
+    "carbs": 38,
+    "fat": 7,
+    "tags": ["vegetarian", "quick", "high-protein"],
+    "ingredients": [
+      "200g Greek yogurt",
+      "120g mixed berries",
+      "1 tbsp granola"
+    ],
+    "steps": [
+      "Combine yogurt, berries, and granola in a bowl."
+    ]
+  },
+  {
+    "name": "Chicken & Rice Bowl",
+    "meal_type": "lunch",
+    "kcal": 620,
+    "protein": 42,
+    "carbs": 76,
+    "fat": 16,
+    "tags": ["high-protein", "gluten-free"],
+    "ingredients": [
+      "150g chicken breast",
+      "150g cooked rice",
+      "1 tbsp olive oil",
+      "Paprika, salt, pepper",
+      "Mixed salad (optional)"
+    ],
+    "steps": [
+      "Season and pan-sear chicken 6–8 min each side.",
+      "Serve over rice with a drizzle of olive oil and salad."
+    ]
+  },
+  {
+    "name": "Tuna Pasta with Tomato",
+    "meal_type": "lunch",
+    "kcal": 640,
+    "protein": 35,
+    "carbs": 85,
+    "fat": 16,
+    "tags": ["budget"],
+    "ingredients": [
+      "160g pasta",
+      "1 can tuna in water, drained",
+      "150g tomato passata",
+      "1 clove garlic",
+      "1 tbsp olive oil",
+      "Salt, pepper"
+    ],
+    "steps": [
+      "Boil pasta until al dente.",
+      "Sauté garlic in oil, add passata, then tuna.",
+      "Toss pasta with sauce and season."
+    ]
+  },
+  {
+    "name": "Baked Salmon & Potatoes",
+    "meal_type": "dinner",
+    "kcal": 700,
+    "protein": 45,
+    "carbs": 60,
+    "fat": 28,
+    "tags": ["omega-3", "gluten-free"],
+    "ingredients": [
+      "180g salmon fillet",
+      "250g potatoes",
+      "1 tbsp olive oil",
+      "Lemon, dill, salt, pepper"
+    ],
+    "steps": [
+      "Slice potatoes, toss with oil, bake 200°C for 25–30 min.",
+      "Add salmon, season, bake another 12–15 min.",
+      "Finish with lemon and dill."
+    ]
+  },
+  {
+    "name": "Vegetable Stir-Fry with Tofu",
+    "meal_type": "dinner",
+    "kcal": 560,
+    "protein": 24,
+    "carbs": 65,
+    "fat": 20,
+    "tags": ["vegetarian", "quick"],
+    "ingredients": [
+      "200g firm tofu",
+      "300g mixed veggies (broccoli, peppers, carrots)",
+      "2 tbsp soy sauce",
+      "1 tbsp sesame oil",
+      "1 tsp ginger, 1 clove garlic"
+    ],
+    "steps": [
+      "Sauté tofu cubes until golden.",
+      "Add veggies, garlic, ginger, soy; stir-fry 5–7 min.",
+      "Finish with sesame oil."
+    ]
+  },
+
+  // ---------- 50 NEW RECIPES BELOW ----------
+
+  {
+    "name": "Scrambled Eggs on Toast",
+    "meal_type": "breakfast",
+    "kcal": 360,
+    "protein": 20,
+    "carbs": 30,
+    "fat": 17,
+    "tags": ["quick", "high-protein"],
+    "ingredients": [
+      "2 eggs",
+      "2 slices wholegrain bread",
+      "1 tsp butter",
+      "Salt, pepper"
+    ],
+    "steps": [
+      "Toast bread.",
+      "Scramble eggs with butter 2–3 min; season and serve on toast."
+    ]
+  },
+  {
+    "name": "Peanut Butter Banana Toast",
+    "meal_type": "breakfast",
+    "kcal": 420,
+    "protein": 14,
+    "carbs": 48,
+    "fat": 18,
+    "tags": ["vegetarian", "quick", "budget"],
+    "ingredients": [
+      "2 slices wholegrain bread",
+      "2 tbsp peanut butter",
+      "1 banana, sliced"
+    ],
+    "steps": [
+      "Toast bread.",
+      "Spread peanut butter and top with banana slices."
+    ]
+  },
+  {
+    "name": "Cottage Cheese & Pineapple Bowl",
+    "meal_type": "breakfast",
+    "kcal": 330,
+    "protein": 26,
+    "carbs": 38,
+    "fat": 7,
+    "tags": ["vegetarian", "high-protein", "quick"],
+    "ingredients": [
+      "200g cottage cheese",
+      "150g pineapple chunks",
+      "1 tsp chia seeds"
+    ],
+    "steps": [
+      "Mix cottage cheese with pineapple and chia."
+    ]
+  },
+  {
+    "name": "Avocado Egg Toast",
+    "meal_type": "breakfast",
+    "kcal": 420,
+    "protein": 17,
+    "carbs": 36,
+    "fat": 22,
+    "tags": ["vegetarian", "quick"],
+    "ingredients": [
+      "2 slices wholegrain bread",
+      "1 ripe avocado",
+      "1 egg, boiled or fried",
+      "Salt, chili flakes"
+    ],
+    "steps": [
+      "Mash avocado on toast; top with egg and season."
+    ]
+  },
+  {
+    "name": "Protein Smoothie (Berry)",
+    "meal_type": "breakfast",
+    "kcal": 350,
+    "protein": 28,
+    "carbs": 40,
+    "fat": 7,
+    "tags": ["vegetarian", "high-protein", "quick", "gluten-free"],
+    "ingredients": [
+      "1 scoop whey or plant protein",
+      "200ml milk (or plant milk)",
+      "150g frozen berries",
+      "Ice"
+    ],
+    "steps": [
+      "Blend all ingredients until smooth."
+    ]
+  },
+  {
+    "name": "Veggie Omelette",
+    "meal_type": "breakfast",
+    "kcal": 380,
+    "protein": 24,
+    "carbs": 10,
+    "fat": 26,
+    "tags": ["low-carb", "high-protein", "gluten-free"],
+    "ingredients": [
+      "3 eggs",
+      "1/2 bell pepper, chopped",
+      "1/4 onion, chopped",
+      "30g feta",
+      "1 tsp olive oil",
+      "Salt, pepper"
+    ],
+    "steps": [
+      "Sauté veggies, add beaten eggs and feta, cook until set."
+    ]
+  },
+  {
+    "name": "Muesli with Apple & Raisins",
+    "meal_type": "breakfast",
+    "kcal": 390,
+    "protein": 12,
+    "carbs": 62,
+    "fat": 10,
+    "tags": ["vegetarian", "quick", "budget"],
+    "ingredients": [
+      "60g muesli",
+      "200ml milk or yogurt",
+      "1 small apple, diced",
+      "1 tbsp raisins"
+    ],
+    "steps": [
+      "Combine all ingredients in a bowl."
+    ]
+  },
+  {
+    "name": "Chia Pudding with Mango",
+    "meal_type": "breakfast",
+    "kcal": 360,
+    "protein": 12,
+    "carbs": 45,
+    "fat": 14,
+    "tags": ["vegetarian", "gluten-free", "prep-ahead"],
+    "ingredients": [
+      "30g chia seeds",
+      "250ml milk (or plant milk)",
+      "150g mango, diced",
+      "1 tsp honey (optional)"
+    ],
+    "steps": [
+      "Mix chia with milk; chill 2+ hours. Top with mango and honey."
+    ]
+  },
+  {
+    "name": "Smoked Salmon Bagel",
+    "meal_type": "breakfast",
+    "kcal": 430,
+    "protein": 22,
+    "carbs": 45,
+    "fat": 16,
+    "tags": ["high-protein"],
+    "ingredients": [
+      "1 wholegrain bagel",
+      "60g smoked salmon",
+      "30g cream cheese",
+      "Sliced cucumber, dill"
+    ],
+    "steps": [
+      "Spread cream cheese on bagel, top with salmon, cucumber, dill."
+    ]
+  },
+  {
+    "name": "Banana Walnut Oat Pancakes",
+    "meal_type": "breakfast",
+    "kcal": 450,
+    "protein": 15,
+    "carbs": 60,
+    "fat": 18,
+    "tags": ["vegetarian"],
+    "ingredients": [
+      "1 banana",
+      "1 egg",
+      "60g oat flour",
+      "1 tsp baking powder",
+      "20g walnuts, chopped"
+    ],
+    "steps": [
+      "Blend banana, egg, oat flour, baking powder; fold walnuts; pan-cook."
+    ]
+  },
+
+  {
+    "name": "Turkey & Hummus Wrap",
+    "meal_type": "lunch",
+    "kcal": 520,
+    "protein": 35,
+    "carbs": 55,
+    "fat": 16,
+    "tags": ["high-protein"],
+    "ingredients": [
+      "1 large wholegrain tortilla",
+      "120g sliced turkey breast",
+      "3 tbsp hummus",
+      "Lettuce, tomato, cucumber"
+    ],
+    "steps": [
+      "Spread hummus on tortilla, add turkey and veg, wrap tightly."
+    ]
+  },
+  {
+    "name": "Quinoa Chickpea Salad",
+    "meal_type": "lunch",
+    "kcal": 560,
+    "protein": 20,
+    "carbs": 70,
+    "fat": 18,
+    "tags": ["vegetarian", "vegan", "gluten-free", "mediterranean"],
+    "ingredients": [
+      "120g cooked quinoa",
+      "150g canned chickpeas, rinsed",
+      "Cherry tomatoes, cucumber, parsley",
+      "2 tbsp olive oil, lemon juice, salt"
+    ],
+    "steps": [
+      "Mix quinoa, chickpeas, chopped veg, and dressing."
+    ]
+  },
+  {
+    "name": "Beef Rice Noodle Bowl",
+    "meal_type": "lunch",
+    "kcal": 650,
+    "protein": 36,
+    "carbs": 80,
+    "fat": 18,
+    "tags": ["asian", "high-protein"],
+    "ingredients": [
+      "150g lean beef strips",
+      "160g rice noodles",
+      "Soy sauce, ginger, garlic",
+      "Spring onion, sesame"
+    ],
+    "steps": [
+      "Stir-fry beef with ginger/garlic; toss with cooked noodles and soy."
+    ]
+  },
+  {
+    "name": "Caprese Chicken Salad",
+    "meal_type": "lunch",
+    "kcal": 520,
+    "protein": 40,
+    "carbs": 18,
+    "fat": 30,
+    "tags": ["low-carb", "gluten-free"],
+    "ingredients": [
+      "150g grilled chicken",
+      "150g cherry tomatoes",
+      "80g mozzarella",
+      "Basil, 1 tbsp olive oil, balsamic"
+    ],
+    "steps": [
+      "Slice ingredients and toss with oil and balsamic."
+    ]
+  },
+  {
+    "name": "Lentil & Veg Soup",
+    "meal_type": "lunch",
+    "kcal": 480,
+    "protein": 22,
+    "carbs": 72,
+    "fat": 8,
+    "tags": ["vegetarian", "vegan", "budget", "soup"],
+    "ingredients": [
+      "150g red lentils",
+      "1 carrot, 1 celery, 1 onion",
+      "700ml vegetable stock",
+      "1 tbsp olive oil, spices"
+    ],
+    "steps": [
+      "Sauté veg, add lentils and stock, simmer 20–25 min; season."
+    ]
+  },
+  {
+    "name": "Sardine Lemon Pasta",
+    "meal_type": "lunch",
+    "kcal": 620,
+    "protein": 32,
+    "carbs": 85,
+    "fat": 18,
+    "tags": ["omega-3", "budget", "mediterranean"],
+    "ingredients": [
+      "160g pasta",
+      "1 can sardines in olive oil",
+      "1 lemon (zest & juice)",
+      "Parsley, garlic, chili flakes"
+    ],
+    "steps": [
+      "Cook pasta; toss with sardines, lemon, parsley and garlic."
+    ]
+  },
+  {
+    "name": "Falafel Bowl with Tahini",
+    "meal_type": "lunch",
+    "kcal": 600,
+    "protein": 20,
+    "carbs": 75,
+    "fat": 20,
+    "tags": ["vegetarian", "vegan", "mediterranean"],
+    "ingredients": [
+      "6 falafel balls",
+      "120g cooked bulgur or rice",
+      "Cucumber, tomato, lettuce",
+      "2 tbsp tahini-lemon dressing"
+    ],
+    "steps": [
+      "Assemble bowl with grains, veg, falafel, and drizzle with tahini."
+    ]
+  },
+  {
+    "name": "Tofu Peanut Noodle Salad",
+    "meal_type": "lunch",
+    "kcal": 610,
+    "protein": 26,
+    "carbs": 80,
+    "fat": 20,
+    "tags": ["vegetarian", "asian"],
+    "ingredients": [
+      "200g firm tofu",
+      "150g rice noodles",
+      "Peanut butter, soy, lime, chili",
+      "Shredded carrot, cabbage"
+    ],
+    "steps": [
+      "Toss cooked noodles with peanut dressing and sautéed tofu; add veg."
+    ]
+  },
+  {
+    "name": "Chicken Caesar Wrap",
+    "meal_type": "lunch",
+    "kcal": 580,
+    "protein": 40,
+    "carbs": 48,
+    "fat": 22,
+    "tags": ["high-protein"],
+    "ingredients": [
+      "1 large tortilla",
+      "150g grilled chicken",
+      "Romaine, parmesan",
+      "2 tbsp Caesar dressing"
+    ],
+    "steps": [
+      "Fill tortilla with ingredients and wrap tightly."
+    ]
+  },
+  {
+    "name": "Spicy Bean Burrito",
+    "meal_type": "lunch",
+    "kcal": 640,
+    "protein": 22,
+    "carbs": 90,
+    "fat": 18,
+    "tags": ["vegetarian", "mexican", "budget"],
+    "ingredients": [
+      "1 large tortilla",
+      "150g cooked beans",
+      "Salsa, rice, corn",
+      "Cheese (optional)"
+    ],
+    "steps": [
+      "Fill tortilla with beans, rice, salsa, corn; roll and warm."
+    ]
+  },
+  {
+    "name": "Pork & Apple Grain Bowl",
+    "meal_type": "lunch",
+    "kcal": 650,
+    "protein": 36,
+    "carbs": 80,
+    "fat": 18,
+    "tags": ["high-protein"],
+    "ingredients": [
+      "150g lean pork loin, sliced",
+      "120g cooked barley or quinoa",
+      "Apple slices, spinach",
+      "1 tbsp olive oil, mustard"
+    ],
+    "steps": [
+      "Sear pork, toss with grains, apple, spinach and dressing."
+    ]
+  },
+  {
+    "name": "Mediterranean Tuna Salad",
+    "meal_type": "lunch",
+    "kcal": 540,
+    "protein": 35,
+    "carbs": 22,
+    "fat": 32,
+    "tags": ["low-carb", "omega-3", "gluten-free"],
+    "ingredients": [
+      "1 can tuna in olive oil",
+      "Olives, cherry tomatoes, cucumber",
+      "Feta, oregano, lemon"
+    ],
+    "steps": [
+      "Combine ingredients; season with lemon and oregano."
+    ]
+  },
+
+  {
+    "name": "Herb Roast Chicken & Veg",
+    "meal_type": "dinner",
+    "kcal": 680,
+    "protein": 48,
+    "carbs": 40,
+    "fat": 30,
+    "tags": ["high-protein", "gluten-free"],
+    "ingredients": [
+      "2 chicken thighs (bone-in)",
+      "Carrots, onions, zucchini",
+      "1 tbsp olive oil, herbs, salt"
+    ],
+    "steps": [
+      "Toss veg with oil and herbs, roast 200°C 25 min; add chicken, roast 20–25 min."
+    ]
+  },
+  {
+    "name": "Beef Chili with Beans",
+    "meal_type": "dinner",
+    "kcal": 700,
+    "protein": 42,
+    "carbs": 60,
+    "fat": 28,
+    "tags": ["budget", "mexican", "high-protein"],
+    "ingredients": [
+      "300g lean beef mince",
+      "1 can beans",
+      "Tomato passata, chili, cumin",
+      "Onion, garlic"
+    ],
+    "steps": [
+      "Brown beef, add aromatics, beans and passata; simmer 20–30 min."
+    ]
+  },
+  {
+    "name": "Shrimp Garlic Lemon Pasta",
+    "meal_type": "dinner",
+    "kcal": 680,
+    "protein": 38,
+    "carbs": 85,
+    "fat": 16,
+    "tags": ["seafood", "mediterranean"],
+    "ingredients": [
+      "200g shrimp",
+      "160g pasta",
+      "Garlic, lemon, parsley",
+      "1 tbsp olive oil"
+    ],
+    "steps": [
+      "Cook pasta; sauté shrimp in garlic & oil; toss with lemon and parsley."
+    ]
+  },
+  {
+    "name": "Eggplant & Chickpea Curry",
+    "meal_type": "dinner",
+    "kcal": 620,
+    "protein": 20,
+    "carbs": 75,
+    "fat": 22,
+    "tags": ["vegetarian", "vegan", "asian"],
+    "ingredients": [
+      "1 eggplant, cubed",
+      "1 can chickpeas",
+      "Curry paste, coconut milk",
+      "Coriander, lime"
+    ],
+    "steps": [
+      "Sauté eggplant, add curry and coconut milk; simmer; stir in chickpeas."
+    ]
+  },
+  {
+    "name": "Turkey Meatballs with Bulgur",
+    "meal_type": "dinner",
+    "kcal": 640,
+    "protein": 40,
+    "carbs": 70,
+    "fat": 18,
+    "tags": ["high-protein", "mediterranean"],
+    "ingredients": [
+      "300g ground turkey",
+      "Spices, parsley",
+      "120g bulgur, cooked",
+      "Tomato salad"
+    ],
+    "steps": [
+      "Form meatballs, bake or pan-cook; serve with bulgur and salad."
+    ]
+  },
+  {
+    "name": "Tofu & Veggie Coconut Stir-Fry",
+    "meal_type": "dinner",
+    "kcal": 600,
+    "protein": 24,
+    "carbs": 60,
+    "fat": 28,
+    "tags": ["vegetarian", "vegan", "asian", "gluten-free"],
+    "ingredients": [
+      "200g firm tofu",
+      "Mixed veggies",
+      "Coconut milk, curry powder",
+      "Lime"
+    ],
+    "steps": [
+      "Stir-fry tofu and veg; add coconut milk and curry; simmer briefly."
+    ]
+  },
+  {
+    "name": "Beef & Broccoli (Low-Carb)",
+    "meal_type": "dinner",
+    "kcal": 580,
+    "protein": 40,
+    "carbs": 25,
+    "fat": 30,
+    "tags": ["low-carb", "asian", "high-protein", "gluten-free"],
+    "ingredients": [
+      "200g beef strips",
+      "Broccoli florets",
+      "Soy sauce, garlic, ginger",
+      "1 tsp sesame oil"
+    ],
+    "steps": [
+      "Stir-fry beef; add broccoli and sauce; finish with sesame oil."
+    ]
+  },
+  {
+    "name": "Baked Cod with Tomatoes & Olives",
+    "meal_type": "dinner",
+    "kcal": 590,
+    "protein": 42,
+    "carbs": 35,
+    "fat": 26,
+    "tags": ["seafood", "mediterranean", "gluten-free"],
+    "ingredients": [
+      "200g cod fillet",
+      "Cherry tomatoes, olives",
+      "1 tbsp olive oil, oregano"
+    ],
+    "steps": [
+      "Bake cod with tomatoes, olives, oil, and oregano at 190°C for 15–18 min."
+    ]
+  },
+  {
+    "name": "Mushroom Risotto",
+    "meal_type": "dinner",
+    "kcal": 690,
+    "protein": 18,
+    "carbs": 95,
+    "fat": 22,
+    "tags": ["vegetarian"],
+    "ingredients": [
+      "200g arborio rice",
+      "200g mushrooms",
+      "Vegetable stock",
+      "Parmesan, butter"
+    ],
+    "steps": [
+      "Cook rice gradually with stock; sauté mushrooms; finish with butter & parmesan."
+    ]
+  },
+  {
+    "name": "Pork Tenderloin with Sweet Potato",
+    "meal_type": "dinner",
+    "kcal": 670,
+    "protein": 46,
+    "carbs": 55,
+    "fat": 22,
+    "tags": ["high-protein", "gluten-free"],
+    "ingredients": [
+      "200g pork tenderloin",
+      "1 medium sweet potato",
+      "Paprika, garlic, olive oil"
+    ],
+    "steps": [
+      "Roast sweet potato; pan-sear and roast pork; rest and slice."
+    ]
+  },
+  {
+    "name": "Chickpea & Spinach Stew",
+    "meal_type": "dinner",
+    "kcal": 580,
+    "protein": 22,
+    "carbs": 70,
+    "fat": 18,
+    "tags": ["vegetarian", "vegan", "budget", "mediterranean"],
+    "ingredients": [
+      "1 can chickpeas",
+      "Spinach, onion, garlic",
+      "Tomato passata, cumin",
+      "Olive oil"
+    ],
+    "steps": [
+      "Sauté onion/garlic; add passata, cumin, chickpeas; wilt spinach; season."
+    ]
+  },
+  {
+    "name": "Salmon Teriyaki with Rice",
+    "meal_type": "dinner",
+    "kcal": 690,
+    "protein": 42,
+    "carbs": 80,
+    "fat": 18,
+    "tags": ["seafood", "asian"],
+    "ingredients": [
+      "180g salmon fillet",
+      "150g cooked rice",
+      "Teriyaki sauce",
+      "Spring onions, sesame"
+    ],
+    "steps": [
+      "Pan-sear salmon; glaze with teriyaki; serve over rice with sesame."
+    ]
+  },
+  {
+    "name": "Vegetable Lasagna (Light)",
+    "meal_type": "dinner",
+    "kcal": 710,
+    "protein": 26,
+    "carbs": 90,
+    "fat": 24,
+    "tags": ["vegetarian"],
+    "ingredients": [
+      "Lasagna sheets",
+      "Tomato sauce, zucchini, spinach",
+      "Ricotta, mozzarella"
+    ],
+    "steps": [
+      "Layer sauce, veg, cheeses; bake 30–35 min at 190°C."
+    ]
+  },
+  {
+    "name": "Chicken Fajita Plate",
+    "meal_type": "dinner",
+    "kcal": 650,
+    "protein": 45,
+    "carbs": 55,
+    "fat": 22,
+    "tags": ["mexican", "high-protein"],
+    "ingredients": [
+      "200g chicken breast, sliced",
+      "Bell peppers, onion",
+      "Fajita seasoning",
+      "Tortillas (optional)"
+    ],
+    "steps": [
+      "Sauté chicken and veg with seasoning; serve with tortillas if desired."
+    ]
+  },
+  {
+    "name": "Creamy Pesto Chicken Pasta",
+    "meal_type": "dinner",
+    "kcal": 720,
+    "protein": 40,
+    "carbs": 90,
+    "fat": 22,
+    "tags": ["high-protein", "mediterranean"],
+    "ingredients": [
+      "160g pasta",
+      "200g chicken breast",
+      "2 tbsp pesto",
+      "Splash of cream or milk"
+    ],
+    "steps": [
+      "Cook pasta; pan-cook chicken; toss with pesto and a splash of cream."
+    ]
+  },
+  {
+    "name": "Tofu Pad Thai",
+    "meal_type": "dinner",
+    "kcal": 650,
+    "protein": 24,
+    "carbs": 85,
+    "fat": 18,
+    "tags": ["vegetarian", "asian"],
+    "ingredients": [
+      "200g firm tofu",
+      "160g rice noodles",
+      "Pad Thai sauce",
+      "Bean sprouts, peanuts"
+    ],
+    "steps": [
+      "Stir-fry tofu; toss with noodles and sauce; top with sprouts and peanuts."
+    ]
+  },
+  {
+    "name": "Bulgur Pilaf with Lamb",
+    "meal_type": "dinner",
+    "kcal": 720,
+    "protein": 38,
+    "carbs": 85,
+    "fat": 22,
+    "tags": ["mediterranean", "high-protein"],
+    "ingredients": [
+      "200g lamb pieces",
+      "150g bulgur",
+      "Onion, tomato paste, spices"
+    ],
+    "steps": [
+      "Brown lamb; cook bulgur with aromatics; combine and rest."
+    ]
+  },
+  {
+    "name": "Veggie & Halloumi Skewers",
+    "meal_type": "dinner",
+    "kcal": 600,
+    "protein": 28,
+    "carbs": 45,
+    "fat": 28,
+    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "ingredients": [
+      "200g halloumi",
+      "Peppers, zucchini, onion",
+      "Olive oil, oregano"
+    ],
+    "steps": [
+      "Skewer and grill veg & halloumi; drizzle with oil and oregano."
+    ]
+  },
+  {
+    "name": "Black Bean & Sweet Potato Bowl",
+    "meal_type": "dinner",
+    "kcal": 640,
+    "protein": 22,
+    "carbs": 90,
+    "fat": 16,
+    "tags": ["vegetarian", "vegan", "mexican", "budget"],
+    "ingredients": [
+      "1 can black beans",
+      "1 medium sweet potato, cubed",
+      "Rice or quinoa",
+      "Salsa, lime"
+    ],
+    "steps": [
+      "Roast sweet potato; warm beans; assemble with grains and salsa."
+    ]
+  },
+  {
+    "name": "Greek Lemon Chicken & Orzo",
+    "meal_type": "dinner",
+    "kcal": 710,
+    "protein": 42,
+    "carbs": 90,
+    "fat": 20,
+    "tags": ["mediterranean", "high-protein"],
+    "ingredients": [
+      "200g chicken",
+      "160g orzo",
+      "Lemon, oregano, garlic",
+      "Spinach"
+    ],
+    "steps": [
+      "Sear chicken; cook orzo; toss with lemon, oregano; fold in spinach."
+    ]
+  },
+
+  // ---------- 20 NEW BALKAN/MEDITERRANEAN RECIPES BELOW ----------
+
+  {
+    "name": "Duck & Potato Hash",
+    "meal_type": "breakfast",
+    "kcal": 480,
+    "protein": 28,
+    "carbs": 35,
+    "fat": 24,
+    "tags": ["high-protein", "gluten-free"],
+    "ingredients": [
+      "100g duck breast, diced",
+      "200g potatoes, cubed",
+      "1 onion, diced",
+      "2 eggs",
+      "1 tbsp olive oil",
+      "Thyme, salt, pepper"
+    ],
+    "steps": [
+      "Sauté duck until crispy; add potatoes and onion, cook until tender.",
+      "Fry eggs; serve hash topped with eggs and fresh herbs."
+    ]
+  },
+  {
+    "name": "Avocado & Bacon Toast",
+    "meal_type": "breakfast",
+    "kcal": 520,
+    "protein": 18,
+    "carbs": 25,
+    "fat": 38,
+    "tags": ["quick", "gluten-free"],
+    "ingredients": [
+      "2 slices whole grain bread",
+      "1 avocado, mashed",
+      "4 strips bacon",
+      "2 eggs, fried",
+      "30g feta cheese",
+      "Lemon, salt, pepper"
+    ],
+    "steps": [
+      "Toast bread; crisp bacon; fry eggs.",
+      "Spread avocado on toast; top with bacon, eggs, and feta."
+    ]
+  },
+  {
+    "name": "Balkan Shakshuka",
+    "meal_type": "breakfast",
+    "kcal": 420,
+    "protein": 22,
+    "carbs": 25,
+    "fat": 26,
+    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "ingredients": [
+      "4 eggs",
+      "400g crushed tomatoes",
+      "1 bell pepper, sliced",
+      "1 onion, diced",
+      "Garlic, paprika, oregano",
+      "Feta cheese, parsley"
+    ],
+    "steps": [
+      "Sauté onion and pepper; add tomatoes and spices; simmer 10 min.",
+      "Make wells, crack eggs; cover and cook 5-7 min; top with feta and herbs."
+    ]
+  },
+  {
+    "name": "Albanian Fërgesë Omelette",
+    "meal_type": "breakfast",
+    "kcal": 360,
+    "protein": 20,
+    "carbs": 12,
+    "fat": 24,
+    "tags": ["vegetarian", "gluten-free", "high-protein"],
+    "ingredients": [
+      "3 eggs",
+      "1 small onion, diced",
+      "1 tomato, diced",
+      "50g feta cheese",
+      "Paprika, oregano",
+      "Parsley, olive oil"
+    ],
+    "steps": [
+      "Sauté onion and tomato with spices; add crumbled feta.",
+      "Beat eggs; pour over mixture; cook until set; garnish with parsley."
+    ]
+  },
+  {
+    "name": "Mediterranean Peanut Stew",
+    "meal_type": "breakfast",
+    "kcal": 450,
+    "protein": 16,
+    "carbs": 55,
+    "fat": 18,
+    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "ingredients": [
+      "150g potatoes, cubed",
+      "100g spinach",
+      "2 tbsp peanut butter",
+      "1 can diced tomatoes",
+      "Garlic, oregano, bay leaves",
+      "Olive oil"
+    ],
+    "steps": [
+      "Simmer potatoes in tomatoes and herbs 15 min.",
+      "Add peanut butter; stir in spinach until wilted; drizzle with olive oil."
+    ]
+  },
+  {
+    "name": "Smoked Trout Toast",
+    "meal_type": "breakfast",
+    "kcal": 380,
+    "protein": 24,
+    "carbs": 32,
+    "fat": 18,
+    "tags": ["seafood", "omega-3", "quick"],
+    "ingredients": [
+      "2 slices rye bread",
+      "100g smoked trout",
+      "2 tbsp cream cheese",
+      "Cucumber, dill",
+      "Lemon, capers"
+    ],
+    "steps": [
+      "Toast bread; spread cream cheese; top with trout, cucumber, dill.",
+      "Garnish with lemon and capers."
+    ]
+  },
+  {
+    "name": "Balkan Spiced Omelette",
+    "meal_type": "breakfast",
+    "kcal": 360,
+    "protein": 22,
+    "carbs": 12,
+    "fat": 24,
+    "tags": ["vegetarian", "gluten-free", "high-protein"],
+    "ingredients": [
+      "3 eggs",
+      "1 small onion, diced",
+      "1 tomato, diced",
+      "50g feta cheese",
+      "Paprika, oregano, thyme",
+      "Parsley, olive oil"
+    ],
+    "steps": [
+      "Sauté onion and tomato with Balkan spices.",
+      "Beat eggs; pour over mixture; cook until set; garnish with parsley."
+    ]
+  },
+
+  {
+    "name": "Balkan Beef Soup",
+    "meal_type": "lunch",
+    "kcal": 580,
+    "protein": 32,
+    "carbs": 45,
+    "fat": 28,
+    "tags": ["soup", "gluten-free"],
+    "ingredients": [
+      "150g beef, cubed",
+      "200g potatoes, diced",
+      "1 carrot, sliced",
+      "1 onion, diced",
+      "Beef broth, bay leaves",
+      "Paprika, parsley"
+    ],
+    "steps": [
+      "Brown beef; add vegetables and broth; simmer 45 min.",
+      "Season with paprika; garnish with fresh parsley."
+    ]
+  },
+  {
+    "name": "Albanian Lamb Stew",
+    "meal_type": "lunch",
+    "kcal": 650,
+    "protein": 38,
+    "carbs": 45,
+    "fat": 32,
+    "tags": ["mediterranean", "high-protein", "gluten-free"],
+    "ingredients": [
+      "200g lamb shoulder, cubed",
+      "200g potatoes, cubed",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Garlic, oregano, bay leaves",
+      "Red wine, olive oil"
+    ],
+    "steps": [
+      "Brown lamb; add vegetables and wine; simmer 1 hour.",
+      "Season with herbs; serve with crusty bread."
+    ]
+  },
+  {
+    "name": "Balkan Rice Bowl",
+    "meal_type": "lunch",
+    "kcal": 620,
+    "protein": 28,
+    "carbs": 85,
+    "fat": 18,
+    "tags": ["vegetarian", "gluten-free"],
+    "ingredients": [
+      "150g cooked rice",
+      "100g spinach, blanched",
+      "1 carrot, grated",
+      "1 cucumber, sliced",
+      "100g feta cheese",
+      "Olive oil, lemon, oregano"
+    ],
+    "steps": [
+      "Arrange rice in bowl; top with vegetables in sections.",
+      "Add feta cheese; drizzle with olive oil and lemon dressing."
+    ]
+  },
+  {
+    "name": "Albanian Lentil Stew",
+    "meal_type": "lunch",
+    "kcal": 590,
+    "protein": 24,
+    "carbs": 95,
+    "fat": 12,
+    "tags": ["vegetarian", "gluten-free"],
+    "ingredients": [
+      "200g red lentils",
+      "1 onion, diced",
+      "2 carrots, diced",
+      "2 tomatoes, diced",
+      "Garlic, bay leaves, oregano",
+      "Olive oil"
+    ],
+    "steps": [
+      "Sauté onion and carrots; add lentils and tomatoes; simmer 30 min.",
+      "Season with herbs; serve with bread."
+    ]
+  },
+  {
+    "name": "Balkan Mixed Salad",
+    "meal_type": "lunch",
+    "kcal": 480,
+    "protein": 18,
+    "carbs": 45,
+    "fat": 26,
+    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "ingredients": [
+      "Mixed greens, tomatoes, cucumber",
+      "Radish, parsley, dill",
+      "Bread, toasted",
+      "Olive oil, lemon, oregano",
+      "Feta cheese"
+    ],
+    "steps": [
+      "Toss vegetables with herbs and olive oil.",
+      "Add crispy bread; top with feta cheese and lemon dressing."
+    ]
+  },
+  {
+    "name": "Balkan Fish Salad",
+    "meal_type": "lunch",
+    "kcal": 520,
+    "protein": 35,
+    "carbs": 25,
+    "fat": 28,
+    "tags": ["seafood", "gluten-free"],
+    "ingredients": [
+      "200g cooked white fish, flaked",
+      "Lemon juice, red onion",
+      "Olive oil, oregano",
+      "Potatoes, boiled",
+      "Lettuce, olives"
+    ],
+    "steps": [
+      "Mix fish with lemon, onion, and herbs; let marinate 15 min.",
+      "Serve over lettuce with potatoes and olives."
+    ]
+  },
+  {
+    "name": "Balkan Kebab Wrap",
+    "meal_type": "lunch",
+    "kcal": 640,
+    "protein": 42,
+    "carbs": 55,
+    "fat": 24,
+    "tags": ["mediterranean", "high-protein"],
+    "ingredients": [
+      "200g ground lamb",
+      "Pita bread",
+      "Yogurt sauce, tomatoes",
+      "Onion, parsley",
+      "Paprika, oregano"
+    ],
+    "steps": [
+      "Season lamb with Balkan spices; form kebabs; grill until cooked.",
+      "Wrap in pita with vegetables and yogurt sauce."
+    ]
+  },
+
+  {
+    "name": "Balkan Salmon with Rice",
+    "meal_type": "dinner",
+    "kcal": 680,
+    "protein": 45,
+    "carbs": 60,
+    "fat": 22,
+    "tags": ["seafood", "mediterranean", "gluten-free"],
+    "ingredients": [
+      "250g salmon fillet",
+      "150g rice",
+      "Lemon, garlic, oregano",
+      "Broccoli, carrots",
+      "Olive oil, parsley"
+    ],
+    "steps": [
+      "Season salmon with lemon, garlic, oregano; bake 12-15 min.",
+      "Steam vegetables; serve over rice with olive oil and parsley."
+    ]
+  },
+  {
+    "name": "Balkan Chicken Stew",
+    "meal_type": "dinner",
+    "kcal": 720,
+    "protein": 48,
+    "carbs": 35,
+    "fat": 32,
+    "tags": ["mediterranean", "high-protein", "gluten-free"],
+    "ingredients": [
+      "400g chicken thighs",
+      "200g potatoes, cubed",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Garlic, bay leaves, oregano",
+      "Red wine, olive oil"
+    ],
+    "steps": [
+      "Brown chicken; add vegetables and wine; simmer 45 min.",
+      "Season with herbs; serve with crusty bread."
+    ]
+  },
+  {
+    "name": "Balkan Bean Stew",
+    "meal_type": "dinner",
+    "kcal": 750,
+    "protein": 42,
+    "carbs": 85,
+    "fat": 28,
+    "tags": ["vegetarian", "gluten-free"],
+    "ingredients": [
+      "300g white beans",
+      "200g potatoes, cubed",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Garlic, bay leaves, oregano",
+      "Olive oil"
+    ],
+    "steps": [
+      "Soak beans overnight; cook with vegetables 1 hour.",
+      "Season with herbs; serve with bread."
+    ]
+  },
+  {
+    "name": "Balkan Vegetable Stew",
+    "meal_type": "dinner",
+    "kcal": 640,
+    "protein": 28,
+    "carbs": 45,
+    "fat": 38,
+    "tags": ["vegetarian", "gluten-free"],
+    "ingredients": [
+      "200g eggplant, cubed",
+      "200g zucchini, sliced",
+      "2 tomatoes, diced",
+      "1 onion, diced",
+      "Garlic, oregano, basil",
+      "Olive oil, rice"
+    ],
+    "steps": [
+      "Sauté vegetables with herbs; simmer 20 min.",
+      "Serve over rice with olive oil."
+    ]
+  },
+  {
+    "name": "Balkan Beef Stew",
+    "meal_type": "dinner",
+    "kcal": 690,
+    "protein": 52,
+    "carbs": 40,
+    "fat": 32,
+    "tags": ["high-protein", "gluten-free"],
+    "ingredients": [
+      "500g beef, cubed",
+      "200g potatoes, cubed",
+      "1 onion, diced",
+      "2 carrots, sliced",
+      "Garlic, bay leaves, paprika",
+      "Red wine, olive oil"
+    ],
+    "steps": [
+      "Brown beef; add vegetables and wine; simmer 2 hours.",
+      "Season with herbs; serve with bread."
+    ]
+  },
+  {
+    "name": "Balkan Rice Pilaf",
+    "meal_type": "dinner",
+    "kcal": 710,
+    "protein": 38,
+    "carbs": 85,
+    "fat": 22,
+    "tags": ["mediterranean", "gluten-free"],
+    "ingredients": [
+      "200g rice",
+      "150g chicken, diced",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Garlic, oregano, bay leaves",
+      "Chicken stock, olive oil"
+    ],
+    "steps": [
+      "Sauté chicken and onion; add rice and stock; cook 20 min.",
+      "Season with herbs; serve hot."
+    ]
+  },
+  {
+    "name": "Balkan Lamb Steak",
+    "meal_type": "dinner",
+    "kcal": 580,
+    "protein": 55,
+    "carbs": 15,
+    "fat": 28,
+    "tags": ["high-protein", "gluten-free"],
+    "ingredients": [
+      "300g lamb fillet",
+      "200g potatoes, mashed",
+      "Broccoli, carrots",
+      "Garlic, rosemary, oregano",
+      "Olive oil"
+    ],
+    "steps": [
+      "Season lamb with herbs; sear 3 min each side; rest 5 min.",
+      "Serve with mashed potatoes and steamed vegetables."
+    ]
+  },
+
+  // ---------- 10 MORE KOSOVO/SPAR RECIPES BELOW ----------
+
+  {
+    "name": "Kosovo Curry Pasta",
+    "meal_type": "lunch",
+    "kcal": 620,
+    "protein": 32,
+    "carbs": 75,
+    "fat": 18,
+    "tags": ["pasta", "curry", "quick"],
+    "ingredients": [
+      "250g pasta (penne or spaghetti)",
+      "200g chicken breast, diced",
+      "1 onion, diced",
+      "2 bell peppers, sliced",
+      "2 tbsp curry powder",
+      "400ml coconut milk",
+      "Garlic, olive oil, salt"
+    ],
+    "steps": [
+      "Cook pasta; sauté chicken and vegetables with curry powder.",
+      "Add coconut milk; simmer 10 min; toss with pasta."
+    ]
+  },
+  {
+    "name": "Burek with Spinach",
+    "meal_type": "breakfast",
+    "kcal": 450,
+    "protein": 18,
+    "carbs": 45,
+    "fat": 22,
+    "tags": ["vegetarian", "traditional", "quick"],
+    "ingredients": [
+      "6 phyllo pastry sheets",
+      "200g spinach, chopped",
+      "150g feta cheese, crumbled",
+      "2 eggs",
+      "1 onion, diced",
+      "Olive oil, salt, pepper"
+    ],
+    "steps": [
+      "Sauté onion and spinach; mix with feta and eggs.",
+      "Layer phyllo with filling; bake 25-30 min at 180°C."
+    ]
+  },
+  {
+    "name": "Sarma (Stuffed Cabbage)",
+    "meal_type": "lunch",
+    "kcal": 580,
+    "protein": 28,
+    "carbs": 45,
+    "fat": 32,
+    "tags": ["traditional", "gluten-free"],
+    "ingredients": [
+      "8 cabbage leaves, blanched",
+      "200g ground beef",
+      "100g rice, cooked",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Paprika, salt, pepper, bay leaves"
+    ],
+    "steps": [
+      "Mix meat, rice, onion, and spices; wrap in cabbage leaves.",
+      "Place in pot with tomatoes and bay leaves; simmer 1 hour."
+    ]
+  },
+  {
+    "name": "Mushroom and Spinach Pasta",
+    "meal_type": "dinner",
+    "kcal": 520,
+    "protein": 22,
+    "carbs": 85,
+    "fat": 12,
+    "tags": ["vegetarian", "pasta", "quick", "low-fat"],
+    "ingredients": [
+      "250g pasta",
+      "300g mushrooms, sliced",
+      "200g spinach",
+      "1 onion, diced",
+      "2 cloves garlic",
+      "Parmesan cheese, parsley, olive oil"
+    ],
+    "steps": [
+      "Cook pasta; sauté mushrooms with onion and garlic.",
+      "Add spinach; wilt; toss with pasta and cheese."
+    ]
+  },
+  {
+    "name": "Baked Chicken with Rice",
+    "meal_type": "dinner",
+    "kcal": 580,
+    "protein": 45,
+    "carbs": 55,
+    "fat": 18,
+    "tags": ["high-protein", "gluten-free", "low-fat"],
+    "ingredients": [
+      "400g chicken breast, cubed",
+      "200g rice",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Garlic, oregano, paprika",
+      "Olive oil, salt, pepper"
+    ],
+    "steps": [
+      "Brown chicken; add rice and vegetables; place in baking dish.",
+      "Add tomatoes and spices; bake 35 min at 180°C."
+    ]
+  },
+  {
+    "name": "Grilled Chicken Skewers",
+    "meal_type": "lunch",
+    "kcal": 480,
+    "protein": 45,
+    "carbs": 25,
+    "fat": 22,
+    "tags": ["high-protein", "grilled", "gluten-free"],
+    "ingredients": [
+      "300g chicken breast, cubed",
+      "1 bell pepper, cubed",
+      "1 onion, cubed",
+      "2 cloves garlic",
+      "Paprika, oregano, olive oil",
+      "Lemon, salt, pepper"
+    ],
+    "steps": [
+      "Marinate chicken with garlic, spices, and olive oil.",
+      "Thread onto skewers with vegetables; grill until cooked."
+    ]
+  },
+  {
+    "name": "Pasta with Tuna and Olives",
+    "meal_type": "lunch",
+    "kcal": 590,
+    "protein": 32,
+    "carbs": 70,
+    "fat": 18,
+    "tags": ["pasta", "seafood", "quick"],
+    "ingredients": [
+      "250g pasta",
+      "2 cans tuna in oil, drained",
+      "100g black olives, pitted",
+      "2 tomatoes, diced",
+      "1 onion, diced",
+      "Garlic, olive oil, parsley"
+    ],
+    "steps": [
+      "Cook pasta; sauté onion and garlic; add tomatoes and olives.",
+      "Add tuna; toss with pasta; garnish with parsley."
+    ]
+  },
+  {
+    "name": "Speca të Mbushur (Stuffed Peppers)",
+    "meal_type": "dinner",
+    "kcal": 520,
+    "protein": 28,
+    "carbs": 45,
+    "fat": 25,
+    "tags": ["traditional", "gluten-free"],
+    "ingredients": [
+      "4 bell peppers, tops removed",
+      "200g ground beef",
+      "100g rice, cooked",
+      "1 onion, diced",
+      "2 tomatoes, diced",
+      "Paprika, salt, pepper, olive oil"
+    ],
+    "steps": [
+      "Mix meat, rice, onion, and spices; stuff peppers.",
+      "Place in baking dish with tomatoes; bake 45 min at 180°C."
+    ]
+  },
+  {
+    "name": "Pasta with Chicken and Vegetables",
+    "meal_type": "dinner",
+    "kcal": 520,
+    "protein": 35,
+    "carbs": 70,
+    "fat": 12,
+    "tags": ["pasta", "quick", "high-protein", "low-fat"],
+    "ingredients": [
+      "250g spaghetti",
+      "200g chicken breast, diced",
+      "2 bell peppers, sliced",
+      "1 onion, sliced",
+      "2 cloves garlic",
+      "Parmesan cheese, olive oil, herbs"
+    ],
+    "steps": [
+      "Cook pasta; sauté chicken and vegetables with garlic.",
+      "Toss with pasta; top with cheese and herbs."
+    ]
+  },
+  {
+    "name": "Jani me Fasule (Bean Soup)",
+    "meal_type": "lunch",
+    "kcal": 480,
+    "protein": 22,
+    "carbs": 65,
+    "fat": 12,
+    "tags": ["soup", "vegetarian", "traditional"],
+    "ingredients": [
+      "300g white beans, soaked overnight",
+      "1 onion, diced",
+      "2 carrots, diced",
+      "2 tomatoes, diced",
+      "2 cloves garlic",
+      "Bay leaves, oregano, olive oil, salt"
+    ],
+    "steps": [
+      "Sauté onion and carrots; add beans and tomatoes.",
+      "Add water and herbs; simmer 1 hour until beans are tender."
+    ]
+  }
+]

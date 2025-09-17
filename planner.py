@@ -17,6 +17,8 @@ class Recipe(BaseModel):
 
 DAYS = ["E Hënë","E Martë","E Mërkurë","E Enjte","E Premte","E Shtunë","E Diel"]
 
+# ---------- Filtering ----------
+
 def filter_recipes(
     recipes: List[Recipe],
     meal_type: str,
@@ -26,8 +28,7 @@ def filter_recipes(
     def ok(r: Recipe) -> bool:
         if r.meal_type != meal_type:
             return False
-        # include_tags are soft filters: if set, prefer recipes containing them
-        # exclude_keywords: hard filter on name/ingredients
+        # hard exclude on name/ingredients
         text = (r.name + " " + " ".join(r.ingredients)).lower()
         for bad in exclude_keywords:
             if bad.strip() and bad.lower() in text:
@@ -39,6 +40,8 @@ def filter_recipes(
         preferred = [r for r in pool if any(t in r.tags for t in include_tags)]
         return preferred if preferred else pool
     return pool
+
+# ---------- Energy split ----------
 
 def kcal_target_split(total_kcal: int, pattern: str = "30/40/30") -> Dict[str, int]:
     # pattern is B/L/D percentage
@@ -54,14 +57,29 @@ def kcal_target_split(total_kcal: int, pattern: str = "30/40/30") -> Dict[str, i
         # fallback 30/40/30
         return kcal_target_split(total_kcal, "30/40/30")
 
-def pick_meal(recipes: List[Recipe], target_kcal: int) -> Optional[Recipe]:
-    if not recipes:
-        return None
-    # pick the meal with kcal closest to target
-    recipes_sorted = sorted(recipes, key=lambda r: abs(r.kcal - target_kcal))
-    # add a bit of variety
-    top = recipes_sorted[:min(5, len(recipes_sorted))]
-    return random.choice(top)
+# ---------- Diversity helpers ----------
+
+def _main_protein(r: Recipe) -> str:
+    """Guess the main protein from name/ingredients/tags."""
+    keywords = [
+        "chicken","pulë","pule",
+        "beef","viç","vici",
+        "pork","derr",
+        "turkey","gjeldeti",
+        "fish","peshk","tuna","salmon","troftë","sarde",
+        "shrimp","karkalec",
+        "egg","vezë","veze",
+        "tofu","tempeh",
+        "beans","fasule","chickpea","qiqra","lentil","thjerrëz","thjerrez",
+        "cheese","djath","yogurt","kos"
+    ]
+    hay = " ".join([r.name] + r.ingredients + r.tags).lower()
+    for k in keywords:
+        if k in hay:
+            return k
+    return "other"
+
+# ---------- Planner ----------
 
 def make_week_plan(
     recipes: List[Recipe],
@@ -69,17 +87,58 @@ def make_week_plan(
     include_tags: List[str],
     exclude_keywords: List[str],
     pattern: str = "30/40/30",
+    seed: Optional[int] = None,
 ) -> Dict[str, Dict[str, Optional[Recipe]]]:
+    """
+    Diversity-aware picker:
+      - No repeated recipe names in the week
+      - Penalizes repeating the same main protein too often
+      - Penalizes repeating yesterday’s protein for the same meal
+      - Slightly rewards tag overlap
+      - Chooses among the top-K candidates with a bit of randomness
+    """
+    rng = random.Random(seed)
     split = kcal_target_split(total_kcal, pattern)
     plan: Dict[str, Dict[str, Optional[Recipe]]] = {}
-    used_names = set()  # To reduce repeats
+
+    used_names = set()                        # prevent exact duplicates in a week
+    protein_count: Dict[str, int] = {}        # global protein usage
+    last_protein_for_meal: Dict[str, str] = {"breakfast": "", "lunch": "", "dinner": ""}
+
+    def _score(r: Recipe, meal_type: str) -> float:
+        # 1) closeness to kcal target
+        kcal_pen = abs(r.kcal - split[meal_type]) / 10.0   # every 10 kcal off = -1
+        s = -kcal_pen
+
+        # 2) never repeat exactly the same recipe
+        if r.name in used_names:
+            s -= 100.0
+
+        # 3) protein diversity
+        prot = _main_protein(r)
+        s -= protein_count.get(prot, 0) * 0.8               # global repetition penalty
+        if last_protein_for_meal[meal_type] == prot:
+            s -= 0.8                                        # avoid same protein as yesterday for this meal
+
+        # 4) reward preference-tag overlap
+        if include_tags:
+            overlap = len(set(r.tags) & set(include_tags))
+            s += 0.3 * overlap
+
+        return s
 
     for day in DAYS:
         day_plan: Dict[str, Optional[Recipe]] = {}
         for meal_type in ["breakfast", "lunch", "dinner"]:
             pool = filter_recipes(recipes, meal_type, include_tags, exclude_keywords)
-            pool = [r for r in pool if r.name not in used_names] or pool
-            chosen = pick_meal(pool, split[meal_type])
+
+            # Choose with scoring + small randomness among top candidates
+            if pool:
+                ranked = sorted(pool, key=lambda r: _score(r, meal_type), reverse=True)
+                K = 5 if len(ranked) >= 5 else len(ranked)
+                chosen = rng.choice(ranked[:K]) if K > 0 else None
+            else:
+                chosen = None
 
             # --- AI expansion if no recipe available ---
             if not chosen:
@@ -104,9 +163,15 @@ def make_week_plan(
             day_plan[meal_type] = chosen
             if chosen:
                 used_names.add(chosen.name)
+                prot = _main_protein(chosen)
+                protein_count[prot] = protein_count.get(prot, 0) + 1
+                last_protein_for_meal[meal_type] = prot
+
         plan[day] = day_plan
 
     return plan
+
+# ---------- Shopping list ----------
 
 def build_shopping_list(plan: Dict[str, Dict[str, Optional[Recipe]]]) -> Dict[str, int]:
     # super simple aggregation by line; you can improve with NLP units parsing later
