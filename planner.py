@@ -90,6 +90,8 @@ def make_week_plan(
     seed: Optional[int] = None,
     use_ai_expand: bool = True,
     auto_save_ai: bool = True,
+    user_preferences: Optional[Dict] = None,
+    cooking_skill: str = "beginner",
 ) -> Dict[str, Dict[str, Optional[Recipe]]]:
     """
     Diversity-aware picker + AI enrichment:
@@ -131,6 +133,22 @@ def make_week_plan(
             overlap = len(set(r.tags) & set(include_tags))
             s += 0.3 * overlap
 
+        # 5) user preference learning bonus
+        if user_preferences:
+            for ingredient in r.ingredients:
+                ingredient_name = ingredient.lower().split()[0]  # Get main ingredient name
+                for pref_item, pref_data in user_preferences.items():
+                    if ingredient_name in pref_item.lower() or pref_item.lower() in ingredient_name:
+                        rating = pref_data.get('avg_rating', 3.0)
+                        confidence = min(pref_data.get('count', 1) / 5.0, 1.0)  # Confidence based on rating count
+                        s += (rating - 3.0) * 0.2 * confidence  # Bonus for liked foods, penalty for disliked
+
+        # 6) cooking skill adaptation bonus
+        if cooking_skill == "beginner" and any(tag in r.tags for tag in ["quick", "easy", "simple"]):
+            s += 0.5
+        elif cooking_skill == "advanced" and any(tag in r.tags for tag in ["complex", "advanced", "gourmet"]):
+            s += 0.5
+
         return s
 
     for day in DAYS:
@@ -164,7 +182,14 @@ def make_week_plan(
             if use_ai_expand and need_ai:
                 try:
                     from ai_helpers import expand_recipe_request, save_recipe_to_json
-                    ai_recipe = expand_recipe_request(meal_type, split[meal_type], include_tags, exclude_keywords)
+                    # Add cooking skill to tags for AI generation
+                    skill_tags = include_tags.copy() if include_tags else []
+                    if cooking_skill == "beginner":
+                        skill_tags.extend(["quick", "easy", "simple"])
+                    elif cooking_skill == "advanced":
+                        skill_tags.extend(["complex", "advanced", "gourmet"])
+                    
+                    ai_recipe = expand_recipe_request(meal_type, split[meal_type], skill_tags, exclude_keywords)
                     if ai_recipe and "name" in ai_recipe:
                         chosen = Recipe(
                             name=ai_recipe["name"],

@@ -58,14 +58,25 @@ def suggest_substitutions(ingredients: List[str], pantry: List[str]) -> str:
     return "\n".join(bullets)
 
 @st.cache_data(show_spinner=False)
-def expand_recipe_request(meal_type: str, kcal: int, tags: List[str], exclusions: List[str]) -> Dict:
+def expand_recipe_request(meal_type: str, kcal: int, tags: List[str], exclusions: List[str], cooking_skill: str = "beginner") -> Dict:
     """Ask AI to create a new recipe JSON; falls back to a simple template if AI unavailable."""
+    
+    # Add cooking skill instructions
+    skill_instructions = ""
+    if cooking_skill == "beginner":
+        skill_instructions = "Make it simple with basic techniques, clear steps, and common ingredients. "
+    elif cooking_skill == "intermediate":
+        skill_instructions = "Use moderate techniques with some complexity. "
+    elif cooking_skill == "advanced":
+        skill_instructions = "Use advanced techniques, complex flavors, and sophisticated methods. "
+    
     prompt = (
         f"Create a new {meal_type} recipe ≈{kcal} kcal.\n"
         f"Must include tags: {', '.join(tags) if tags else 'any'}.\n"
         f"Must exclude: {', '.join(exclusions) if exclusions else 'none'}.\n"
+        f"Cooking skill level: {cooking_skill}. {skill_instructions}"
         "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
-        "Keep quantities metric."
+        "Keep quantities metric. Make ingredients and steps appropriate for the skill level."
     )
     out = _chat(
         system="You are a concise recipe generator that outputs valid JSON only.",
@@ -81,22 +92,54 @@ def expand_recipe_request(meal_type: str, kcal: int, tags: List[str], exclusions
         except Exception:
             return {"error": out}
 
-    # Fallback (no API): simple deterministic template
-    base_name = f"Simple {meal_type.title()} Bowl"
-    return {
-        "name": base_name,
-        "ingredients": [
+    # Fallback (no API): skill-appropriate template
+    if cooking_skill == "beginner":
+        base_name = f"Simple {meal_type.title()} Bowl"
+        ingredients = [
             "100 g oriz i zier",
             "150 g mish pule i pjekur (ose bishtajore për veg.)",
             "100 g perime të përziera",
             "1 lugë vaj ulliri",
             "Kripë, piper, limon"
-        ],
-        "steps": [
+        ]
+        steps = [
             "Ziej orizin sipas udhëzimit.",
             "Skuq ose pjek mishin e pulës; erëzo sipas shijes.",
             "Përziej me perime; shto vaj ulliri dhe limon.",
-        ],
+        ]
+    elif cooking_skill == "intermediate":
+        base_name = f"Mediterranean {meal_type.title()}"
+        ingredients = [
+            "120 g oriz i zier",
+            "180 g mish pule i marinë",
+            "150 g perime të përziera",
+            "2 lugë vaj ulliri",
+            "Barishte të freskëta, kripë, piper"
+        ]
+        steps = [
+            "Marino mishin me barishte dhe vaj për 30 min.",
+            "Ziej orizin dhe përgatit perimet.",
+            "Pjek mishin dhe shërbej me oriz dhe perime.",
+        ]
+    else:  # advanced
+        base_name = f"Gourmet {meal_type.title()}"
+        ingredients = [
+            "100 g oriz arborio",
+            "200 g mish pule i marinë",
+            "200 g perime të përziera",
+            "3 lugë vaj ulliri",
+            "Barishte të freskëta, kripë, piper, erëza"
+        ]
+        steps = [
+            "Marino mishin me barishte komplekse për 2 orë.",
+            "Gatit orizin me teknikë risotto.",
+            "Pjek mishin me teknikë të avancuar dhe shërbej.",
+        ]
+    
+    return {
+        "name": base_name,
+        "ingredients": ingredients,
+        "steps": steps,
         "kcal": kcal,
         "protein": 30,
         "carbs": 60,
@@ -113,6 +156,64 @@ def translate_to_albanian(text: str) -> str:
         temperature=0.2,
     )
     return out if out else text
+
+def generate_personalized_recipe(meal_type: str, kcal: int, user_preferences: Dict, 
+                                cooking_skill: str = "beginner", tags: List[str] = None) -> Dict:
+    """Generate a personalized recipe based on user preferences and cooking skill."""
+    
+    # Analyze user preferences
+    favorite_ingredients = []
+    disliked_ingredients = []
+    
+    if user_preferences:
+        for food, data in user_preferences.items():
+            rating = data.get('avg_rating', 3.0)
+            if rating >= 4.0:
+                favorite_ingredients.append(food)
+            elif rating <= 2.0:
+                disliked_ingredients.append(food)
+    
+    # Create personalized prompt
+    preference_text = ""
+    if favorite_ingredients:
+        preference_text += f"User loves these ingredients: {', '.join(favorite_ingredients[:5])}. "
+    if disliked_ingredients:
+        preference_text += f"User dislikes these ingredients: {', '.join(disliked_ingredients[:3])}. "
+    
+    skill_instructions = ""
+    if cooking_skill == "beginner":
+        skill_instructions = "Make it simple with basic techniques, clear steps, and common ingredients. "
+    elif cooking_skill == "intermediate":
+        skill_instructions = "Use moderate techniques with some complexity. "
+    elif cooking_skill == "advanced":
+        skill_instructions = "Use advanced techniques, complex flavors, and sophisticated methods. "
+    
+    prompt = (
+        f"Create a personalized {meal_type} recipe ≈{kcal} kcal.\n"
+        f"{preference_text}"
+        f"Cooking skill level: {cooking_skill}. {skill_instructions}"
+        f"Tags to include: {', '.join(tags) if tags else 'any'}.\n"
+        "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
+        "Make it personalized and appealing to the user's taste preferences."
+    )
+    
+    out = _chat(
+        system="You are a personalized recipe generator that creates recipes based on user preferences and cooking skill level.",
+        user=prompt,
+        temperature=0.6,  # Higher temperature for more creativity
+    )
+    
+    if out:
+        try:
+            data = json.loads(out)
+            data.setdefault("tags", [])
+            data["tags"].extend(["AI", "personalized"])
+            return data
+        except Exception:
+            return {"error": out}
+    
+    # Fallback to basic recipe generation
+    return expand_recipe_request(meal_type, kcal, tags or [], [], cooking_skill)
 
 # ---- Persistence ----
 

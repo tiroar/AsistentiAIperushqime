@@ -5,3 +5,7 @@ python-dotenv>=1.0.1
 openai>=1.44.1
 setuptools>=65.5.1
 wheel>=0.41.2
+plotly>=5.17.0
+pillow>=10.0.0
+requests>=2.31.0
+numpy>=1.24.0
