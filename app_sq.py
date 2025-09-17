@@ -90,19 +90,19 @@ def main():
     if page == "🍽️ Planifikimi i Ushqimeve":
         render_meal_planning_page(user, db_manager)
     elif page == "📊 Paneli i Ushqyerjes":
-        render_nutrition_dashboard(user.id, db_manager)
+        render_nutrition_dashboard(user.id, db_manager, lang="sq")
     elif page == "🍽️ Preferencat e Ushqimit":
-        render_preference_learning_ui(user.id, db_manager)
+        render_preference_learning_ui(user.id, db_manager, lang="sq")
     elif page == "👨‍🍳 Aftësitë e Gatimit":
-        render_cooking_skills_ui(user.id, db_manager)
+        render_cooking_skills_ui(user.id, db_manager, lang="sq")
     elif page == "👥 Veçoritë Sociale":
-        render_social_features_ui(user.id, db_manager)
+        render_social_features_ui(user.id, db_manager, lang="sq")
     elif page == "📈 Analitika":
-        render_analytics_dashboard(user.id, db_manager)
+        render_analytics_dashboard(user.id, db_manager, lang="sq")
     elif page == "📸 Njohja e Ushqimit":
-        render_image_recognition_ui(user.id, db_manager)
+        render_image_recognition_ui(user.id, db_manager, lang="sq")
     elif page == "⚙️ Cilësimet":
-        render_settings_page(user, db_manager)
+        render_settings_page(user, db_manager, lang="sq")
 
 def render_meal_planning_page(user, db_manager):
     """Render the main meal planning page with enhanced features"""

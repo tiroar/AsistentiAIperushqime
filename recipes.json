@@ -119,9 +119,6 @@
       "Finish with sesame oil."
     ]
   },
-
-  // ---------- 50 NEW RECIPES BELOW ----------
-
   {
     "name": "Scrambled Eggs on Toast",
     "meal_type": "breakfast",
@@ -876,9 +873,6 @@
       "Sear chicken; cook orzo; toss with lemon, oregano; fold in spinach."
     ]
   },
-
-  // ---------- 20 NEW BALKAN/MEDITERRANEAN RECIPES BELOW ----------
-
   {
     "name": "Duck & Potato Hash",
     "meal_type": "breakfast",
@@ -1316,9 +1310,6 @@
       "Serve with mashed potatoes and steamed vegetables."
     ]
   },
-
-  // ---------- 10 MORE KOSOVO/SPAR RECIPES BELOW ----------
-
   {
     "name": "Kosovo Curry Pasta",
     "meal_type": "lunch",
