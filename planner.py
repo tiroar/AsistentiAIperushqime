@@ -3,6 +3,7 @@ from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
 import random
 import math
+from ai_helpers import enrich_recipe_with_portions
 
 class Recipe(BaseModel):
     name: str
@@ -149,6 +150,14 @@ def make_week_plan(
         elif cooking_skill == "advanced" and any(tag in r.tags for tag in ["complex", "advanced", "gourmet"]):
             s += 0.5
 
+        # 7) portion size bonus - reward recipes with specific measurements
+        portion_bonus = 0
+        for ingredient in r.ingredients:
+            # Check if ingredient has specific measurements (g, ml, tbsp, tsp, etc.)
+            if any(unit in ingredient.lower() for unit in ['g', 'ml', 'tbsp', 'tsp', 'cup', 'oz', 'lb', 'kg', 'l']):
+                portion_bonus += 0.1
+        s += min(portion_bonus, 1.0)  # Cap at 1.0 bonus
+
         return s
 
     for day in DAYS:
@@ -191,16 +200,18 @@ def make_week_plan(
                     
                     ai_recipe = expand_recipe_request(meal_type, split[meal_type], skill_tags, exclude_keywords)
                     if ai_recipe and "name" in ai_recipe:
+                        # Enrich AI recipe with portion sizes
+                        enriched_ai_recipe = enrich_recipe_with_portions(ai_recipe)
                         chosen = Recipe(
-                            name=ai_recipe["name"],
+                            name=enriched_ai_recipe["name"],
                             meal_type=meal_type,
-                            kcal=ai_recipe.get("kcal", split[meal_type]),
-                            protein=ai_recipe.get("protein", 0),
-                            carbs=ai_recipe.get("carbs", 0),
-                            fat=ai_recipe.get("fat", 0),
-                            tags=(ai_recipe.get("tags", []) or []) + ["AI"],
-                            ingredients=ai_recipe.get("ingredients", []),
-                            steps=ai_recipe.get("steps", []),
+                            kcal=enriched_ai_recipe.get("kcal", split[meal_type]),
+                            protein=enriched_ai_recipe.get("protein", 0),
+                            carbs=enriched_ai_recipe.get("carbs", 0),
+                            fat=enriched_ai_recipe.get("fat", 0),
+                            tags=(enriched_ai_recipe.get("tags", []) or []) + ["AI"],
+                            ingredients=enriched_ai_recipe.get("ingredients", []),
+                            steps=enriched_ai_recipe.get("steps", []),
                         )
                         if auto_save_ai:
                             # persist directly to recipes.json (function handles de-dupe)

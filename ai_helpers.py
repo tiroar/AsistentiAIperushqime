@@ -70,14 +70,16 @@ def expand_recipe_request(meal_type: str, kcal: int, tags: List[str], exclusions
     elif cooking_skill == "advanced":
         skill_instructions = "Use advanced techniques, complex flavors, and sophisticated methods. "
     
-    prompt = (
-        f"Create a new {meal_type} recipe ≈{kcal} kcal.\n"
-        f"Must include tags: {', '.join(tags) if tags else 'any'}.\n"
-        f"Must exclude: {', '.join(exclusions) if exclusions else 'none'}.\n"
-        f"Cooking skill level: {cooking_skill}. {skill_instructions}"
-        "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
-        "Keep quantities metric. Make ingredients and steps appropriate for the skill level."
-    )
+        prompt = (
+            f"Create a new {meal_type} recipe ≈{kcal} kcal.\n"
+            f"Must include tags: {', '.join(tags) if tags else 'any'}.\n"
+            f"Must exclude: {', '.join(exclusions) if exclusions else 'none'}.\n"
+            f"Cooking skill level: {cooking_skill}. {skill_instructions}"
+            "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
+            "CRITICAL: Each ingredient MUST include specific portion sizes in grams/ml/spoons/etc. "
+            "Examples: '200g chicken breast', '150ml milk', '2 tbsp olive oil', '1 tsp salt'. "
+            "Keep quantities metric. Make ingredients and steps appropriate for the skill level."
+        )
     out = _chat(
         system="You are a concise recipe generator that outputs valid JSON only.",
         user=prompt,
@@ -157,6 +159,116 @@ def translate_to_albanian(text: str) -> str:
     )
     return out if out else text
 
+def enrich_recipe_with_portions(recipe: Dict) -> Dict:
+    """Enrich a recipe by adding portion sizes to ingredients that don't have them"""
+    if not recipe.get('ingredients'):
+        return recipe
+    
+    enriched_ingredients = []
+    for ingredient in recipe['ingredients']:
+        # Check if ingredient already has measurements
+        if any(unit in ingredient.lower() for unit in ['g', 'ml', 'tbsp', 'tsp', 'cup', 'oz', 'lb', 'kg', 'l', 'piece', 'pcs']):
+            enriched_ingredients.append(ingredient)
+        else:
+            # Try to add appropriate portion size based on ingredient type
+            enriched_ingredient = _suggest_portion_size(ingredient)
+            enriched_ingredients.append(enriched_ingredient)
+    
+    recipe['ingredients'] = enriched_ingredients
+    return recipe
+
+def _suggest_portion_size(ingredient: str) -> str:
+    """Suggest appropriate portion size for an ingredient"""
+    ingredient_lower = ingredient.lower().strip()
+    
+    # Common portion suggestions based on ingredient type
+    portion_suggestions = {
+        # Spices and seasonings
+        'salt': '1 tsp salt',
+        'pepper': '1/2 tsp pepper',
+        'paprika': '1 tsp paprika',
+        'garlic': '2 cloves garlic',
+        'onion': '1 medium onion',
+        'garlic powder': '1/2 tsp garlic powder',
+        'oregano': '1 tsp oregano',
+        'basil': '1 tbsp fresh basil',
+        'thyme': '1 tsp thyme',
+        'rosemary': '1 tsp rosemary',
+        'cumin': '1/2 tsp cumin',
+        'cinnamon': '1/2 tsp cinnamon',
+        'ginger': '1 tsp fresh ginger',
+        'chili': '1 tsp chili powder',
+        'cayenne': '1/4 tsp cayenne',
+        'nutmeg': '1/4 tsp nutmeg',
+        'vanilla': '1 tsp vanilla extract',
+        
+        # Vegetables
+        'tomato': '2 medium tomatoes',
+        'carrot': '1 large carrot',
+        'potato': '2 medium potatoes',
+        'broccoli': '200g broccoli',
+        'spinach': '100g spinach',
+        'lettuce': '100g lettuce',
+        'cucumber': '1 medium cucumber',
+        'bell pepper': '1 bell pepper',
+        'mushroom': '150g mushrooms',
+        'zucchini': '1 medium zucchini',
+        'eggplant': '1 medium eggplant',
+        'cabbage': '200g cabbage',
+        'cauliflower': '300g cauliflower',
+        
+        # Proteins
+        'chicken': '200g chicken breast',
+        'beef': '200g beef',
+        'pork': '200g pork',
+        'fish': '200g fish fillet',
+        'salmon': '200g salmon',
+        'tuna': '150g tuna',
+        'eggs': '2 large eggs',
+        'tofu': '200g tofu',
+        'cheese': '100g cheese',
+        'yogurt': '200g yogurt',
+        'milk': '250ml milk',
+        
+        # Grains and carbs
+        'rice': '100g rice',
+        'pasta': '100g pasta',
+        'bread': '2 slices bread',
+        'quinoa': '80g quinoa',
+        'oats': '50g oats',
+        'flour': '200g flour',
+        'sugar': '2 tbsp sugar',
+        'honey': '2 tbsp honey',
+        'oil': '2 tbsp olive oil',
+        'butter': '1 tbsp butter',
+        'olive oil': '2 tbsp olive oil',
+        'coconut oil': '1 tbsp coconut oil',
+        
+        # Nuts and seeds
+        'almonds': '30g almonds',
+        'walnuts': '30g walnuts',
+        'peanuts': '30g peanuts',
+        'sesame': '1 tbsp sesame seeds',
+        'sunflower': '1 tbsp sunflower seeds',
+        'chia': '1 tbsp chia seeds',
+        'flax': '1 tbsp flax seeds',
+    }
+    
+    # Try to find a match
+    for key, suggestion in portion_suggestions.items():
+        if key in ingredient_lower:
+            return suggestion
+    
+    # Default fallback - add a generic portion
+    if 'sauce' in ingredient_lower:
+        return f"2 tbsp {ingredient}"
+    elif 'spice' in ingredient_lower or 'herb' in ingredient_lower:
+        return f"1 tsp {ingredient}"
+    elif 'vegetable' in ingredient_lower or 'veggie' in ingredient_lower:
+        return f"150g {ingredient}"
+    else:
+        return f"1 portion {ingredient}"
+
 def generate_personalized_recipe(meal_type: str, kcal: int, user_preferences: Dict, 
                                 cooking_skill: str = "beginner", tags: List[str] = None) -> Dict:
     """Generate a personalized recipe based on user preferences and cooking skill."""
@@ -194,6 +306,8 @@ def generate_personalized_recipe(meal_type: str, kcal: int, user_preferences: Di
         f"Cooking skill level: {cooking_skill}. {skill_instructions}"
         f"Tags to include: {', '.join(tags) if tags else 'any'}.\n"
         "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
+        "CRITICAL: Each ingredient MUST include specific portion sizes in grams/ml/spoons/etc. "
+        "Examples: '200g chicken breast', '150ml milk', '2 tbsp olive oil', '1 tsp salt'. "
         "Make it personalized and appealing to the user's taste preferences."
     )
     

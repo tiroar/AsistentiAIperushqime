@@ -116,6 +116,8 @@ def render_meal_planning_page(user, db_manager):
     @st.cache_data
     def load_recipes(path: str = "recipes.json", user_path: str = "recipes_user.json"):
         import os, json
+        from ai_helpers import enrich_recipe_with_portions
+        
         with open(path, "r", encoding="utf-8") as f:
             base = json.load(f)
 
@@ -135,7 +137,11 @@ def render_meal_planning_page(user, db_manager):
             if key in seen:
                 continue
             seen.add(key)
-            merged.append(r)
+            
+            # Enrich recipe with portion sizes
+            enriched_recipe = enrich_recipe_with_portions(r)
+            merged.append(enriched_recipe)
+            
         return [Recipe(**r) for r in merged]
     
     recipes = load_recipes()
