@@ -349,11 +349,21 @@ def render_image_recognition_ui(user_id: int, db_manager: DatabaseManager, lang:
         # Upload image
         st.subheader("Ngarko Foto të Ushqimit")
         
-        uploaded_file = st.file_uploader(
-            "Zgjidh një foto të ushqimit",
-            type=['png', 'jpg', 'jpeg'],
-            help="Ngarko një foto të qartë të ushqimit për të marrë informacion për ushqyerjen"
-        )
+        # Two options for image input
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            uploaded_file = st.file_uploader(
+                "Zgjidh një foto të ushqimit",
+                type=['png', 'jpg', 'jpeg'],
+                help="Ngarko një foto të qartë të ushqimit për të marrë informacion për ushqyerjen"
+            )
+        
+        with col2:
+            camera_file = st.camera_input(
+                "📷 Përdor Kamera",
+                help="Bëj një foto të ushqimit me kamerën e telefonit"
+            )
     else:
         st.title("📸 Food Recognition")
         
@@ -362,22 +372,46 @@ def render_image_recognition_ui(user_id: int, db_manager: DatabaseManager, lang:
         # Upload image
         st.subheader("Upload Food Image")
         
-        uploaded_file = st.file_uploader(
-            "Choose an image of food",
-            type=['png', 'jpg', 'jpeg'],
-            help="Upload a clear image of food to get nutrition information"
-        )
+        # Two options for image input
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            uploaded_file = st.file_uploader(
+                "Choose an image of food",
+                type=['png', 'jpg', 'jpeg'],
+                help="Upload a clear image of food to get nutrition information"
+            )
+        
+        with col2:
+            camera_file = st.camera_input(
+                "📷 Use Camera",
+                help="Take a photo of food with your phone camera"
+            )
+    
+    # Determine which image source to use
+    image_source = None
+    image_data = None
     
     if uploaded_file is not None:
-        # Get image data first
+        image_source = uploaded_file
         image_data = uploaded_file.getvalue()
-        
+    elif camera_file is not None:
+        image_source = camera_file
+        image_data = camera_file.getvalue()
+    
+    if image_data is not None:
         # Display image
         image = Image.open(io.BytesIO(image_data))
         if lang == "sq":
-            st.image(image, caption="Foto e Ngarkuar", width='stretch')
+            if uploaded_file is not None:
+                st.image(image, caption="Foto e Ngarkuar", width='stretch')
+            else:
+                st.image(image, caption="Foto e Kamerës", width='stretch')
         else:
-            st.image(image, caption="Uploaded Image", width='stretch')
+            if uploaded_file is not None:
+                st.image(image, caption="Uploaded Image", width='stretch')
+            else:
+                st.image(image, caption="Camera Photo", width='stretch')
         
         # Recognize food
         if lang == "sq":
@@ -482,14 +516,28 @@ def render_image_recognition_ui(user_id: int, db_manager: DatabaseManager, lang:
         st.info("No recognition history yet")
     
     # Tips for better recognition
-    st.subheader("💡 Tips for Better Recognition")
-    st.markdown("""
-    - Take clear, well-lit photos
-    - Ensure food items are clearly visible
-    - Avoid blurry or dark images
-    - Try to capture the entire meal
-    - Good lighting improves accuracy
-    """)
+    if lang == "sq":
+        st.subheader("💡 Këshilla për Njohje më të Mirë")
+        st.markdown("""
+        - Bëj foto të qarta dhe me dritë të mirë
+        - Sigurohu që ushqimet janë të dukshme
+        - Shmang fotot e paqarta ose të errëta
+        - Mundo të kapësh të gjithë vaktin
+        - Drita e mirë përmirëson saktësinë
+        - Përdor kamerën për foto të freskëta
+        - Mbaj telefonin të qëndrueshëm kur bën foto
+        """)
+    else:
+        st.subheader("💡 Tips for Better Recognition")
+        st.markdown("""
+        - Take clear, well-lit photos
+        - Ensure food items are clearly visible
+        - Avoid blurry or dark images
+        - Try to capture the entire meal
+        - Good lighting improves accuracy
+        - Use camera for fresh photos
+        - Keep phone steady when taking photos
+        """)
     
     # API key status
     if recognition.api_key:
