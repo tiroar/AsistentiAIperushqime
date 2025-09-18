@@ -206,11 +206,11 @@ def render_meal_planning_page(user, db_manager):
             gender = st.selectbox("Gjinia", ["Mashkull", "Femër"], 
                                 index=0 if profile.get('gender') == 'Mashkull' else 1)
         with c2:
-            age = st.number_input("Mosha", min_value=14, max_value=90, 
-                                value=profile.get('age', 28), step=1)
+            age = st.number_input("Mosha", min_value=14.0, max_value=90.0, 
+                                value=float(profile.get('age', 28)), step=1.0)
         with c3:
-            height_cm = st.number_input("Gjatësia (cm)", min_value=130, max_value=220, 
-                                      value=profile.get('height', 178), step=1)
+            height_cm = st.number_input("Gjatësia (cm)", min_value=130.0, max_value=220.0, 
+                                      value=float(profile.get('height', 178)), step=1.0)
         with c4:
             weight_kg = st.number_input("Pesha (kg)", min_value=35.0, max_value=250.0, 
                                       value=profile.get('weight', 78.0), step=0.5)
@@ -261,8 +261,8 @@ def render_meal_planning_page(user, db_manager):
     
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
-        total_kcal = st.number_input("Kaloritë ditore (target)", min_value=1200, max_value=4000, 
-                                   value=_default_kcal, step=50)
+        total_kcal = st.number_input("Kaloritë ditore (target)", min_value=1200.0, max_value=4000.0, 
+                                   value=float(_default_kcal), step=50.0)
     with col2:
         pattern = st.text_input("Shpërndarja e kalorive (M/D/D)", value="30/40/30", 
                               help="P.sh. 30/40/30 = Mëngjes/Drekë/Darkë")
@@ -607,8 +607,8 @@ def render_settings_page(user, db_manager, lang="sq"):
         
         col1, col2 = st.columns(2)
         with col1:
-            profile['age'] = st.number_input("Mosha", value=profile.get('age', 28), min_value=14, max_value=90)
-            profile['height'] = st.number_input("Gjatësia (cm)", value=profile.get('height', 178), min_value=130, max_value=220)
+            profile['age'] = st.number_input("Mosha", value=float(profile.get('age', 28)), min_value=14.0, max_value=90.0)
+            profile['height'] = st.number_input("Gjatësia (cm)", value=float(profile.get('height', 178)), min_value=130.0, max_value=220.0)
         with col2:
             profile['weight'] = st.number_input("Pesha (kg)", value=profile.get('weight', 78.0), min_value=35.0, max_value=250.0)
             profile['gender'] = st.selectbox("Gjinia", ["Mashkull", "Femër"], index=0 if profile.get('gender') == 'Mashkull' else 1)
