@@ -28,7 +28,7 @@ class AuthManager:
         if st.session_state.get('debug', False):
             st.write(f"get_current_user called - is_authenticated: {st.session_state.get('is_authenticated')}, user_id: {st.session_state.get('user_id')}")
         
-        if st.session_state.is_authenticated and st.session_state.user_id:
+        if st.session_state.is_authenticated and st.session_state.user_id is not None:
             # Handle guest user
             if st.session_state.user_id == 0:
                 if st.session_state.get('debug', False):
