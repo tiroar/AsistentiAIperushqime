@@ -25,9 +25,14 @@ class AuthManager:
     
     def get_current_user(self) -> Optional[User]:
         """Get current authenticated user"""
+        if st.session_state.get('debug', False):
+            st.write(f"get_current_user called - is_authenticated: {st.session_state.get('is_authenticated')}, user_id: {st.session_state.get('user_id')}")
+        
         if st.session_state.is_authenticated and st.session_state.user_id:
             # Handle guest user
             if st.session_state.user_id == 0:
+                if st.session_state.get('debug', False):
+                    st.write("Creating guest user...")
                 return User(
                     id=0,
                     email="guest@temporary.com",
@@ -73,6 +78,9 @@ class AuthManager:
                     friends=[],
                     is_active=True
                 )
+        
+        if st.session_state.get('debug', False):
+            st.write("get_current_user returning None")
         return None
     
     def login_with_email(self, email: str, password: str) -> bool:

@@ -89,6 +89,10 @@ def main():
     
     # Get current user
     user = auth_manager.get_current_user()
+    if st.session_state.get('debug', False):
+        st.write(f"User object: {user}")
+        st.write(f"User is None: {user is None}")
+    
     if not user:
         st.error("Përdoruesi nuk u gjet. Ju lutem identifikohuni përsëri.")
         auth_manager.logout()
