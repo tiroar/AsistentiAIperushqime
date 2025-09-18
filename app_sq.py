@@ -84,6 +84,51 @@ def main():
         st.markdown(f"**Email:** {user.email}")
         st.markdown(f"**Niveli i Gatimit:** {user.cooking_skill.title()}")
         
+        # Mobile app download button
+        st.markdown("---")
+        st.markdown("📱 **Aplikacioni Mobil**")
+        
+        # Add to home screen button with JavaScript
+        st.markdown("""
+        <button onclick="addToHomeScreen()" style="
+            background: linear-gradient(45deg, #2E8B57, #32CD32);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+        ">📱 Instaloni në Telefon</button>
+        
+        <script>
+        function addToHomeScreen() {
+            if ('serviceWorker' in navigator) {
+                // Check if app is already installed
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    alert('Aplikacioni është instaluar tashmë!');
+                    return;
+                }
+                
+                // Show installation instructions
+                if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
+                    alert('Për iPhone/iPad:\\n1. Prekni butonin Share (katror me shigjetë)\\n2. Zgjidhni "Add to Home Screen"\\n3. Prekni "Add"');
+                } else if (navigator.userAgent.includes('Android')) {
+                    alert('Për Android:\\n1. Prekni menunë (tre pika)\\n2. Zgjidhni "Add to Home Screen" ose "Install App"\\n3. Prekni "Add" ose "Install"');
+                } else {
+                    alert('Për Desktop:\\n1. Prekni ikonën e instalimit në adresën e browser-it\\n2. Ose përdorni Ctrl+Shift+I dhe klikoni "Install"');
+                }
+            } else {
+                alert('Aplikacioni nuk mund të instalohet në këtë pajisje.');
+            }
+        }
+        </script>
+        """, unsafe_allow_html=True)
+        
+        st.caption("💡 Instaloni aplikacionin për përvojë më të mirë në telefon!")
+        
         # Navigation
         page = st.selectbox(
             "Navigo te:",
