@@ -307,8 +307,8 @@ def render_meal_planning_page(user, db_manager):
                 cooking_skill=cooking_skill
             )
             
-            # Integrate Herbalife products into the plan
-            plan = integrate_herbalife_into_plan(plan, herbalife_plan, goal)
+                # Integrate Herbalife products into the plan
+                plan = integrate_herbalife_into_plan(plan, herbalife_plan, goal, db_manager)
             
         else:
             # Generate regular meal plan
@@ -821,12 +821,12 @@ def macro_targets_grams(total_kcal: int, goal: str, protein_g_from_weight: int) 
     p_g = max(protein_g_from_weight, p_g_pct)
     return p_g, c_g, f_g
 
-def integrate_herbalife_into_plan(regular_plan: Dict, herbalife_plan: Dict, goal: str) -> Dict:
+def integrate_herbalife_into_plan(regular_plan: Dict, herbalife_plan: Dict, goal: str, db_manager) -> Dict:
     """Integrate Herbalife products into the regular meal plan"""
     from herbalife_integration import HerbalifeIntegration
     from planner import Recipe
     
-    herbalife = HerbalifeIntegration(None)  # We don't need db_manager for this
+    herbalife = HerbalifeIntegration(db_manager)  # Pass the actual db_manager
     
     integrated_plan = {}
     
@@ -859,10 +859,8 @@ def integrate_herbalife_into_plan(regular_plan: Dict, herbalife_plan: Dict, goal
                         ]
                     }
                     
-                    # Create Recipe object with additional Herbalife attributes
+                    # Create Recipe object
                     integrated_recipe = Recipe(**integrated_recipe_data)
-                    integrated_recipe.herbalife_products = [herbalife_meal['primary']]
-                    integrated_recipe.herbalife_supplements = [herbalife_meal['supplement']] if herbalife_meal.get('supplement') else []
                     
                     day_plan[meal_type] = integrated_recipe
                 else:
@@ -884,10 +882,8 @@ def integrate_herbalife_into_plan(regular_plan: Dict, herbalife_plan: Dict, goal
                         ]
                     }
                     
-                    # Create Recipe object with additional Herbalife attributes
+                    # Create Recipe object
                     herbalife_recipe = Recipe(**herbalife_recipe_data)
-                    herbalife_recipe.herbalife_products = [herbalife_meal['primary']]
-                    herbalife_recipe.herbalife_supplements = [herbalife_meal['supplement']] if herbalife_meal.get('supplement') else []
                     
                     day_plan[meal_type] = herbalife_recipe
             else:
