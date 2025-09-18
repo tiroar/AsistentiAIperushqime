@@ -129,15 +129,17 @@ class AuthManager:
 def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
     """Render authentication UI"""
     if lang == "sq":
-        st.title("🔐 Mirë se vini në Asistentin e Ushqimeve me AI")
+        st.title("🔐 Mirë se vini në Asistentin e Ushqimeve AI")
         st.markdown("Kyçuni për të aksesuar përvojën tuaj të personalizuar të planifikimit të ushqimeve")
         
-        # Download App Button
+        # Download App Buttons
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             st.markdown("""
             <div style="text-align: center; margin: 20px 0;">
-                <a href="#" onclick="installApp()" style="
+                <a href="download.html" 
+                   target="_blank"
+                   style="
                     display: inline-block;
                     background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
                     color: white;
@@ -147,8 +149,24 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                     font-weight: bold;
                     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
                     transition: all 0.3s ease;
+                    margin: 5px;
                 " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    📱 Shkarko Aplikacionin për Android
+                    📱 Shkarko Aplikacionin
+                </a>
+                <br>
+                <a href="#" onclick="installPWA()" style="
+                    display: inline-block;
+                    background: linear-gradient(45deg, #28a745, #20c997);
+                    color: white;
+                    padding: 12px 24px;
+                    text-decoration: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+                    transition: all 0.3s ease;
+                    margin: 5px;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    🌐 Instalo si PWA
                 </a>
             </div>
             """, unsafe_allow_html=True)
@@ -165,15 +183,15 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                 deferredPrompt = e;
             });
             
-            function installApp() {
+            function installPWA() {
                 // Check if user is on Android with Chrome
                 if (!isAndroid) {
-                    alert('📱 Aplikacioni mund të instalohet vetëm në pajisje Android!\n\nJu jeni në Windows. Për të instaluar aplikacionin:\n1. Hapni këtë faqe në telefonin tuaj Android\n2. Përdorni Chrome browser\n3. Klikoni butonin "Shkarko Aplikacionin"');
+                    alert('📱 PWA mund të instalohet vetëm në pajisje Android!\n\nJu jeni në Windows. Për të instaluar PWA:\n1. Hapni këtë faqe në telefonin tuaj Android\n2. Përdorni Chrome browser\n3. Klikoni butonin "Instalo si PWA"');
                     return;
                 }
                 
                 if (!isChrome) {
-                    alert('🌐 Ju lutem përdorni Chrome browser në Android për të instaluar aplikacionin!');
+                    alert('🌐 Ju lutem përdorni Chrome browser në Android për të instaluar PWA!');
                     return;
                 }
                 
@@ -186,17 +204,17 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                         deferredPrompt = null;
                     });
                 } else {
-                    alert('Aplikacioni mund të instalohet vetëm në pajisje Android me Chrome browser. Ju lutem përdorni Chrome dhe provoni përsëri.');
+                    alert('PWA mund të instalohet vetëm në pajisje Android me Chrome browser. Ju lutem përdorni Chrome dhe provoni përsëri.');
                 }
             }
             
             // Show different message based on device
             if (!isAndroid) {
                 document.addEventListener('DOMContentLoaded', function() {
-                    const button = document.querySelector('a[onclick="installApp()"]');
-                    if (button) {
-                        button.innerHTML = '📱 Instalo në Android (Hap në telefon)';
-                        button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                    const pwaButton = document.querySelector('a[onclick="installPWA()"]');
+                    if (pwaButton) {
+                        pwaButton.innerHTML = '🌐 Instalo PWA (Hap në telefon)';
+                        pwaButton.style.background = 'linear-gradient(45deg, #6c757d, #868e96)';
                     }
                 });
             }

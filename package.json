@@ -1,0 +1,20 @@
+{
+  "name": "asistenti-ushqime-ai",
+  "version": "1.0.0",
+  "description": "Asistenti i Ushqimeve AI - Android App",
+  "main": "index.js",
+  "scripts": {
+    "build": "streamlit build",
+    "android": "npx cap run android",
+    "build-android": "npx cap build android",
+    "sync": "npx cap sync"
+  },
+  "dependencies": {
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/cli": "^5.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^5.0.0"
+  }
+}

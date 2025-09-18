@@ -29,7 +29,7 @@ icon = Image.open("images/icon.png")
 
 # Page configuration
 st.set_page_config(
-    page_title="Asistenti i Ushqimeve me AI - i Përmirësuar",
+    page_title="Asistenti i Ushqimeve AI",
     page_icon=icon,
     layout="wide",
     initial_sidebar_state="expanded"

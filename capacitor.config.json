@@ -1,0 +1,14 @@
+{
+  "appId": "com.asistenti.ushqime.ai",
+  "appName": "Asistenti i Ushqimeve AI",
+  "webDir": ".",
+  "server": {
+    "url": "https://asistentiaiperushqime.streamlit.app",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  }
+}
