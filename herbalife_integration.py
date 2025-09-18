@@ -25,7 +25,7 @@ class HerbalifeProduct:
 class HerbalifeIntegration:
     """Professional Herbalife integration system"""
     
-    def __init__(self, db_manager: DatabaseManager):
+    def __init__(self, db_manager: Optional[DatabaseManager]):
         self.db = db_manager
         self.products = self._initialize_herbalife_products()
     
@@ -215,9 +215,12 @@ class HerbalifeIntegration:
                            "lunch": int(total_kcal * 0.4), 
                            "dinner": int(total_kcal * 0.3)}
         
-        # Get user profile
-        user = self.db.get_user_by_id(user_id)
-        profile = user.profile_data if user else {}
+        # Get user profile - handle case where db might be None or fail
+        try:
+            user = self.db.get_user_by_id(user_id) if self.db else None
+            profile = user.profile_data if user else {}
+        except:
+            profile = {}
         
         # Create Herbalife meal plan
         herbalife_plan = {

@@ -15,6 +15,7 @@ except Exception as e:
 
 # Import our custom modules
 from database import DatabaseManager
+from cloud_compatible import CloudCompatibleDatabaseManager
 from auth import AuthManager, render_auth_ui
 from planner import Recipe, make_week_plan, build_shopping_list, DAYS
 from ai_helpers import suggest_substitutions, expand_recipe_request, translate_to_albanian, save_recipe_to_json
@@ -50,7 +51,16 @@ st.markdown("""
 # Initialize database and auth
 @st.cache_resource
 def get_db_manager():
-    return DatabaseManager()
+    try:
+        # Try to use regular database first (for local development)
+        db_manager = DatabaseManager()
+        # Test if we can write to the database
+        db_manager.save_meal_plan(1, {"test": "data"}, datetime.now())
+        return db_manager
+    except Exception as e:
+        # If database write fails (like on Streamlit Cloud), use cloud-compatible version
+        st.warning("⚠️ Using cloud-compatible storage (session state) instead of database")
+        return CloudCompatibleDatabaseManager()
 
 @st.cache_resource
 def get_auth_manager():
@@ -826,7 +836,8 @@ def integrate_herbalife_into_plan(regular_plan: Dict, herbalife_plan: Dict, goal
     from herbalife_integration import HerbalifeIntegration
     from planner import Recipe
     
-    herbalife = HerbalifeIntegration(db_manager)  # Pass the actual db_manager
+    # Pass db_manager (can be None for cloud compatibility)
+    herbalife = HerbalifeIntegration(db_manager)
     
     integrated_plan = {}
     
