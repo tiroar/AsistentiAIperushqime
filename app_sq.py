@@ -578,6 +578,12 @@ def render_settings_page(user, db_manager, lang="sq"):
     """Render settings page"""
     st.title("⚙️ Cilësimet")
     
+    # Check if user is guest
+    if user.auth_provider == "guest":
+        st.warning("👤 **Mënyra e Mysafirit** - Ju nuk mund të përditësoni cilësimet në mënyrën e mysafirit.")
+        st.info("💡 **Këshillë:** Regjistrohuni për të aksesuar të gjitha veçoritë dhe për të ruajtur cilësimet tuaja.")
+        return
+    
     # User profile settings
     st.subheader("Cilësimet e Profilit")
     

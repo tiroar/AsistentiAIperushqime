@@ -172,17 +172,27 @@ class CloudCompatibleDatabaseManager:
     
     def get_user_by_id(self, user_id: int) -> Optional[Any]:
         """Get user by ID - returns a mock user for cloud compatibility"""
-        # For cloud deployment, we'll create a mock user
-        class MockUser:
-            def __init__(self, user_id: int):
-                self.id = user_id
-                self.email = f"user{user_id}@example.com"
-                self.username = f"user{user_id}"
-                self.profile_data = self.storage.get_user_preferences(user_id)
-                self.preferences = self.storage.get_user_preferences(user_id)
-                self.cooking_skill = self.storage.get_cooking_skills(user_id).get('level', 'beginner')
-                self.achievements = self.storage.get_achievements(user_id)
-                self.friends = []
-                self.is_active = True
+        from database import User
+        from datetime import datetime
         
-        return MockUser(user_id)
+        # For cloud deployment, we'll create a proper User object
+        return User(
+            id=user_id,
+            email=f"user{user_id}@example.com",
+            username=f"user{user_id}",
+            auth_provider="cloud",
+            created_at=datetime.now(),
+            last_login=datetime.now(),
+            profile_data=self.storage.get_user_preferences(user_id),
+            preferences=self.storage.get_user_preferences(user_id),
+            cooking_skill=self.storage.get_cooking_skills(user_id).get('level', 'beginner'),
+            achievements=self.storage.get_achievements(user_id),
+            friends=[],
+            is_active=True
+        )
+    
+    def get_user_by_email(self, email: str) -> Optional[Any]:
+        """Get user by email - returns None for cloud compatibility"""
+        # For cloud deployment, we can't look up users by email
+        # This is handled by the AuthManager for guest users
+        return None

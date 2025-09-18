@@ -32,16 +32,20 @@ class AuthManager:
                     username="Guest",
                     auth_provider="guest",
                     created_at=datetime.now(),
+                    last_login=datetime.now(),
                     profile_data={
                         "age": 30,
                         "height": 175,
                         "weight": 70,
                         "gender": "Mashkull",
-                        "cooking_skill": "Mesatar",
                         "goals": ["weight_loss"],
-                        "dietary_restrictions": [],
-                        "preferences": {}
-                    }
+                        "dietary_restrictions": []
+                    },
+                    preferences={},
+                    cooking_skill="Mesatar",
+                    achievements=[],
+                    friends=[],
+                    is_active=True
                 )
             return self.db.get_user_by_id(st.session_state.user_id)
         return None
@@ -74,16 +78,20 @@ class AuthManager:
             username="Guest",
             auth_provider="guest",
             created_at=datetime.now(),
+            last_login=datetime.now(),
             profile_data={
                 "age": 30,
                 "height": 175,
                 "weight": 70,
                 "gender": "Mashkull",
-                "cooking_skill": "Mesatar",
                 "goals": ["weight_loss"],
-                "dietary_restrictions": [],
-                "preferences": {}
-            }
+                "dietary_restrictions": []
+            },
+            preferences={},
+            cooking_skill="Mesatar",
+            achievements=[],
+            friends=[],
+            is_active=True
         )
         
         self._set_user_session(guest_user)
