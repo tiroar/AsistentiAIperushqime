@@ -20,19 +20,12 @@ class AuthManager:
             st.session_state.user_data = None
         if 'is_authenticated' not in st.session_state:
             st.session_state.is_authenticated = False
-        if 'debug' not in st.session_state:
-            st.session_state.debug = False
     
     def get_current_user(self) -> Optional[User]:
         """Get current authenticated user"""
-        if st.session_state.get('debug', False):
-            st.write(f"get_current_user called - is_authenticated: {st.session_state.get('is_authenticated')}, user_id: {st.session_state.get('user_id')}")
-        
         if st.session_state.is_authenticated and st.session_state.user_id is not None:
             # Handle guest user
             if st.session_state.user_id == 0:
-                if st.session_state.get('debug', False):
-                    st.write("Creating guest user...")
                 return User(
                     id=0,
                     email="guest@temporary.com",
@@ -60,9 +53,6 @@ class AuthManager:
                 return self.db.get_user_by_id(st.session_state.user_id)
             except Exception as e:
                 # If database fails (like on Streamlit Cloud), create a mock user from session data
-                if st.session_state.get('debug', False):
-                    st.write(f"Database error, using session data: {str(e)}")
-                
                 user_data = st.session_state.get('user_data', {})
                 return User(
                     id=user_data.get('id', st.session_state.user_id),
@@ -79,8 +69,6 @@ class AuthManager:
                     is_active=True
                 )
         
-        if st.session_state.get('debug', False):
-            st.write("get_current_user returning None")
         return None
     
     def login_with_email(self, email: str, password: str) -> bool:
@@ -184,10 +172,6 @@ class AuthManager:
             }
             st.session_state.is_authenticated = True
             
-            # Debug info
-            if st.session_state.get('debug', False):
-                st.write(f"Session set - user_id: {user.id}, is_authenticated: {st.session_state.is_authenticated}")
-            
             # Update last login (skip for guest users)
             if user.id != 0:  # Not a guest user
                 self._update_last_login(user.id)
@@ -211,8 +195,6 @@ class AuthManager:
             conn.close()
         except Exception as e:
             # If database update fails (like on Streamlit Cloud), just skip it
-            if st.session_state.get('debug', False):
-                st.write(f"Could not update last login: {str(e)}")
             pass
     
     def _get_password_hash(self, user_id: int) -> Optional[str]:
@@ -235,13 +217,6 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
         st.title("🔐 Mirë se vini në Asistentin e Ushqimeve AI")
         st.markdown("Kyçuni për të aksesuar përvojën tuaj të personalizuar të planifikimit të ushqimeve")
         st.info("ℹ️ Ju mund të regjistroheni me çfardo emaili, nuk ka nevojë për verifikim")
-        
-        # Debug button
-        col_debug, col_space = st.columns([1, 4])
-        with col_debug:
-            if st.button("🐛 Debug"):
-                st.session_state.debug = not st.session_state.get('debug', False)
-                st.rerun()
         
         tab1, tab2 = st.tabs(["Kyçuni", "Regjistrohuni"])
     else:

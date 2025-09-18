@@ -75,13 +75,6 @@ auth_manager.init_session_state()
 
 # Main app logic
 def main():
-    # Debug session state
-    if 'debug' in st.session_state and st.session_state.debug:
-        st.write("Debug Info:")
-        st.write(f"is_authenticated: {st.session_state.get('is_authenticated', 'NOT SET')}")
-        st.write(f"user_id: {st.session_state.get('user_id', 'NOT SET')}")
-        st.write(f"user_data: {st.session_state.get('user_data', 'NOT SET')}")
-    
     # Check authentication
     if not st.session_state.is_authenticated:
         render_auth_ui(auth_manager, lang="sq")
@@ -89,10 +82,6 @@ def main():
     
     # Get current user
     user = auth_manager.get_current_user()
-    if st.session_state.get('debug', False):
-        st.write(f"User object: {user}")
-        st.write(f"User is None: {user is None}")
-    
     if not user:
         st.error("Përdoruesi nuk u gjet. Ju lutem identifikohuni përsëri.")
         auth_manager.logout()
