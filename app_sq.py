@@ -84,32 +84,6 @@ def main():
         st.markdown(f"**Email:** {user.email}")
         st.markdown(f"**Niveli i Gatimit:** {user.cooking_skill.title()}")
         
-        # Mobile app download button
-        st.markdown("---")
-        st.markdown("📱 **Aplikacioni Mobil**")
-        
-        # Add to home screen button
-        if st.button("📱 Instaloni në Telefon", type="primary", use_container_width=True):
-            st.info("""
-            **Instruksione për Instalimin:**
-            
-            **📱 iPhone/iPad:**
-            1. Prekni butonin Share (katror me shigjetë)
-            2. Zgjidhni "Add to Home Screen"
-            3. Prekni "Add"
-            
-            **🤖 Android:**
-            1. Prekni menunë (tre pika)
-            2. Zgjidhni "Add to Home Screen" ose "Install App"
-            3. Prekni "Add" ose "Install"
-            
-            **💻 Desktop:**
-            1. Prekni ikonën e instalimit në adresën e browser-it
-            2. Ose përdorni Ctrl+Shift+I dhe klikoni "Install"
-            """)
-        
-        st.caption("💡 Instaloni aplikacionin për përvojë më të mirë në telefon!")
-        
         # Navigation
         page = st.selectbox(
             "Navigo te:",
