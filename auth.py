@@ -157,12 +157,26 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
             st.markdown("""
             <script>
             let deferredPrompt;
+            let isAndroid = /Android/i.test(navigator.userAgent);
+            let isChrome = /Chrome/i.test(navigator.userAgent);
+            
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
             });
             
             function installApp() {
+                // Check if user is on Android with Chrome
+                if (!isAndroid) {
+                    alert('📱 Aplikacioni mund të instalohet vetëm në pajisje Android!\n\nJu jeni në Windows. Për të instaluar aplikacionin:\n1. Hapni këtë faqe në telefonin tuaj Android\n2. Përdorni Chrome browser\n3. Klikoni butonin "Shkarko Aplikacionin"');
+                    return;
+                }
+                
+                if (!isChrome) {
+                    alert('🌐 Ju lutem përdorni Chrome browser në Android për të instaluar aplikacionin!');
+                    return;
+                }
+                
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     deferredPrompt.userChoice.then((choiceResult) => {
@@ -174,6 +188,17 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                 } else {
                     alert('Aplikacioni mund të instalohet vetëm në pajisje Android me Chrome browser. Ju lutem përdorni Chrome dhe provoni përsëri.');
                 }
+            }
+            
+            // Show different message based on device
+            if (!isAndroid) {
+                document.addEventListener('DOMContentLoaded', function() {
+                    const button = document.querySelector('a[onclick="installApp()"]');
+                    if (button) {
+                        button.innerHTML = '📱 Instalo në Android (Hap në telefon)';
+                        button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                    }
+                });
             }
             </script>
             """, unsafe_allow_html=True)
@@ -208,12 +233,26 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
             st.markdown("""
             <script>
             let deferredPrompt;
+            let isAndroid = /Android/i.test(navigator.userAgent);
+            let isChrome = /Chrome/i.test(navigator.userAgent);
+            
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
             });
             
             function installApp() {
+                // Check if user is on Android with Chrome
+                if (!isAndroid) {
+                    alert('📱 App can only be installed on Android devices!\n\nYou are on Windows. To install the app:\n1. Open this page on your Android phone\n2. Use Chrome browser\n3. Click the "Download Android App" button');
+                    return;
+                }
+                
+                if (!isChrome) {
+                    alert('🌐 Please use Chrome browser on Android to install the app!');
+                    return;
+                }
+                
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     deferredPrompt.userChoice.then((choiceResult) => {
@@ -225,6 +264,17 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                 } else {
                     alert('App can only be installed on Android devices with Chrome browser. Please use Chrome and try again.');
                 }
+            }
+            
+            // Show different message based on device
+            if (!isAndroid) {
+                document.addEventListener('DOMContentLoaded', function() {
+                    const button = document.querySelector('a[onclick="installApp()"]');
+                    if (button) {
+                        button.innerHTML = '📱 Install on Android (Open on phone)';
+                        button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                    }
+                });
             }
             </script>
             """, unsafe_allow_html=True)
