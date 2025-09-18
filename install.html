@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalo Asistentin AI për Ushqime</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff6b6b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Asistenti AI">
+    <link rel="apple-touch-icon" href="images/icon-192.png">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            background: #ff6b6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .install-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .install-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        .install-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .instructions ol {
+            color: #666;
+            line-height: 1.6;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🍽️</div>
+        <h1>Asistenti AI për Ushqime</h1>
+        <p>Instaloni aplikacionin në pajisjen tuaj Android për një përvojë më të mirë!</p>
+        
+        <button id="installBtn" class="install-btn">
+            📱 Instalo Aplikacionin
+        </button>
+        
+        <div id="status"></div>
+        
+        <div class="instructions">
+            <h3>Si të instaloni:</h3>
+            <ol>
+                <li>Klikoni butonin "Instalo Aplikacionin"</li>
+                <li>Në Chrome, klikoni "Add to Home screen"</li>
+                <li>Aplikacioni do të shfaqet në ekranin kryesor</li>
+                <li>Klikoni ikonën për të hapur aplikacionin</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const status = document.getElementById('status');
+
+        // Listen for the beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'inline-block';
+        });
+
+        // Handle install button click
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    status.innerHTML = '<div class="status success">✅ Aplikacioni u instalua me sukses!</div>';
+                    installBtn.style.display = 'none';
+                } else {
+                    status.innerHTML = '<div class="status error">❌ Instalimi u anulua</div>';
+                }
+                deferredPrompt = null;
+            } else {
+                status.innerHTML = '<div class="status error">❌ Aplikacioni mund të instalohet vetëm në pajisje Android me Chrome browser</div>';
+            }
+        });
+
+        // Check if app is already installed
+        window.addEventListener('appinstalled', () => {
+            status.innerHTML = '<div class="status success">✅ Aplikacioni u instalua me sukses!</div>';
+            installBtn.style.display = 'none';
+        });
+
+        // Hide install button if app is already installed
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installBtn.style.display = 'none';
+            status.innerHTML = '<div class="status success">✅ Aplikacioni është instaluar dhe po funksionon!</div>';
+        }
+    </script>
+</body>
+</html>

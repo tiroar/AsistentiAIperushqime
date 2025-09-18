@@ -131,10 +131,104 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
     if lang == "sq":
         st.title("🔐 Mirë se vini në Asistentin e Ushqimeve me AI")
         st.markdown("Kyçuni për të aksesuar përvojën tuaj të personalizuar të planifikimit të ushqimeve")
+        
+        # Download App Button
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.markdown("""
+            <div style="text-align: center; margin: 20px 0;">
+                <a href="#" onclick="installApp()" style="
+                    display: inline-block;
+                    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+                    color: white;
+                    padding: 12px 24px;
+                    text-decoration: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    📱 Shkarko Aplikacionin për Android
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # PWA Install Script
+            st.markdown("""
+            <script>
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+            
+            function installApp() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    alert('Aplikacioni mund të instalohet vetëm në pajisje Android me Chrome browser. Ju lutem përdorni Chrome dhe provoni përsëri.');
+                }
+            }
+            </script>
+            """, unsafe_allow_html=True)
+        
         tab1, tab2 = st.tabs(["Kyçuni", "Regjistrohuni"])
     else:
         st.title("🔐 Welcome to AI Meal Planner")
         st.markdown("Sign in to access your personalized meal planning experience")
+        
+        # Download App Button
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.markdown("""
+            <div style="text-align: center; margin: 20px 0;">
+                <a href="#" onclick="installApp()" style="
+                    display: inline-block;
+                    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+                    color: white;
+                    padding: 12px 24px;
+                    text-decoration: none;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    📱 Download Android App
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # PWA Install Script
+            st.markdown("""
+            <script>
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+            
+            function installApp() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    alert('App can only be installed on Android devices with Chrome browser. Please use Chrome and try again.');
+                }
+            }
+            </script>
+            """, unsafe_allow_html=True)
+        
         tab1, tab2 = st.tabs(["Sign In", "Sign Up"])
     
     with tab1:

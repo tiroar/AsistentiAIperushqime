@@ -35,6 +35,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# PWA Meta tags and manifest
+st.markdown("""
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff6b6b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Asistenti AI">
+<link rel="apple-touch-icon" href="/images/icon-192.png">
+""", unsafe_allow_html=True)
+
 # Initialize database and auth
 @st.cache_resource
 def get_db_manager():

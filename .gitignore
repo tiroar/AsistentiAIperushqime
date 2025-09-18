@@ -17,3 +17,10 @@ Thumbs.db
 
 # Streamlit secrets
 .streamlit/secrets.toml
+
+# PWA files (keep these)
+!manifest.json
+!sw.js
+!install.html
+!images/icon-192.png
+!images/icon-512.png
