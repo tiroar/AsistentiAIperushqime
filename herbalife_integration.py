@@ -439,3 +439,4 @@ def render_herbalife_integration_ui(user_id: int, db_manager: DatabaseManager, l
     else:
         st.info("Herbalife integration is disabled. Enable it to get professional Herbalife recommendations in your meal plan.")
         return False
+
