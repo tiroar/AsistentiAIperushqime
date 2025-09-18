@@ -131,6 +131,7 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
     if lang == "sq":
         st.title("🔐 Mirë se vini në Asistentin e Ushqimeve AI")
         st.markdown("Kyçuni për të aksesuar përvojën tuaj të personalizuar të planifikimit të ushqimeve")
+        st.markdown("*Ju mund të regjistroheni me çfardo emaili, nuk ka nevojë për verifikim*")
         
         
         tab1, tab2 = st.tabs(["Kyçuni", "Regjistrohuni"])
