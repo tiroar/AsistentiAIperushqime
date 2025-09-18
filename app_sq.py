@@ -23,6 +23,7 @@ from cooking_skills import CookingSkillAdapter, render_cooking_skills_ui
 from social_features import SocialFeatures, render_social_features_ui
 from analytics_dashboard import AnalyticsDashboard, render_analytics_dashboard
 from image_recognition import FoodImageRecognition, render_image_recognition_ui
+from herbalife_integration import HerbalifeIntegration, render_herbalife_integration_ui
 
 # Load icon
 icon = Image.open("images/icon.png")
@@ -89,6 +90,7 @@ def main():
             "Navigo te:",
             [
                 "🍽️ Planifikimi i Ushqimeve",
+                "🥤 Herbalife Integration",
                 "📊 Paneli i Ushqyerjes", 
                 "🍽️ Preferencat e Ushqimit",
                 "👨‍🍳 Aftësitë e Gatimit",
@@ -106,6 +108,8 @@ def main():
     # Main content area
     if page == "🍽️ Planifikimi i Ushqimeve":
         render_meal_planning_page(user, db_manager)
+    elif page == "🥤 Herbalife Integration":
+        render_herbalife_integration_ui(user.id, db_manager, lang="sq")
     elif page == "📊 Paneli i Ushqyerjes":
         render_nutrition_dashboard(user.id, db_manager, lang="sq")
     elif page == "🍽️ Preferencat e Ushqimit":
@@ -202,6 +206,28 @@ def render_meal_planning_page(user, db_manager):
             f"(proteina min. sipas peshës: ~{suggested_protein} g)"
         )
     
+    # Herbalife Integration Checkbox
+    st.divider()
+    use_herbalife = st.checkbox(
+        "🥤 Kombino vaktet me HERBALIFE",
+        value=False,
+        help="Aktivizo integrimin e produkteve Herbalife në planin tuaj ushqimor për rezultate më të mira"
+    )
+    
+    if use_herbalife:
+        st.success("🌿 Herbalife Integration Activated - Your meal plan will include professional Herbalife recommendations")
+        
+        # Show Herbalife benefits
+        with st.expander("💡 Përfitimet e Integrimit Herbalife"):
+            st.markdown("""
+            **Pse të përdorësh Herbalife?**
+            - **Kontroll i Kalorive**: Formula 1 ofron kalori të kontrolluara për humbjen e peshës
+            - **Proteinë e Lartë**: 17g proteinë për përzierje për mbështetjen e muskujve
+            - **Lëndë Ushqyese**: 21 lëndë ushqyese thelbësore në çdo përzierje
+            - **Lehtësi Përdorimi**: Përgatitje e shpejtë dhe e përshtatshme
+            - **Rezultate të Provuara**: Produkte të testuara klinikisht për humbjen e peshës
+            """)
+    
     # Enhanced meal planning controls
     _default_kcal = suggested_kcal if use_auto_kcal else 2200
     
@@ -257,17 +283,45 @@ def render_meal_planning_page(user, db_manager):
             # This would be implemented to filter recipes based on learned preferences
             pass
         
-        plan = make_week_plan(
-            recipes, 
-            total_kcal, 
-            include_tags, 
-            exclude_keywords, 
-            pattern,
-            use_ai_expand=use_ai_expand,
-            auto_save_ai=True,
-            user_preferences=user_preferences,
-            cooking_skill=cooking_skill
-        )
+        # Generate meal plan
+        if use_herbalife:
+            # Generate Herbalife-integrated meal plan
+            herbalife_integration = HerbalifeIntegration(db_manager)
+            
+            # Create Herbalife recommendations for each day
+            herbalife_plan = herbalife_integration.create_herbalife_meal_plan(
+                user.id, goal, total_kcal, pattern
+            )
+            
+            # Generate regular meal plan
+            plan = make_week_plan(
+                recipes, 
+                total_kcal, 
+                include_tags, 
+                exclude_keywords, 
+                pattern,
+                use_ai_expand=use_ai_expand,
+                auto_save_ai=True,
+                user_preferences=user_preferences,
+                cooking_skill=cooking_skill
+            )
+            
+            # Integrate Herbalife products into the plan
+            plan = integrate_herbalife_into_plan(plan, herbalife_plan, goal)
+            
+        else:
+            # Generate regular meal plan
+            plan = make_week_plan(
+                recipes, 
+                total_kcal, 
+                include_tags, 
+                exclude_keywords, 
+                pattern,
+                use_ai_expand=use_ai_expand,
+                auto_save_ai=True,
+                user_preferences=user_preferences,
+                cooking_skill=cooking_skill
+            )
         
         # Adapt recipes for cooking skill level
         for day, meals in plan.items():
@@ -358,6 +412,13 @@ def render_meal_planning_page(user, db_manager):
                             if localize_albanian:
                                 ingredients = [translate_to_albanian(ing) for ing in ingredients]
                             st.write("\n".join(f"• {x}" for x in ingredients))
+                            
+                            # Show Herbalife products if integrated
+                            if hasattr(r, 'herbalife_products') and r.herbalife_products:
+                                st.markdown("**🥤 Produktet Herbalife:**")
+                                for product in r.herbalife_products:
+                                    st.write(f"• {product.albanian_name} ({product.serving_size})")
+                                    st.caption(f"   {product.calories} kcal, {product.protein}g proteinë")
 
                         # Hapat e gatimit
                         with st.expander("Hapat e Gatimit"):
@@ -366,6 +427,14 @@ def render_meal_planning_page(user, db_manager):
                                 steps = [translate_to_albanian(step) for step in steps]
                             for idx, step in enumerate(steps, 1):
                                 st.write(f"{idx}. {step}")
+                            
+                            # Show Herbalife preparation steps
+                            if hasattr(r, 'herbalife_products') and r.herbalife_products:
+                                st.markdown("**🥤 Përgatitja e Produkteve Herbalife:**")
+                                for product in r.herbalife_products:
+                                    st.write(f"• {product.albanian_name}: {product.preparation}")
+                                    if product.benefits:
+                                        st.caption(f"   Përfitimet: {', '.join(product.benefits)}")
                         
                         # Cooking skill tips
                         if hasattr(r, 'beginner_tips') and r.beginner_tips:
@@ -389,17 +458,43 @@ def render_meal_planning_page(user, db_manager):
         
         # Shopping list
         shopping = build_shopping_list(plan)
+        
+        # Add Herbalife products to shopping list if integrated
+        if use_herbalife:
+            herbalife_integration = HerbalifeIntegration(db_manager)
+            herbalife_plan = herbalife_integration.create_herbalife_meal_plan(user.id, goal, total_kcal, pattern)
+            herbalife_shopping = herbalife_integration.get_herbalife_shopping_list(herbalife_plan)
+            
+            # Merge Herbalife products into shopping list
+            for product, count in herbalife_shopping.items():
+                shopping[f"🥤 {product}"] = count
+        
         st.subheader("🛒 Lista e Blerjeve")
         
         rows = []
         for k, v in sorted(shopping.items(), key=lambda x: (-x[1], x[0])):
             item = k
-            if localize_albanian:
+            if localize_albanian and not item.startswith("🥤"):
                 item = translate_to_albanian(item)
             rows.append({"Përbërësi": item, "Herë": v})
         
         df = pd.DataFrame(rows)
         st.dataframe(df, width="stretch", hide_index=True)
+        
+        # Show Herbalife nutrition summary if integrated
+        if use_herbalife:
+            st.subheader("🥤 Përmbledhje Nutritive Herbalife")
+            herbalife_nutrition = herbalife_integration.calculate_herbalife_nutrition(herbalife_plan)
+            
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Kalori Herbalife", herbalife_nutrition['calories'])
+            with col2:
+                st.metric("Proteina (g)", herbalife_nutrition['protein'])
+            with col3:
+                st.metric("Karbohidratet (g)", herbalife_nutrition['carbs'])
+            with col4:
+                st.metric("Yndyrnat (g)", herbalife_nutrition['fat'])
         
         # Download buttons
         st.download_button(
@@ -724,6 +819,82 @@ def macro_targets_grams(total_kcal: int, goal: str, protein_g_from_weight: int) 
     # Përdor maksimumin midis proteina-ve bazuar në peshë dhe atyre nga %
     p_g = max(protein_g_from_weight, p_g_pct)
     return p_g, c_g, f_g
+
+def integrate_herbalife_into_plan(regular_plan: Dict, herbalife_plan: Dict, goal: str) -> Dict:
+    """Integrate Herbalife products into the regular meal plan"""
+    from herbalife_integration import HerbalifeIntegration
+    from planner import Recipe
+    
+    herbalife = HerbalifeIntegration(None)  # We don't need db_manager for this
+    
+    integrated_plan = {}
+    
+    for day in regular_plan.keys():
+        day_plan = {}
+        
+        for meal_type in ["breakfast", "lunch", "dinner"]:
+            regular_recipe = regular_plan[day].get(meal_type)
+            
+            if meal_type in herbalife_plan:
+                herbalife_meal = herbalife_plan[meal_type]
+                
+                # Create integrated meal
+                if regular_recipe:
+                    # Combine regular recipe with Herbalife
+                    integrated_recipe_data = {
+                        "name": f"{regular_recipe.name} + {herbalife_meal['primary'].albanian_name}",
+                        "meal_type": meal_type,
+                        "kcal": regular_recipe.kcal + herbalife_meal['total_calories'],
+                        "protein": regular_recipe.protein + herbalife_meal['primary'].protein,
+                        "carbs": regular_recipe.carbs + herbalife_meal['primary'].carbs,
+                        "fat": regular_recipe.fat + herbalife_meal['primary'].fat,
+                        "tags": regular_recipe.tags + ["herbalife", "integrated"],
+                        "ingredients": regular_recipe.ingredients + [
+                            f"🥤 {herbalife_meal['primary'].albanian_name} ({herbalife_meal['primary'].serving_size})"
+                        ],
+                        "steps": regular_recipe.steps + [
+                            f"Përgatit {herbalife_meal['primary'].albanian_name}: {herbalife_meal['primary'].preparation}",
+                            f"💡 {herbalife_meal['albanian_recommendation']}"
+                        ]
+                    }
+                    
+                    # Create Recipe object with additional Herbalife attributes
+                    integrated_recipe = Recipe(**integrated_recipe_data)
+                    integrated_recipe.herbalife_products = [herbalife_meal['primary']]
+                    integrated_recipe.herbalife_supplements = [herbalife_meal['supplement']] if herbalife_meal.get('supplement') else []
+                    
+                    day_plan[meal_type] = integrated_recipe
+                else:
+                    # Use only Herbalife if no regular recipe
+                    herbalife_recipe_data = {
+                        "name": f"Herbalife {herbalife_meal['primary'].albanian_name}",
+                        "meal_type": meal_type,
+                        "kcal": herbalife_meal['total_calories'],
+                        "protein": herbalife_meal['primary'].protein,
+                        "carbs": herbalife_meal['primary'].carbs,
+                        "fat": herbalife_meal['primary'].fat,
+                        "tags": ["herbalife", "meal_replacement"],
+                        "ingredients": [
+                            f"🥤 {herbalife_meal['primary'].albanian_name} ({herbalife_meal['primary'].serving_size})"
+                        ],
+                        "steps": [
+                            f"Përgatit {herbalife_meal['primary'].albanian_name}: {herbalife_meal['primary'].preparation}",
+                            f"💡 {herbalife_meal['albanian_recommendation']}"
+                        ]
+                    }
+                    
+                    # Create Recipe object with additional Herbalife attributes
+                    herbalife_recipe = Recipe(**herbalife_recipe_data)
+                    herbalife_recipe.herbalife_products = [herbalife_meal['primary']]
+                    herbalife_recipe.herbalife_supplements = [herbalife_meal['supplement']] if herbalife_meal.get('supplement') else []
+                    
+                    day_plan[meal_type] = herbalife_recipe
+            else:
+                day_plan[meal_type] = regular_recipe
+        
+        integrated_plan[day] = day_plan
+    
+    return integrated_plan
 
 if __name__ == "__main__":
     main()
