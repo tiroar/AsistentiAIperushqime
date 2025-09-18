@@ -84,7 +84,7 @@ def main():
     
     # Check authentication
     if not st.session_state.is_authenticated:
-        render_auth_ui(auth_manager)
+        render_auth_ui(auth_manager, lang="sq")
         return
     
     # Get current user

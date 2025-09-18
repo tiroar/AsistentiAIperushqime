@@ -49,7 +49,30 @@ class AuthManager:
                     friends=[],
                     is_active=True
                 )
-            return self.db.get_user_by_id(st.session_state.user_id)
+            
+            # For regular users, try to get from database, but handle cloud compatibility
+            try:
+                return self.db.get_user_by_id(st.session_state.user_id)
+            except Exception as e:
+                # If database fails (like on Streamlit Cloud), create a mock user from session data
+                if st.session_state.get('debug', False):
+                    st.write(f"Database error, using session data: {str(e)}")
+                
+                user_data = st.session_state.get('user_data', {})
+                return User(
+                    id=user_data.get('id', st.session_state.user_id),
+                    email=user_data.get('email', 'user@example.com'),
+                    username=user_data.get('username', 'User'),
+                    auth_provider=user_data.get('auth_provider', 'cloud'),
+                    created_at=datetime.now(),
+                    last_login=datetime.now(),
+                    profile_data=user_data.get('profile_data', {}),
+                    preferences=user_data.get('preferences', {}),
+                    cooking_skill=user_data.get('cooking_skill', 'beginner'),
+                    achievements=user_data.get('achievements', []),
+                    friends=[],
+                    is_active=True
+                )
         return None
     
     def login_with_email(self, email: str, password: str) -> bool:
@@ -166,17 +189,23 @@ class AuthManager:
     
     def _update_last_login(self, user_id: int):
         """Update user's last login time"""
-        conn = self.db.db_path
-        import sqlite3
-        conn = sqlite3.connect(conn)
-        cursor = conn.cursor()
-        
-        cursor.execute('''
-            UPDATE users SET last_login = ? WHERE id = ?
-        ''', (datetime.now().isoformat(), user_id))
-        
-        conn.commit()
-        conn.close()
+        try:
+            conn = self.db.db_path
+            import sqlite3
+            conn = sqlite3.connect(conn)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                UPDATE users SET last_login = ? WHERE id = ?
+            ''', (datetime.now().isoformat(), user_id))
+            
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            # If database update fails (like on Streamlit Cloud), just skip it
+            if st.session_state.get('debug', False):
+                st.write(f"Could not update last login: {str(e)}")
+            pass
     
     def _get_password_hash(self, user_id: int) -> Optional[str]:
         """Get user's password hash"""
@@ -200,9 +229,11 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
         st.info("ℹ️ Ju mund të regjistroheni me çfardo emaili, nuk ka nevojë për verifikim")
         
         # Debug button
-        if st.button("🐛 Debug Session State"):
-            st.session_state.debug = not st.session_state.get('debug', False)
-            st.rerun()
+        col_debug, col_space = st.columns([1, 4])
+        with col_debug:
+            if st.button("🐛 Debug"):
+                st.session_state.debug = not st.session_state.get('debug', False)
+                st.rerun()
         
         tab1, tab2 = st.tabs(["Kyçuni", "Regjistrohuni"])
     else:
