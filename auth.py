@@ -41,9 +41,9 @@ class AuthManager:
                     created_at=datetime.now(),
                     last_login=datetime.now(),
                     profile_data={
-                        "age": 30,
-                        "height": 175,
-                        "weight": 70,
+                        "age": 30.0,
+                        "height": 175.0,
+                        "weight": 70.0,
                         "gender": "Mashkull",
                         "goals": ["weight_loss"],
                         "dietary_restrictions": []

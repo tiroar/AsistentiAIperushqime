@@ -213,7 +213,7 @@ def render_meal_planning_page(user, db_manager):
                                       value=float(profile.get('height', 178)), step=1.0)
         with c4:
             weight_kg = st.number_input("Pesha (kg)", min_value=35.0, max_value=250.0, 
-                                      value=profile.get('weight', 78.0), step=0.5)
+                                      value=float(profile.get('weight', 78.0)), step=0.5)
         
         activity = st.selectbox(
             "Aktiviteti ditor",
@@ -610,7 +610,7 @@ def render_settings_page(user, db_manager, lang="sq"):
             profile['age'] = st.number_input("Mosha", value=float(profile.get('age', 28)), min_value=14.0, max_value=90.0)
             profile['height'] = st.number_input("Gjatësia (cm)", value=float(profile.get('height', 178)), min_value=130.0, max_value=220.0)
         with col2:
-            profile['weight'] = st.number_input("Pesha (kg)", value=profile.get('weight', 78.0), min_value=35.0, max_value=250.0)
+            profile['weight'] = st.number_input("Pesha (kg)", value=float(profile.get('weight', 78.0)), min_value=35.0, max_value=250.0)
             profile['gender'] = st.selectbox("Gjinia", ["Mashkull", "Femër"], index=0 if profile.get('gender') == 'Mashkull' else 1)
         
         if st.form_submit_button("Përditëso Profilin"):
