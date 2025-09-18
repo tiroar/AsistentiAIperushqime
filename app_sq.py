@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from PIL import Image
 import os
 from dotenv import load_dotenv
+from typing import Dict, List, Optional, Tuple
 
 # Load environment variables from .env file
 try:
