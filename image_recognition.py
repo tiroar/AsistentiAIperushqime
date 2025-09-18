@@ -8,11 +8,31 @@ import os
 from datetime import datetime
 import io
 from PIL import Image
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+try:
+    load_dotenv()
+except Exception as e:
+    print(f"Warning: Could not load .env file: {e}")
 
 class FoodImageRecognition:
     def __init__(self, db_manager: DatabaseManager):
         self.db = db_manager
-        self.api_key = os.getenv("OPENAI_API_KEY", "")
+        self.api_key = self._get_openai_api_key()
+    
+    def _get_openai_api_key(self):
+        """Get OpenAI API key from Streamlit secrets or environment variables"""
+        try:
+            import streamlit as st
+            # Try Streamlit secrets first (for deployment)
+            if hasattr(st, 'secrets') and 'OPENAI_API_KEY' in st.secrets:
+                return st.secrets['OPENAI_API_KEY']
+        except:
+            pass
+        
+        # Fallback to environment variable (for local development)
+        return os.getenv("OPENAI_API_KEY", "")
     
     def recognize_food(self, image_data: bytes, user_id: int) -> Dict:
         """Recognize food in uploaded image"""
@@ -37,11 +57,27 @@ class FoodImageRecognition:
             import openai
             client = openai.OpenAI(api_key=self.api_key)
             
+            # Process image and encode to base64
+            from PIL import Image
+            import io
+            
+            # image_data is now raw bytes from uploaded_file.getvalue()
+            image = Image.open(io.BytesIO(image_data))
+            
+            # Convert to RGB if necessary (for JPEG compatibility)
+            if image.mode in ('RGBA', 'LA', 'P'):
+                image = image.convert('RGB')
+            
+            # Save to bytes buffer in JPEG format
+            buffer = io.BytesIO()
+            image.save(buffer, format='JPEG', quality=85)
+            image_bytes = buffer.getvalue()
+            
             # Encode image to base64
-            image_base64 = base64.b64encode(image_data).decode('utf-8')
+            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
             
             response = client.chat.completions.create(
-                model="gpt-4-vision-preview",
+                model="gpt-4o",
                 messages=[
                     {
                         "role": "user",
@@ -305,55 +341,100 @@ class FoodImageRecognition:
 
 def render_image_recognition_ui(user_id: int, db_manager: DatabaseManager, lang: str = "en"):
     """Render image recognition UI"""
-    st.title("📸 Food Recognition")
-    
-    recognition = FoodImageRecognition(db_manager)
-    
-    # Upload image
-    st.subheader("Upload Food Image")
-    
-    uploaded_file = st.file_uploader(
-        "Choose an image of food",
-        type=['png', 'jpg', 'jpeg'],
-        help="Upload a clear image of food to get nutrition information"
-    )
+    if lang == "sq":
+        st.title("📸 Njohja e Ushqimit")
+        
+        recognition = FoodImageRecognition(db_manager)
+        
+        # Upload image
+        st.subheader("Ngarko Foto të Ushqimit")
+        
+        uploaded_file = st.file_uploader(
+            "Zgjidh një foto të ushqimit",
+            type=['png', 'jpg', 'jpeg'],
+            help="Ngarko një foto të qartë të ushqimit për të marrë informacion për ushqyerjen"
+        )
+    else:
+        st.title("📸 Food Recognition")
+        
+        recognition = FoodImageRecognition(db_manager)
+        
+        # Upload image
+        st.subheader("Upload Food Image")
+        
+        uploaded_file = st.file_uploader(
+            "Choose an image of food",
+            type=['png', 'jpg', 'jpeg'],
+            help="Upload a clear image of food to get nutrition information"
+        )
     
     if uploaded_file is not None:
+        # Get image data first
+        image_data = uploaded_file.getvalue()
+        
         # Display image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+        image = Image.open(io.BytesIO(image_data))
+        if lang == "sq":
+            st.image(image, caption="Foto e Ngarkuar", width='stretch')
+        else:
+            st.image(image, caption="Uploaded Image", width='stretch')
         
         # Recognize food
-        if st.button("Recognize Food"):
-            with st.spinner("Analyzing image..."):
-                image_data = uploaded_file.read()
-                result = recognition.recognize_food(image_data, user_id)
-            
-            if result['success']:
-                st.success("Food recognition completed!")
+        if lang == "sq":
+            if st.button("Njoh Ushqimin"):
+                with st.spinner("Po analizoj imazhin..."):
+                    result = recognition.recognize_food(image_data, user_id)
                 
-                # Display results
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.subheader("Recognized Foods")
-                    for i, (food, confidence) in enumerate(zip(
-                        result['recognized_foods'], 
-                        result['confidence_scores']
-                    )):
-                        st.write(f"• {food} ({confidence}% confidence)")
-                
-                with col2:
-                    st.subheader("Estimated Nutrition")
-                    nutrition = recognition.estimate_nutrition(
-                        result['recognized_foods'],
-                        result['confidence_scores']
-                    )
+                if result['success']:
+                    st.success("✅ Njohja e ushqimit u përfundua!")
                     
-                    st.metric("Calories", nutrition['calories'])
-                    st.metric("Protein", f"{nutrition['protein']}g")
-                    st.metric("Carbs", f"{nutrition['carbs']}g")
-                    st.metric("Fat", f"{nutrition['fat']}g")
+                    # Display results
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.subheader("Ushqime të Njohura")
+                        for i, (food, confidence) in enumerate(zip(
+                            result['recognized_foods'], 
+                            result['confidence_scores']
+                        )):
+                            st.write(f"• {food} ({confidence}% besueshmëri)")
+                    
+                    with col2:
+                        st.subheader("Ushqyerja e Vlerësuar")
+                        nutrition = recognition.estimate_nutrition(
+                            result['recognized_foods'],
+                            result['confidence_scores']
+                        )
+        else:
+            if st.button("Recognize Food"):
+                with st.spinner("Analyzing image..."):
+                    result = recognition.recognize_food(image_data, user_id)
+                
+                if result['success']:
+                    st.success("Food recognition completed!")
+                    
+                    # Display results
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.subheader("Recognized Foods")
+                        for i, (food, confidence) in enumerate(zip(
+                            result['recognized_foods'], 
+                            result['confidence_scores']
+                        )):
+                            st.write(f"• {food} ({confidence}% confidence)")
+                    
+                    with col2:
+                        st.subheader("Estimated Nutrition")
+                        nutrition = recognition.estimate_nutrition(
+                            result['recognized_foods'],
+                            result['confidence_scores']
+                        )
+                    
+                    st.metric("Kalori", nutrition['calories'])
+                    st.metric("Proteina", f"{nutrition['protein']}g")
+                    st.metric("Karbohidratet", f"{nutrition['carbs']}g")
+                    st.metric("Yndyrnat", f"{nutrition['fat']}g")
                 
                 # Detailed results
                 if 'detailed_results' in result:
@@ -414,4 +495,4 @@ def render_image_recognition_ui(user_id: int, db_manager: DatabaseManager, lang:
     if recognition.api_key:
         st.success("✅ OpenAI API key configured - using advanced recognition")
     else:
-        st.warning("⚠️ No API key - using basic recognition. Set OPENAI_API_KEY for better results")
+        st.warning("⚠️ No API key - using basic recognition. Set OPENAI_API_KEY in Streamlit secrets for better results")

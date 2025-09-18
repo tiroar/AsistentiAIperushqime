@@ -17,19 +17,21 @@ git commit -m "Add enhanced features: authentication, analytics, social features
 git push origin main
 ```
 
-### 2. **Update Streamlit.io Configuration**
+### 2. **Configure Streamlit Secrets**
 
 In your Streamlit.io dashboard:
 
 1. **Go to your app settings**
-2. **Add these environment variables:**
-   ```
-   OPENAI_API_KEY=your_openai_api_key_here
+2. **Go to "Settings" → "Secrets"**
+3. **Add this secret:**
+   ```toml
+   OPENAI_API_KEY = "your_actual_openai_api_key_here"
    ```
 
-3. **Update the main file path** (if needed):
-   - Main file: `app.py` (English version)
-   - Or: `app_sq.py` (Albanian version)
+4. **Update the main file path** (if needed):
+   - Main file: `app_sq.py` (Albanian version - recommended)
+
+**Note:** The app is now configured to automatically read from Streamlit secrets first, then fall back to environment variables for local development.
 
 ### 3. **Required Files for Deployment**
 

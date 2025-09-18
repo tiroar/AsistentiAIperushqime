@@ -216,7 +216,7 @@ def make_week_plan(
                         if auto_save_ai:
                             # persist directly to recipes.json (function handles de-dupe)
                             try:
-                                save_recipe_to_json(chosen.dict(), path="recipes.json")
+                                save_recipe_to_json(chosen.model_dump(), path="recipes.json")
                             except Exception as e:
                                 print(f"[AI Save Warning] {e}")
                 except Exception as e:

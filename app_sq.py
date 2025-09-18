@@ -4,6 +4,13 @@ import streamlit as st
 from datetime import datetime, timedelta
 from PIL import Image
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+try:
+    load_dotenv()
+except Exception as e:
+    print(f"Warning: Could not load .env file: {e}")
 
 # Import our custom modules
 from database import DatabaseManager
@@ -256,15 +263,27 @@ def render_meal_planning_page(user, db_manager):
         for day, meals in plan.items():
             for meal_type, recipe in meals.items():
                 if recipe:
-                    adapted_recipe = skill_adapter.adapt_recipe_for_skill(recipe.dict(), cooking_skill)
-                    # Update the recipe with adapted version
+                    adapted_recipe = skill_adapter.adapt_recipe_for_skill(recipe.model_dump(), cooking_skill)
+                    # Update the recipe with adapted version (only existing fields)
+                    valid_fields = ['name', 'meal_type', 'kcal', 'protein', 'carbs', 'fat', 'tags', 'ingredients', 'steps']
                     for key, value in adapted_recipe.items():
-                        setattr(recipe, key, value)
+                        if key in valid_fields:
+                            setattr(recipe, key, value)
         
         st.session_state.meal_plan = plan
         
+        # Convert Recipe objects to dictionaries for JSON serialization
+        plan_data = {}
+        for day, meals in plan.items():
+            plan_data[day] = {}
+            for meal_type, recipe in meals.items():
+                if recipe:
+                    plan_data[day][meal_type] = recipe.model_dump()
+                else:
+                    plan_data[day][meal_type] = None
+        
         # Save meal plan to database
-        db_manager.save_meal_plan(user.id, plan, datetime.now())
+        db_manager.save_meal_plan(user.id, plan_data, datetime.now())
         
         # Log analytics event
         db_manager.log_analytics_event(user.id, 'meal_plan_generated', {
@@ -347,7 +366,7 @@ def render_meal_planning_page(user, db_manager):
                         # Save AI-generated recipes
                         if use_ai_expand and r and "AI" in getattr(r, "tags", []):
                             if st.button(f"💾 Ruaj recetën: {recipe_name}", key=f"save_{day}_{meal_type}"):
-                                saved = save_recipe_to_json(r.dict())
+                                saved = save_recipe_to_json(r.model_dump())
                                 if saved:
                                     st.success("✅ Receta u ruajt në recipes.json!")
                                 else:
@@ -421,9 +440,9 @@ def render_meal_planning_page(user, db_manager):
                     )
                     
                     if report:
-                        st.success("Raporti i ushqyerjes u gjenerua! Kontrollo tabin e Paneli i Ushqyerjes.")
+                        st.success("✅ Raporti i ushqyerjes u gjenerua! Shkoni te '📊 Paneli i Ushqyerjes' në menunë anësore për ta parë.")
                     else:
-                        st.error("Dështoi gjenerimi i raportit të ushqyerjes")
+                        st.error("❌ Dështoi gjenerimi i raportit të ushqyerjes")
                 else:
                     st.error("Nuk u gjet plan ushqimor për të gjeneruar raportin")
     
@@ -522,15 +541,138 @@ def render_settings_page(user, db_manager, lang="sq"):
     # Account settings
     st.subheader("Cilësimet e Llogarisë")
     
-    col1, col2 = st.columns(2)
+    # Password change section
+    if not st.session_state.get('show_password_change', False):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("Ndrysho Fjalëkalimin"):
+                st.session_state.show_password_change = True
+                st.rerun()
+        
+        with col2:
+            if st.button("Fshi Llogarinë", type="secondary"):
+                st.session_state.show_delete_account = True
+                st.rerun()
     
-    with col1:
-        if st.button("Ndrysho Fjalëkalimin"):
-            st.info("Funksionaliteti i ndryshimit të fjalëkalimit do të implementohet këtu")
+    # Password change form
+    if st.session_state.get('show_password_change', False):
+        st.subheader("Ndrysho Fjalëkalimin")
+        
+        with st.form("change_password_form"):
+            current_password = st.text_input("Fjalëkalimi Aktual", type="password")
+            new_password = st.text_input("Fjalëkalimi i Ri", type="password")
+            confirm_password = st.text_input("Konfirmo Fjalëkalimin e Ri", type="password")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.form_submit_button("Ndrysho Fjalëkalimin", type="primary"):
+                    # Validate inputs
+                    if not current_password or not new_password or not confirm_password:
+                        st.error("Ju lutem plotësoni të gjitha fushat")
+                    elif new_password != confirm_password:
+                        st.error("Fjalëkalimet e reja nuk përputhen")
+                    elif len(new_password) < 6:
+                        st.error("Fjalëkalimi i ri duhet të ketë të paktën 6 karaktere")
+                    else:
+                        # Verify current password by getting it from database
+                        import hashlib
+                        current_hash = hashlib.sha256(current_password.encode()).hexdigest()
+                        
+                        conn = db_manager.db_path
+                        import sqlite3
+                        conn = sqlite3.connect(conn)
+                        cursor = conn.cursor()
+                        
+                        # Get current password hash from database
+                        cursor.execute('SELECT password_hash FROM users WHERE id = ?', (user.id,))
+                        stored_hash = cursor.fetchone()[0]
+                        
+                        if current_hash != stored_hash:
+                            st.error("Fjalëkalimi aktual është i gabuar")
+                        else:
+                            # Update password
+                            new_hash = hashlib.sha256(new_password.encode()).hexdigest()
+                            
+                            cursor.execute('''
+                                UPDATE users SET password_hash = ? WHERE id = ?
+                            ''', (new_hash, user.id))
+                            
+                            conn.commit()
+                            conn.close()
+                            
+                            st.success("Fjalëkalimi u ndryshua me sukses!")
+                            st.session_state.show_password_change = False
+                            st.rerun()
+            
+            with col2:
+                if st.form_submit_button("Anulo"):
+                    st.session_state.show_password_change = False
+                    st.rerun()
     
-    with col2:
-        if st.button("Fshi Llogarinë", type="secondary"):
-            st.warning("Funksionaliteti i fshirjes së llogarisë do të implementohet këtu")
+    # Account deletion confirmation
+    if st.session_state.get('show_delete_account', False):
+        st.subheader("Fshi Llogarinë")
+        st.warning("⚠️ Kjo veprim do të fshijë përgjithmonë llogarinë tuaj dhe të gjitha të dhënat e lidhura!")
+        
+        with st.form("delete_account_form"):
+            confirm_text = st.text_input(
+                "Shkruaj 'FSHI' për të konfirmuar fshirjen e llogarisë",
+                placeholder="FSHI"
+            )
+            password_confirm = st.text_input("Fjalëkalimi për konfirmim", type="password")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.form_submit_button("Fshi Llogarinë", type="secondary"):
+                    if confirm_text != "FSHI":
+                        st.error("Ju lutem shkruani 'FSHI' për të konfirmuar")
+                    elif not password_confirm:
+                        st.error("Ju lutem shkruani fjalëkalimin për konfirmim")
+                    else:
+                        # Verify password by getting it from database
+                        import hashlib
+                        password_hash = hashlib.sha256(password_confirm.encode()).hexdigest()
+                        
+                        conn = db_manager.db_path
+                        import sqlite3
+                        conn = sqlite3.connect(conn)
+                        cursor = conn.cursor()
+                        
+                        # Get password hash from database
+                        cursor.execute('SELECT password_hash FROM users WHERE id = ?', (user.id,))
+                        stored_hash = cursor.fetchone()[0]
+                        
+                        if password_hash != stored_hash:
+                            st.error("Fjalëkalimi është i gabuar")
+                            conn.close()
+                        else:
+                            # Delete account and all related data
+                            
+                            # Delete all user data
+                            cursor.execute('DELETE FROM user_profiles WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM user_preferences WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM nutrition_reports WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM meal_plans WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM user_achievements WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM user_challenges WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM food_recognition_logs WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM analytics_events WHERE user_id = ?', (user.id,))
+                            cursor.execute('DELETE FROM users WHERE id = ?', (user.id,))
+                            
+                            conn.commit()
+                            conn.close()
+                            
+                            st.success("Llogaria u fshi me sukses!")
+                            st.session_state.show_delete_account = False
+                            st.session_state.authenticated = False
+                            st.session_state.user = None
+                            st.rerun()
+            
+            with col2:
+                if st.form_submit_button("Anulo"):
+                    st.session_state.show_delete_account = False
+                    st.rerun()
 
 # Helper functions (from original app)
 def calc_tdee_kcal(gender: str, age: int, height_cm: int, weight_kg: float, activity: str, goal: str) -> tuple[int, int]:

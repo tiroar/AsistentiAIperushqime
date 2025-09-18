@@ -195,7 +195,7 @@ def render_analytics_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
         
         fig = px.bar(event_df, x='Event Type', y='Count', 
                     title="Activity by Event Type")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     # Meal planning trends
     st.subheader("🍽️ Meal Planning Trends")
@@ -212,11 +212,11 @@ def render_analytics_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
             })
         
         timeline_df = pd.DataFrame(timeline_data)
-        timeline_df = timeline_df.groupby('Week').sum().reset_index()
+        timeline_df = timeline_df.groupby('Week')['Plans'].sum().reset_index()
         
         fig = px.line(timeline_df, x='Week', y='Plans', 
                      title="Meal Plans Over Time")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     # Nutrition trends
     st.subheader("🥗 Nutrition Trends")
@@ -282,7 +282,7 @@ def render_analytics_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
             hovermode='x unified'
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     # Food preferences
     st.subheader("🍽️ Food Preferences")
@@ -320,7 +320,7 @@ def render_analytics_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
                 {'Event Type': event, 'Count': count}
                 for event, count in events.items()
             ])
-            st.dataframe(events_df, use_container_width=True)
+            st.dataframe(events_df, width='stretch')
         
         # Meal plans data
         if meal_plans:
@@ -333,7 +333,7 @@ def render_analytics_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
                 }
                 for plan in meal_plans
             ])
-            st.dataframe(plans_df, use_container_width=True)
+            st.dataframe(plans_df, width='stretch')
         
         # Nutrition reports data
         if nutrition_reports:
@@ -349,7 +349,7 @@ def render_analytics_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
                 }
                 for report in nutrition_reports
             ])
-            st.dataframe(reports_df, use_container_width=True)
+            st.dataframe(reports_df, width='stretch')
     
     # Export data
     st.subheader("📤 Export Data")

@@ -315,7 +315,7 @@ def render_nutrition_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
             hovermode='x unified'
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     # Detailed breakdown
     st.subheader("📋 Detailed Breakdown")
@@ -333,7 +333,7 @@ def render_nutrition_dashboard(user_id: int, db_manager: DatabaseManager, lang: 
             })
         
         report_df = pd.DataFrame(report_data)
-        st.dataframe(report_df, use_container_width=True)
+        st.dataframe(report_df, width='stretch')
         
         # Download button
         csv = report_df.to_csv(index=False)

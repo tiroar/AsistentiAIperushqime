@@ -6,7 +6,10 @@
     "protein": 11,
     "carbs": 65,
     "fat": 9,
-    "tags": ["vegetarian", "quick"],
+    "tags": [
+      "vegetarian",
+      "quick"
+    ],
     "ingredients": [
       "80g rolled oats",
       "250ml milk (or plant milk)",
@@ -26,7 +29,11 @@
     "protein": 24,
     "carbs": 38,
     "fat": 7,
-    "tags": ["vegetarian", "quick", "high-protein"],
+    "tags": [
+      "vegetarian",
+      "quick",
+      "high-protein"
+    ],
     "ingredients": [
       "200g Greek yogurt",
       "120g mixed berries",
@@ -43,7 +50,10 @@
     "protein": 42,
     "carbs": 76,
     "fat": 16,
-    "tags": ["high-protein", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "150g chicken breast",
       "150g cooked rice",
@@ -63,7 +73,9 @@
     "protein": 35,
     "carbs": 85,
     "fat": 16,
-    "tags": ["budget"],
+    "tags": [
+      "budget"
+    ],
     "ingredients": [
       "160g pasta",
       "1 can tuna in water, drained",
@@ -85,7 +97,10 @@
     "protein": 45,
     "carbs": 60,
     "fat": 28,
-    "tags": ["omega-3", "gluten-free"],
+    "tags": [
+      "omega-3",
+      "gluten-free"
+    ],
     "ingredients": [
       "180g salmon fillet",
       "250g potatoes",
@@ -105,7 +120,10 @@
     "protein": 24,
     "carbs": 65,
     "fat": 20,
-    "tags": ["vegetarian", "quick"],
+    "tags": [
+      "vegetarian",
+      "quick"
+    ],
     "ingredients": [
       "200g firm tofu",
       "300g mixed veggies (broccoli, peppers, carrots)",
@@ -126,7 +144,10 @@
     "protein": 20,
     "carbs": 30,
     "fat": 17,
-    "tags": ["quick", "high-protein"],
+    "tags": [
+      "quick",
+      "high-protein"
+    ],
     "ingredients": [
       "2 eggs",
       "2 slices wholegrain bread",
@@ -145,7 +166,11 @@
     "protein": 14,
     "carbs": 48,
     "fat": 18,
-    "tags": ["vegetarian", "quick", "budget"],
+    "tags": [
+      "vegetarian",
+      "quick",
+      "budget"
+    ],
     "ingredients": [
       "2 slices wholegrain bread",
       "2 tbsp peanut butter",
@@ -163,7 +188,11 @@
     "protein": 26,
     "carbs": 38,
     "fat": 7,
-    "tags": ["vegetarian", "high-protein", "quick"],
+    "tags": [
+      "vegetarian",
+      "high-protein",
+      "quick"
+    ],
     "ingredients": [
       "200g cottage cheese",
       "150g pineapple chunks",
@@ -180,7 +209,10 @@
     "protein": 17,
     "carbs": 36,
     "fat": 22,
-    "tags": ["vegetarian", "quick"],
+    "tags": [
+      "vegetarian",
+      "quick"
+    ],
     "ingredients": [
       "2 slices wholegrain bread",
       "1 ripe avocado",
@@ -198,7 +230,12 @@
     "protein": 28,
     "carbs": 40,
     "fat": 7,
-    "tags": ["vegetarian", "high-protein", "quick", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "high-protein",
+      "quick",
+      "gluten-free"
+    ],
     "ingredients": [
       "1 scoop whey or plant protein",
       "200ml milk (or plant milk)",
@@ -216,7 +253,11 @@
     "protein": 24,
     "carbs": 10,
     "fat": 26,
-    "tags": ["low-carb", "high-protein", "gluten-free"],
+    "tags": [
+      "low-carb",
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "3 eggs",
       "1/2 bell pepper, chopped",
@@ -236,7 +277,11 @@
     "protein": 12,
     "carbs": 62,
     "fat": 10,
-    "tags": ["vegetarian", "quick", "budget"],
+    "tags": [
+      "vegetarian",
+      "quick",
+      "budget"
+    ],
     "ingredients": [
       "60g muesli",
       "200ml milk or yogurt",
@@ -254,7 +299,11 @@
     "protein": 12,
     "carbs": 45,
     "fat": 14,
-    "tags": ["vegetarian", "gluten-free", "prep-ahead"],
+    "tags": [
+      "vegetarian",
+      "gluten-free",
+      "prep-ahead"
+    ],
     "ingredients": [
       "30g chia seeds",
       "250ml milk (or plant milk)",
@@ -272,7 +321,9 @@
     "protein": 22,
     "carbs": 45,
     "fat": 16,
-    "tags": ["high-protein"],
+    "tags": [
+      "high-protein"
+    ],
     "ingredients": [
       "1 wholegrain bagel",
       "60g smoked salmon",
@@ -290,7 +341,9 @@
     "protein": 15,
     "carbs": 60,
     "fat": 18,
-    "tags": ["vegetarian"],
+    "tags": [
+      "vegetarian"
+    ],
     "ingredients": [
       "1 banana",
       "1 egg",
@@ -302,7 +355,6 @@
       "Blend banana, egg, oat flour, baking powder; fold walnuts; pan-cook."
     ]
   },
-
   {
     "name": "Turkey & Hummus Wrap",
     "meal_type": "lunch",
@@ -310,7 +362,9 @@
     "protein": 35,
     "carbs": 55,
     "fat": 16,
-    "tags": ["high-protein"],
+    "tags": [
+      "high-protein"
+    ],
     "ingredients": [
       "1 large wholegrain tortilla",
       "120g sliced turkey breast",
@@ -328,7 +382,12 @@
     "protein": 20,
     "carbs": 70,
     "fat": 18,
-    "tags": ["vegetarian", "vegan", "gluten-free", "mediterranean"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "gluten-free",
+      "mediterranean"
+    ],
     "ingredients": [
       "120g cooked quinoa",
       "150g canned chickpeas, rinsed",
@@ -346,7 +405,10 @@
     "protein": 36,
     "carbs": 80,
     "fat": 18,
-    "tags": ["asian", "high-protein"],
+    "tags": [
+      "asian",
+      "high-protein"
+    ],
     "ingredients": [
       "150g lean beef strips",
       "160g rice noodles",
@@ -364,7 +426,10 @@
     "protein": 40,
     "carbs": 18,
     "fat": 30,
-    "tags": ["low-carb", "gluten-free"],
+    "tags": [
+      "low-carb",
+      "gluten-free"
+    ],
     "ingredients": [
       "150g grilled chicken",
       "150g cherry tomatoes",
@@ -382,7 +447,12 @@
     "protein": 22,
     "carbs": 72,
     "fat": 8,
-    "tags": ["vegetarian", "vegan", "budget", "soup"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "budget",
+      "soup"
+    ],
     "ingredients": [
       "150g red lentils",
       "1 carrot, 1 celery, 1 onion",
@@ -400,7 +470,11 @@
     "protein": 32,
     "carbs": 85,
     "fat": 18,
-    "tags": ["omega-3", "budget", "mediterranean"],
+    "tags": [
+      "omega-3",
+      "budget",
+      "mediterranean"
+    ],
     "ingredients": [
       "160g pasta",
       "1 can sardines in olive oil",
@@ -418,7 +492,11 @@
     "protein": 20,
     "carbs": 75,
     "fat": 20,
-    "tags": ["vegetarian", "vegan", "mediterranean"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "mediterranean"
+    ],
     "ingredients": [
       "6 falafel balls",
       "120g cooked bulgur or rice",
@@ -436,7 +514,10 @@
     "protein": 26,
     "carbs": 80,
     "fat": 20,
-    "tags": ["vegetarian", "asian"],
+    "tags": [
+      "vegetarian",
+      "asian"
+    ],
     "ingredients": [
       "200g firm tofu",
       "150g rice noodles",
@@ -454,7 +535,9 @@
     "protein": 40,
     "carbs": 48,
     "fat": 22,
-    "tags": ["high-protein"],
+    "tags": [
+      "high-protein"
+    ],
     "ingredients": [
       "1 large tortilla",
       "150g grilled chicken",
@@ -472,7 +555,11 @@
     "protein": 22,
     "carbs": 90,
     "fat": 18,
-    "tags": ["vegetarian", "mexican", "budget"],
+    "tags": [
+      "vegetarian",
+      "mexican",
+      "budget"
+    ],
     "ingredients": [
       "1 large tortilla",
       "150g cooked beans",
@@ -490,7 +577,9 @@
     "protein": 36,
     "carbs": 80,
     "fat": 18,
-    "tags": ["high-protein"],
+    "tags": [
+      "high-protein"
+    ],
     "ingredients": [
       "150g lean pork loin, sliced",
       "120g cooked barley or quinoa",
@@ -508,7 +597,11 @@
     "protein": 35,
     "carbs": 22,
     "fat": 32,
-    "tags": ["low-carb", "omega-3", "gluten-free"],
+    "tags": [
+      "low-carb",
+      "omega-3",
+      "gluten-free"
+    ],
     "ingredients": [
       "1 can tuna in olive oil",
       "Olives, cherry tomatoes, cucumber",
@@ -518,7 +611,6 @@
       "Combine ingredients; season with lemon and oregano."
     ]
   },
-
   {
     "name": "Herb Roast Chicken & Veg",
     "meal_type": "dinner",
@@ -526,7 +618,10 @@
     "protein": 48,
     "carbs": 40,
     "fat": 30,
-    "tags": ["high-protein", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "2 chicken thighs (bone-in)",
       "Carrots, onions, zucchini",
@@ -543,7 +638,11 @@
     "protein": 42,
     "carbs": 60,
     "fat": 28,
-    "tags": ["budget", "mexican", "high-protein"],
+    "tags": [
+      "budget",
+      "mexican",
+      "high-protein"
+    ],
     "ingredients": [
       "300g lean beef mince",
       "1 can beans",
@@ -561,7 +660,10 @@
     "protein": 38,
     "carbs": 85,
     "fat": 16,
-    "tags": ["seafood", "mediterranean"],
+    "tags": [
+      "seafood",
+      "mediterranean"
+    ],
     "ingredients": [
       "200g shrimp",
       "160g pasta",
@@ -579,7 +681,11 @@
     "protein": 20,
     "carbs": 75,
     "fat": 22,
-    "tags": ["vegetarian", "vegan", "asian"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "asian"
+    ],
     "ingredients": [
       "1 eggplant, cubed",
       "1 can chickpeas",
@@ -597,7 +703,10 @@
     "protein": 40,
     "carbs": 70,
     "fat": 18,
-    "tags": ["high-protein", "mediterranean"],
+    "tags": [
+      "high-protein",
+      "mediterranean"
+    ],
     "ingredients": [
       "300g ground turkey",
       "Spices, parsley",
@@ -615,7 +724,12 @@
     "protein": 24,
     "carbs": 60,
     "fat": 28,
-    "tags": ["vegetarian", "vegan", "asian", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "asian",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g firm tofu",
       "Mixed veggies",
@@ -633,7 +747,12 @@
     "protein": 40,
     "carbs": 25,
     "fat": 30,
-    "tags": ["low-carb", "asian", "high-protein", "gluten-free"],
+    "tags": [
+      "low-carb",
+      "asian",
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g beef strips",
       "Broccoli florets",
@@ -651,7 +770,11 @@
     "protein": 42,
     "carbs": 35,
     "fat": 26,
-    "tags": ["seafood", "mediterranean", "gluten-free"],
+    "tags": [
+      "seafood",
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g cod fillet",
       "Cherry tomatoes, olives",
@@ -668,7 +791,9 @@
     "protein": 18,
     "carbs": 95,
     "fat": 22,
-    "tags": ["vegetarian"],
+    "tags": [
+      "vegetarian"
+    ],
     "ingredients": [
       "200g arborio rice",
       "200g mushrooms",
@@ -686,7 +811,10 @@
     "protein": 46,
     "carbs": 55,
     "fat": 22,
-    "tags": ["high-protein", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g pork tenderloin",
       "1 medium sweet potato",
@@ -703,7 +831,12 @@
     "protein": 22,
     "carbs": 70,
     "fat": 18,
-    "tags": ["vegetarian", "vegan", "budget", "mediterranean"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "budget",
+      "mediterranean"
+    ],
     "ingredients": [
       "1 can chickpeas",
       "Spinach, onion, garlic",
@@ -721,7 +854,10 @@
     "protein": 42,
     "carbs": 80,
     "fat": 18,
-    "tags": ["seafood", "asian"],
+    "tags": [
+      "seafood",
+      "asian"
+    ],
     "ingredients": [
       "180g salmon fillet",
       "150g cooked rice",
@@ -739,7 +875,9 @@
     "protein": 26,
     "carbs": 90,
     "fat": 24,
-    "tags": ["vegetarian"],
+    "tags": [
+      "vegetarian"
+    ],
     "ingredients": [
       "Lasagna sheets",
       "Tomato sauce, zucchini, spinach",
@@ -756,7 +894,10 @@
     "protein": 45,
     "carbs": 55,
     "fat": 22,
-    "tags": ["mexican", "high-protein"],
+    "tags": [
+      "mexican",
+      "high-protein"
+    ],
     "ingredients": [
       "200g chicken breast, sliced",
       "Bell peppers, onion",
@@ -774,7 +915,10 @@
     "protein": 40,
     "carbs": 90,
     "fat": 22,
-    "tags": ["high-protein", "mediterranean"],
+    "tags": [
+      "high-protein",
+      "mediterranean"
+    ],
     "ingredients": [
       "160g pasta",
       "200g chicken breast",
@@ -792,7 +936,10 @@
     "protein": 24,
     "carbs": 85,
     "fat": 18,
-    "tags": ["vegetarian", "asian"],
+    "tags": [
+      "vegetarian",
+      "asian"
+    ],
     "ingredients": [
       "200g firm tofu",
       "160g rice noodles",
@@ -810,7 +957,10 @@
     "protein": 38,
     "carbs": 85,
     "fat": 22,
-    "tags": ["mediterranean", "high-protein"],
+    "tags": [
+      "mediterranean",
+      "high-protein"
+    ],
     "ingredients": [
       "200g lamb pieces",
       "150g bulgur",
@@ -827,7 +977,11 @@
     "protein": 28,
     "carbs": 45,
     "fat": 28,
-    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g halloumi",
       "Peppers, zucchini, onion",
@@ -844,7 +998,12 @@
     "protein": 22,
     "carbs": 90,
     "fat": 16,
-    "tags": ["vegetarian", "vegan", "mexican", "budget"],
+    "tags": [
+      "vegetarian",
+      "vegan",
+      "mexican",
+      "budget"
+    ],
     "ingredients": [
       "1 can black beans",
       "1 medium sweet potato, cubed",
@@ -862,7 +1021,10 @@
     "protein": 42,
     "carbs": 90,
     "fat": 20,
-    "tags": ["mediterranean", "high-protein"],
+    "tags": [
+      "mediterranean",
+      "high-protein"
+    ],
     "ingredients": [
       "200g chicken",
       "160g orzo",
@@ -880,7 +1042,10 @@
     "protein": 28,
     "carbs": 35,
     "fat": 24,
-    "tags": ["high-protein", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "100g duck breast, diced",
       "200g potatoes, cubed",
@@ -901,7 +1066,10 @@
     "protein": 18,
     "carbs": 25,
     "fat": 38,
-    "tags": ["quick", "gluten-free"],
+    "tags": [
+      "quick",
+      "gluten-free"
+    ],
     "ingredients": [
       "2 slices whole grain bread",
       "1 avocado, mashed",
@@ -922,7 +1090,11 @@
     "protein": 22,
     "carbs": 25,
     "fat": 26,
-    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "4 eggs",
       "400g crushed tomatoes",
@@ -943,7 +1115,11 @@
     "protein": 20,
     "carbs": 12,
     "fat": 24,
-    "tags": ["vegetarian", "gluten-free", "high-protein"],
+    "tags": [
+      "vegetarian",
+      "gluten-free",
+      "high-protein"
+    ],
     "ingredients": [
       "3 eggs",
       "1 small onion, diced",
@@ -964,7 +1140,11 @@
     "protein": 16,
     "carbs": 55,
     "fat": 18,
-    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "150g potatoes, cubed",
       "100g spinach",
@@ -985,7 +1165,11 @@
     "protein": 24,
     "carbs": 32,
     "fat": 18,
-    "tags": ["seafood", "omega-3", "quick"],
+    "tags": [
+      "seafood",
+      "omega-3",
+      "quick"
+    ],
     "ingredients": [
       "2 slices rye bread",
       "100g smoked trout",
@@ -1005,7 +1189,11 @@
     "protein": 22,
     "carbs": 12,
     "fat": 24,
-    "tags": ["vegetarian", "gluten-free", "high-protein"],
+    "tags": [
+      "vegetarian",
+      "gluten-free",
+      "high-protein"
+    ],
     "ingredients": [
       "3 eggs",
       "1 small onion, diced",
@@ -1019,7 +1207,6 @@
       "Beat eggs; pour over mixture; cook until set; garnish with parsley."
     ]
   },
-
   {
     "name": "Balkan Beef Soup",
     "meal_type": "lunch",
@@ -1027,7 +1214,10 @@
     "protein": 32,
     "carbs": 45,
     "fat": 28,
-    "tags": ["soup", "gluten-free"],
+    "tags": [
+      "soup",
+      "gluten-free"
+    ],
     "ingredients": [
       "150g beef, cubed",
       "200g potatoes, diced",
@@ -1048,7 +1238,11 @@
     "protein": 38,
     "carbs": 45,
     "fat": 32,
-    "tags": ["mediterranean", "high-protein", "gluten-free"],
+    "tags": [
+      "mediterranean",
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g lamb shoulder, cubed",
       "200g potatoes, cubed",
@@ -1069,7 +1263,10 @@
     "protein": 28,
     "carbs": 85,
     "fat": 18,
-    "tags": ["vegetarian", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "gluten-free"
+    ],
     "ingredients": [
       "150g cooked rice",
       "100g spinach, blanched",
@@ -1090,7 +1287,10 @@
     "protein": 24,
     "carbs": 95,
     "fat": 12,
-    "tags": ["vegetarian", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g red lentils",
       "1 onion, diced",
@@ -1111,7 +1311,11 @@
     "protein": 18,
     "carbs": 45,
     "fat": 26,
-    "tags": ["vegetarian", "mediterranean", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "Mixed greens, tomatoes, cucumber",
       "Radish, parsley, dill",
@@ -1131,7 +1335,10 @@
     "protein": 35,
     "carbs": 25,
     "fat": 28,
-    "tags": ["seafood", "gluten-free"],
+    "tags": [
+      "seafood",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g cooked white fish, flaked",
       "Lemon juice, red onion",
@@ -1151,7 +1358,10 @@
     "protein": 42,
     "carbs": 55,
     "fat": 24,
-    "tags": ["mediterranean", "high-protein"],
+    "tags": [
+      "mediterranean",
+      "high-protein"
+    ],
     "ingredients": [
       "200g ground lamb",
       "Pita bread",
@@ -1164,7 +1374,6 @@
       "Wrap in pita with vegetables and yogurt sauce."
     ]
   },
-
   {
     "name": "Balkan Salmon with Rice",
     "meal_type": "dinner",
@@ -1172,7 +1381,11 @@
     "protein": 45,
     "carbs": 60,
     "fat": 22,
-    "tags": ["seafood", "mediterranean", "gluten-free"],
+    "tags": [
+      "seafood",
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "250g salmon fillet",
       "150g rice",
@@ -1192,7 +1405,11 @@
     "protein": 48,
     "carbs": 35,
     "fat": 32,
-    "tags": ["mediterranean", "high-protein", "gluten-free"],
+    "tags": [
+      "mediterranean",
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "400g chicken thighs",
       "200g potatoes, cubed",
@@ -1213,7 +1430,10 @@
     "protein": 42,
     "carbs": 85,
     "fat": 28,
-    "tags": ["vegetarian", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "gluten-free"
+    ],
     "ingredients": [
       "300g white beans",
       "200g potatoes, cubed",
@@ -1234,7 +1454,10 @@
     "protein": 28,
     "carbs": 45,
     "fat": 38,
-    "tags": ["vegetarian", "gluten-free"],
+    "tags": [
+      "vegetarian",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g eggplant, cubed",
       "200g zucchini, sliced",
@@ -1255,7 +1478,10 @@
     "protein": 52,
     "carbs": 40,
     "fat": 32,
-    "tags": ["high-protein", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "500g beef, cubed",
       "200g potatoes, cubed",
@@ -1276,7 +1502,10 @@
     "protein": 38,
     "carbs": 85,
     "fat": 22,
-    "tags": ["mediterranean", "gluten-free"],
+    "tags": [
+      "mediterranean",
+      "gluten-free"
+    ],
     "ingredients": [
       "200g rice",
       "150g chicken, diced",
@@ -1297,7 +1526,10 @@
     "protein": 55,
     "carbs": 15,
     "fat": 28,
-    "tags": ["high-protein", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "gluten-free"
+    ],
     "ingredients": [
       "300g lamb fillet",
       "200g potatoes, mashed",
@@ -1317,7 +1549,11 @@
     "protein": 32,
     "carbs": 75,
     "fat": 18,
-    "tags": ["pasta", "curry", "quick"],
+    "tags": [
+      "pasta",
+      "curry",
+      "quick"
+    ],
     "ingredients": [
       "250g pasta (penne or spaghetti)",
       "200g chicken breast, diced",
@@ -1339,7 +1575,11 @@
     "protein": 18,
     "carbs": 45,
     "fat": 22,
-    "tags": ["vegetarian", "traditional", "quick"],
+    "tags": [
+      "vegetarian",
+      "traditional",
+      "quick"
+    ],
     "ingredients": [
       "6 phyllo pastry sheets",
       "200g spinach, chopped",
@@ -1360,7 +1600,10 @@
     "protein": 28,
     "carbs": 45,
     "fat": 32,
-    "tags": ["traditional", "gluten-free"],
+    "tags": [
+      "traditional",
+      "gluten-free"
+    ],
     "ingredients": [
       "8 cabbage leaves, blanched",
       "200g ground beef",
@@ -1381,7 +1624,12 @@
     "protein": 22,
     "carbs": 85,
     "fat": 12,
-    "tags": ["vegetarian", "pasta", "quick", "low-fat"],
+    "tags": [
+      "vegetarian",
+      "pasta",
+      "quick",
+      "low-fat"
+    ],
     "ingredients": [
       "250g pasta",
       "300g mushrooms, sliced",
@@ -1402,7 +1650,11 @@
     "protein": 45,
     "carbs": 55,
     "fat": 18,
-    "tags": ["high-protein", "gluten-free", "low-fat"],
+    "tags": [
+      "high-protein",
+      "gluten-free",
+      "low-fat"
+    ],
     "ingredients": [
       "400g chicken breast, cubed",
       "200g rice",
@@ -1423,7 +1675,11 @@
     "protein": 45,
     "carbs": 25,
     "fat": 22,
-    "tags": ["high-protein", "grilled", "gluten-free"],
+    "tags": [
+      "high-protein",
+      "grilled",
+      "gluten-free"
+    ],
     "ingredients": [
       "300g chicken breast, cubed",
       "1 bell pepper, cubed",
@@ -1444,7 +1700,11 @@
     "protein": 32,
     "carbs": 70,
     "fat": 18,
-    "tags": ["pasta", "seafood", "quick"],
+    "tags": [
+      "pasta",
+      "seafood",
+      "quick"
+    ],
     "ingredients": [
       "250g pasta",
       "2 cans tuna in oil, drained",
@@ -1465,7 +1725,10 @@
     "protein": 28,
     "carbs": 45,
     "fat": 25,
-    "tags": ["traditional", "gluten-free"],
+    "tags": [
+      "traditional",
+      "gluten-free"
+    ],
     "ingredients": [
       "4 bell peppers, tops removed",
       "200g ground beef",
@@ -1486,7 +1749,12 @@
     "protein": 35,
     "carbs": 70,
     "fat": 12,
-    "tags": ["pasta", "quick", "high-protein", "low-fat"],
+    "tags": [
+      "pasta",
+      "quick",
+      "high-protein",
+      "low-fat"
+    ],
     "ingredients": [
       "250g spaghetti",
       "200g chicken breast, diced",
@@ -1507,7 +1775,11 @@
     "protein": 22,
     "carbs": 65,
     "fat": 12,
-    "tags": ["soup", "vegetarian", "traditional"],
+    "tags": [
+      "soup",
+      "vegetarian",
+      "traditional"
+    ],
     "ingredients": [
       "300g white beans, soaked overnight",
       "1 onion, diced",
@@ -1519,6 +1791,87 @@
     "steps": [
       "Sauté onion and carrots; add beans and tomatoes.",
       "Add water and herbs; simmer 1 hour until beans are tender."
+    ]
+  },
+  {
+    "name": "Simple Lunch Bowl",
+    "meal_type": "lunch",
+    "kcal": 844,
+    "protein": 30,
+    "carbs": 60,
+    "fat": 15,
+    "tags": [
+      "AI",
+      "quick",
+      "easy",
+      "simple",
+      "AI"
+    ],
+    "ingredients": [
+      "100 g oriz i zier",
+      "150 g mish pule i pjekur (ose bishtajore për veg.)",
+      "100 g perime të përziera",
+      "1 lugë vaj ulliri",
+      "Kripë, piper, limon"
+    ],
+    "steps": [
+      "Ziej orizin sipas udhëzimit.",
+      "Skuq ose pjek mishin e pulës; erëzo sipas shijes.",
+      "Përziej me perime; shto vaj ulliri dhe limon."
+    ]
+  },
+  {
+    "name": "Simple Dinner Bowl",
+    "meal_type": "dinner",
+    "kcal": 633,
+    "protein": 30,
+    "carbs": 60,
+    "fat": 15,
+    "tags": [
+      "AI",
+      "quick",
+      "easy",
+      "simple",
+      "AI"
+    ],
+    "ingredients": [
+      "100 g oriz i zier",
+      "150 g mish pule i pjekur (ose bishtajore për veg.)",
+      "100 g perime të përziera",
+      "1 lugë vaj ulliri",
+      "Kripë, piper, limon"
+    ],
+    "steps": [
+      "Ziej orizin sipas udhëzimit.",
+      "Skuq ose pjek mishin e pulës; erëzo sipas shijes.",
+      "Përziej me perime; shto vaj ulliri dhe limon."
+    ]
+  },
+  {
+    "name": "Simple Breakfast Bowl",
+    "meal_type": "breakfast",
+    "kcal": 633,
+    "protein": 30,
+    "carbs": 60,
+    "fat": 15,
+    "tags": [
+      "AI",
+      "quick",
+      "easy",
+      "simple",
+      "AI"
+    ],
+    "ingredients": [
+      "100 g oriz i zier",
+      "150 g mish pule i pjekur (ose bishtajore për veg.)",
+      "100 g perime të përziera",
+      "1 lugë vaj ulliri",
+      "Kripë, piper, limon"
+    ],
+    "steps": [
+      "Ziej orizin sipas udhëzimit.",
+      "Skuq ose pjek mishin e pulës; erëzo sipas shijes.",
+      "Përziej me perime; shto vaj ulliri dhe limon."
     ]
   }
 ]

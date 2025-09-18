@@ -5,9 +5,29 @@ from typing import List, Dict, Optional
 
 import streamlit as st
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+try:
+    load_dotenv()
+except Exception as e:
+    print(f"Warning: Could not load .env file: {e}")
 
 # ---- OpenAI client (graceful if missing) ----
-API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+def get_openai_api_key():
+    """Get OpenAI API key from Streamlit secrets or environment variables"""
+    try:
+        import streamlit as st
+        # Try Streamlit secrets first (for deployment)
+        if hasattr(st, 'secrets') and 'OPENAI_API_KEY' in st.secrets:
+            return st.secrets['OPENAI_API_KEY']
+    except:
+        pass
+    
+    # Fallback to environment variable (for local development)
+    return os.getenv("OPENAI_API_KEY", "").strip()
+
+API_KEY = get_openai_api_key()
 client: Optional[OpenAI] = OpenAI(api_key=API_KEY) if API_KEY else None
 
 def _chat(system: str, user: str, model: str = "gpt-4o-mini", temperature: float = 0.2) -> Optional[str]:
@@ -70,16 +90,16 @@ def expand_recipe_request(meal_type: str, kcal: int, tags: List[str], exclusions
     elif cooking_skill == "advanced":
         skill_instructions = "Use advanced techniques, complex flavors, and sophisticated methods. "
     
-        prompt = (
-            f"Create a new {meal_type} recipe ≈{kcal} kcal.\n"
-            f"Must include tags: {', '.join(tags) if tags else 'any'}.\n"
-            f"Must exclude: {', '.join(exclusions) if exclusions else 'none'}.\n"
-            f"Cooking skill level: {cooking_skill}. {skill_instructions}"
-            "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
-            "CRITICAL: Each ingredient MUST include specific portion sizes in grams/ml/spoons/etc. "
-            "Examples: '200g chicken breast', '150ml milk', '2 tbsp olive oil', '1 tsp salt'. "
-            "Keep quantities metric. Make ingredients and steps appropriate for the skill level."
-        )
+    prompt = (
+        f"Create a new {meal_type} recipe ≈{kcal} kcal.\n"
+        f"Must include tags: {', '.join(tags) if tags else 'any'}.\n"
+        f"Must exclude: {', '.join(exclusions) if exclusions else 'none'}.\n"
+        f"Cooking skill level: {cooking_skill}. {skill_instructions}"
+        "Return strict JSON with fields: name, ingredients(list), steps(list), kcal, protein, carbs, fat, tags(list). "
+        "CRITICAL: Each ingredient MUST include specific portion sizes in grams/ml/spoons/etc. "
+        "Examples: '200g chicken breast', '150ml milk', '2 tbsp olive oil', '1 tsp salt'. "
+        "Keep quantities metric. Make ingredients and steps appropriate for the skill level."
+    )
     out = _chat(
         system="You are a concise recipe generator that outputs valid JSON only.",
         user=prompt,
