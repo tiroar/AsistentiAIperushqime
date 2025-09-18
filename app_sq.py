@@ -317,8 +317,8 @@ def render_meal_planning_page(user, db_manager):
                 cooking_skill=cooking_skill
             )
             
-                # Integrate Herbalife products into the plan
-                plan = integrate_herbalife_into_plan(plan, herbalife_plan, goal, db_manager)
+            # Integrate Herbalife products into the plan
+            plan = integrate_herbalife_into_plan(plan, herbalife_plan, goal, db_manager)
             
         else:
             # Generate regular meal plan
