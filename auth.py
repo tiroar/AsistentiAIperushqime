@@ -20,6 +20,8 @@ class AuthManager:
             st.session_state.user_data = None
         if 'is_authenticated' not in st.session_state:
             st.session_state.is_authenticated = False
+        if 'debug' not in st.session_state:
+            st.session_state.debug = False
     
     def get_current_user(self) -> Optional[User]:
         """Get current authenticated user"""
@@ -71,31 +73,35 @@ class AuthManager:
     
     def login_as_guest(self) -> bool:
         """Login as guest user"""
-        # Create a temporary guest user
-        guest_user = User(
-            id=0,  # Special ID for guest
-            email="guest@temporary.com",
-            username="Guest",
-            auth_provider="guest",
-            created_at=datetime.now(),
-            last_login=datetime.now(),
-            profile_data={
-                "age": 30,
-                "height": 175,
-                "weight": 70,
-                "gender": "Mashkull",
-                "goals": ["weight_loss"],
-                "dietary_restrictions": []
-            },
-            preferences={},
-            cooking_skill="Mesatar",
-            achievements=[],
-            friends=[],
-            is_active=True
-        )
-        
-        self._set_user_session(guest_user)
-        return True
+        try:
+            # Create a temporary guest user
+            guest_user = User(
+                id=0,  # Special ID for guest
+                email="guest@temporary.com",
+                username="Guest",
+                auth_provider="guest",
+                created_at=datetime.now(),
+                last_login=datetime.now(),
+                profile_data={
+                    "age": 30,
+                    "height": 175,
+                    "weight": 70,
+                    "gender": "Mashkull",
+                    "goals": ["weight_loss"],
+                    "dietary_restrictions": []
+                },
+                preferences={},
+                cooking_skill="Mesatar",
+                achievements=[],
+                friends=[],
+                is_active=True
+            )
+            
+            self._set_user_session(guest_user)
+            return True
+        except Exception as e:
+            st.error(f"Guest login failed: {str(e)}")
+            return False
     
     def register_with_email(self, email: str, username: str, password: str, profile_data: Dict = None) -> bool:
         """Register with email and password"""
@@ -133,21 +139,30 @@ class AuthManager:
     
     def _set_user_session(self, user: User):
         """Set user session data"""
-        st.session_state.user_id = user.id
-        st.session_state.user_data = {
-            'id': user.id,
-            'email': user.email,
-            'username': user.username,
-            'auth_provider': user.auth_provider,
-            'profile_data': user.profile_data,
-            'preferences': user.preferences,
-            'cooking_skill': user.cooking_skill,
-            'achievements': user.achievements
-        }
-        st.session_state.is_authenticated = True
-        
-        # Update last login
-        self._update_last_login(user.id)
+        try:
+            st.session_state.user_id = user.id
+            st.session_state.user_data = {
+                'id': user.id,
+                'email': user.email,
+                'username': user.username,
+                'auth_provider': user.auth_provider,
+                'profile_data': user.profile_data,
+                'preferences': user.preferences,
+                'cooking_skill': user.cooking_skill,
+                'achievements': user.achievements
+            }
+            st.session_state.is_authenticated = True
+            
+            # Debug info
+            if st.session_state.get('debug', False):
+                st.write(f"Session set - user_id: {user.id}, is_authenticated: {st.session_state.is_authenticated}")
+            
+            # Update last login (skip for guest users)
+            if user.id != 0:  # Not a guest user
+                self._update_last_login(user.id)
+        except Exception as e:
+            st.error(f"Failed to set user session: {str(e)}")
+            raise
     
     def _update_last_login(self, user_id: int):
         """Update user's last login time"""
@@ -184,6 +199,10 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
         st.markdown("Kyçuni për të aksesuar përvojën tuaj të personalizuar të planifikimit të ushqimeve")
         st.info("ℹ️ Ju mund të regjistroheni me çfardo emaili, nuk ka nevojë për verifikim")
         
+        # Debug button
+        if st.button("🐛 Debug Session State"):
+            st.session_state.debug = not st.session_state.get('debug', False)
+            st.rerun()
         
         tab1, tab2 = st.tabs(["Kyçuni", "Regjistrohuni"])
     else:

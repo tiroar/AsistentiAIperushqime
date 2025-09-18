@@ -75,6 +75,13 @@ auth_manager.init_session_state()
 
 # Main app logic
 def main():
+    # Debug session state
+    if 'debug' in st.session_state and st.session_state.debug:
+        st.write("Debug Info:")
+        st.write(f"is_authenticated: {st.session_state.get('is_authenticated', 'NOT SET')}")
+        st.write(f"user_id: {st.session_state.get('user_id', 'NOT SET')}")
+        st.write(f"user_data: {st.session_state.get('user_data', 'NOT SET')}")
+    
     # Check authentication
     if not st.session_state.is_authenticated:
         render_auth_ui(auth_manager)
