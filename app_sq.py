@@ -92,8 +92,14 @@ def main():
         st.image(icon, width=100)
         st.title(f"Mirë se vini, {user.username}!")
         
+        # Guest mode indicator
+        if user.auth_provider == "guest":
+            st.warning("👤 **Mënyra e Mysafirit** - Të dhënat tuaja nuk do të ruhen përgjithmonë")
+            st.info("💡 **Këshillë:** Regjistrohuni për të ruajtur përvojën tuaj përgjithmonë!")
+        
         # User info
-        st.markdown(f"**Email:** {user.email}")
+        if user.auth_provider != "guest":
+            st.markdown(f"**Email:** {user.email}")
         st.markdown(f"**Niveli i Gatimit:** {user.cooking_skill.title()}")
         
         # Navigation

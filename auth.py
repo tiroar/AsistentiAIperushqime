@@ -24,6 +24,25 @@ class AuthManager:
     def get_current_user(self) -> Optional[User]:
         """Get current authenticated user"""
         if st.session_state.is_authenticated and st.session_state.user_id:
+            # Handle guest user
+            if st.session_state.user_id == 0:
+                return User(
+                    id=0,
+                    email="guest@temporary.com",
+                    username="Guest",
+                    auth_provider="guest",
+                    created_at=datetime.now(),
+                    profile_data={
+                        "age": 30,
+                        "height": 175,
+                        "weight": 70,
+                        "gender": "Mashkull",
+                        "cooking_skill": "Mesatar",
+                        "goals": ["weight_loss"],
+                        "dietary_restrictions": [],
+                        "preferences": {}
+                    }
+                )
             return self.db.get_user_by_id(st.session_state.user_id)
         return None
     
@@ -44,6 +63,30 @@ class AuthManager:
             return False
         
         self._set_user_session(user)
+        return True
+    
+    def login_as_guest(self) -> bool:
+        """Login as guest user"""
+        # Create a temporary guest user
+        guest_user = User(
+            id=0,  # Special ID for guest
+            email="guest@temporary.com",
+            username="Guest",
+            auth_provider="guest",
+            created_at=datetime.now(),
+            profile_data={
+                "age": 30,
+                "height": 175,
+                "weight": 70,
+                "gender": "Mashkull",
+                "cooking_skill": "Mesatar",
+                "goals": ["weight_loss"],
+                "dietary_restrictions": [],
+                "preferences": {}
+            }
+        )
+        
+        self._set_user_session(guest_user)
         return True
     
     def register_with_email(self, email: str, username: str, password: str, profile_data: Dict = None) -> bool:
@@ -148,7 +191,12 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
             with st.form("signin_form"):
                 email = st.text_input("Email", placeholder="email@juaj.com")
                 password = st.text_input("Fjalëkalimi", type="password")
-                submit = st.form_submit_button("Kyçuni")
+                
+                col1, col2 = st.columns([1, 1])
+                with col1:
+                    submit = st.form_submit_button("Kyçuni", type="primary")
+                with col2:
+                    guest_login = st.form_submit_button("👤 GUEST", type="secondary", help="Kyçuni si mysafir për të testuar aplikacionin")
                 
                 if submit:
                     if auth_manager.login_with_email(email, password):
@@ -156,12 +204,22 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                         st.rerun()
                     else:
                         st.error("Email ose fjalëkalim i pasaktë")
+                
+                if guest_login:
+                    if auth_manager.login_as_guest():
+                        st.success("U kyçët si mysafir!")
+                        st.rerun()
         else:
-            st.subheader("Kyçuni")
+            st.subheader("Kyçini")
             with st.form("signin_form"):
                 email = st.text_input("Email", placeholder="email@juaj.com")
                 password = st.text_input("Fjalëkalimi", type="password")
-                submit = st.form_submit_button("Kyçuni")
+                
+                col1, col2 = st.columns([1, 1])
+                with col1:
+                    submit = st.form_submit_button("Kyçini", type="primary")
+                with col2:
+                    guest_login = st.form_submit_button("👤 GUEST", type="secondary", help="Kyçuni si mysafir për të testuar aplikacionin")
                 
                 if submit:
                     if auth_manager.login_with_email(email, password):
@@ -169,6 +227,11 @@ def render_auth_ui(auth_manager: AuthManager, lang: str = "en"):
                         st.rerun()
                     else:
                         st.error("Email ose fjalëkalim i pasaktë")
+                
+                if guest_login:
+                    if auth_manager.login_as_guest():
+                        st.success("U kyçët si mysafir!")
+                        st.rerun()
     
     with tab2:
         if lang == "sq":
