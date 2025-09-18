@@ -36,10 +36,9 @@ venv.bak/
 .env.production.local
 
 # Database
-*.db
 *.sqlite
 *.sqlite3
-# meal_planner.db  # Commented out - needed for Streamlit deployment
+# meal_planner.db  # Keep this file for Streamlit deployment
 
 # IDE
 .vscode/
