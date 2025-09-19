@@ -38,14 +38,77 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# PWA Meta tags and manifest
+# PWA Meta Tags and Manifest
 st.markdown("""
-<link rel="manifest" href="/manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#ff6b6b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Asistenti AI">
-<link rel="apple-touch-icon" href="/images/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="Ushqime AI">
+<meta name="msapplication-TileColor" content="#ff6b6b">
+<meta name="msapplication-config" content="browserconfig.xml">
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+
+<style>
+/* PWA-specific styles */
+@media (display-mode: standalone) {
+    body {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+}
+
+/* Mobile-optimized styles */
+@media (max-width: 768px) {
+    .main .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+    }
+    
+    .stSelectbox > div > div {
+        min-height: 44px;
+    }
+    
+    .stNumberInput > div > div > input {
+        min-height: 44px;
+        font-size: 16px;
+    }
+}
+
+/* Hide Streamlit branding in PWA mode */
+@media (display-mode: standalone) {
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Register Service Worker
+st.markdown("""
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
 """, unsafe_allow_html=True)
 
 # Initialize database and auth
